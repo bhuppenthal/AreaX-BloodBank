@@ -70,7 +70,7 @@ CREATE OR REPLACE TABLE TransfusionDetails (
     BloodProductID int NOT NULL,
     Volume decimal NOT NULL,
     PRIMARY KEY (TransfusionDetailID),
-    FOREIGN KEY (TransfusionID) REFERENCES TransfusionOrders(TransfusionID),
+    FOREIGN KEY (TransfusionID) REFERENCES TransfusionOrders(TransfusionID) ON DELETE CASCADE,
     FOREIGN KEY (BloodProductID) REFERENCES BloodProducts(BloodProductID)
 );
 
