@@ -13,7 +13,7 @@ SET AUTOCOMMIT = 0;
 CREATE OR REPLACE TABLE BloodProducts (
     BloodProductID int AUTO_INCREMENT UNIQUE NOT NULL,
     ProductTypeID varchar(55) NOT NULL,
-    BloodTypeID varchar(55) NOT NULL,
+    BloodTypeID varchar(3) NOT NULL,
     DrawnDate datetime,
     ExpirationDate datetime,
     DonorID int NOT NULL,
@@ -28,7 +28,7 @@ CREATE OR REPLACE TABLE Patients (
     Name varchar(55) NOT NULL,
     BirthDate date,
     MedicalRecordNumber int UNIQUE NOT NULL,
-    BloodTypeID varchar(55),
+    BloodTypeID varchar(3),
     PRIMARY KEY (PatientID),
     FOREIGN KEY (BloodTypeID) REFERENCES BloodTypes(BloodTypeID)
 );
@@ -45,7 +45,7 @@ CREATE OR REPLACE TABLE TransfusionOrders (
     PatientID int NOT NULL,
     NurseID int NOT NULL,
     Date datetime NOT NULL,
-    Description varchar(55),
+    Description varchar(255),
     InfusionRate decimal NOT NULL,
     PRIMARY KEY (TransfusionID),
     FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
@@ -59,7 +59,7 @@ CREATE OR REPLACE TABLE ProductTypes (
 );
 
 CREATE OR REPLACE TABLE BloodTypes (
-    BloodTypeID varchar(55) UNIQUE NOT NULL,
+    BloodTypeID varchar(3) UNIQUE NOT NULL,
     PRIMARY KEY (BloodTypeID)
 );
 
