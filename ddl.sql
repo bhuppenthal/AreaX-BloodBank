@@ -128,7 +128,7 @@ VALUES (1, (SELECT PatientID FROM Patients WHERE Name = "Edmond Phillips"), (SEL
 SELECT * FROM TransfusionOrders;
 
 INSERT INTO TransfusionDetails(TransfusionID, BloodProductID, Volume)
-VALUES (1, 1, 355),
+VALUES (1, 1, 200),
        (1, 3, 100),
        (2, 1, 100),
        (3, 4, 100);
