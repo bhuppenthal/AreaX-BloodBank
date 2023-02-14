@@ -1,1 +1,45 @@
-<h1>Patient Update Page</h1>
+<!doctype html>
+
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Area X Blood Bankers</title>
+  </head>
+
+  <body>
+    <h1>Area X Blood Bankers</h1>
+    [ <a href="index.html"> Home</a> |
+        <a href="nurses.html"> Nurses</a> |
+        <a href="product_types.html"> Product Types</a> |
+        <a href="transfusion_orders.html"> Transfusion</a> |
+        <a href="blood_types.html"> Blood Types</a> ]
+    <div id="browse_patients">
+        <h2>Update Patient</h2>
+        
+    </div>
+    <br><br>
+    <div id="update_patient">
+        <form method="POST" id="updatePatient">
+            <fieldset>
+                <legend><strong>Update Patient</strong></legend>
+                <label> Full Name </label> <input type="text" name="Name"><br><br>
+                <label> Birth Date</label> <input type="date" name="BirthDate"><br><br>
+                <label> Medical Record Number</label> <input type="number" name="MedicalRecordNumber"><br><br>
+                <label> Blood Type </label> <select name="BloodType">
+                    <option value="NULL"> N/A </option>
+                    <option value="AB+"> AB+ </option>
+                    <option value="AB-"> AB- </option>
+                    <option value="A+"> A+ </option>
+                    <option value="A-"> A- </option>
+                    <option value="B+"> B+ </option>
+                    <option value="B-"> B- </option>
+                    <option value="O+"> O+ </option>
+                    <option value="O-"> O- </option>
+                </select> <br><br>
+                <input class="button" type="submit" id="updatePatient" value="Update Patient">
+            </fieldset>
+        </form>
+    </div>
+
+  </body>
+</html>	
