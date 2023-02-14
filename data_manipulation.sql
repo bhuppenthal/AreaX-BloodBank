@@ -29,6 +29,7 @@ INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Descript
 VALUES (_transfusionID, _patientID, _nurseID, _date, _description, _infusionRate);
 
 -- UPDATE QUERY
+UPDATE Patients SET BloodTypeID = NULL WHERE BloodTypeID = _bloodTypeID;
 
 -- DELETE QUERY
 DELETE FROM Patients
