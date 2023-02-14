@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Area X Blood Bankers</title>
+  </head>
+
+  <body>
+    <h1>Area X Blood Bankers</h1>
+    [ <a href="home.html"> Home </a> | <a href="nurses.html"> Nurses</a>]
+    <div id="browse_transfusion_orders">
+        <h2>Browse Transfusion Orders</h2>
+        
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>TransfusionID</th>
+                <th>PatientID</th>
+                <th>NurseID</th>
+                <th>Date and Time</th>
+                <th>Description</th>
+                <th>Infusion Rate (mL/hr)</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>2023-01-29 17:05:23</td>
+                <td> </td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>3</td>
+                <td>2</td>
+                <td>2023-01-02 17:05:23</td>
+                <td> </td>
+                <td>112.0</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+                <td>3</td>
+                <td>2023-01-20 02:23:19</td>
+                <td> </td>
+                <td> 98.0 </td>
+            </tr>
+          </table> 
+    </div>
+    <br><br>
+    <div id="insert_transfusion_order">
+        <form method="POST" id="addTransfusionOrder">
+            <fieldset>
+                <legend><strong>Add New Transfusion Order</strong></legend>
+
+                <label> Patient </label> <select name="PatientID">
+                    <option value="1"> Edmond Phillips </option>
+                    <option value="2"> Elena Padilla </option>
+                    <option value="3"> Maribelle Washinton </option>
+                    <option value="4"> Eugene Anderson </option>
+                </select> <br><br>
+                <label> Nurse </label> <select name="NurseID">
+                    <option value="1"> Joey Lee </option>
+                    <option value="2"> Donny Bactol </option>
+                    <option value="3"> Beth Wiendels </option>
+                    <option value="4"> Brittany Hansen </option>
+                </select> <br><br>
+                <label> Date and Time </label> <input type="datetime" name="DrawnDate"><br><br>
+                <label> Description</label> <input type="text" name="Description"><br><br>
+                <label> Infusion Rate <input type="number" name="InfusionRate"></label><br><br>
+                <input class="button" type="submit" id="addTransfusionOrder" value="Add Transfusion Order">
+            </fieldset>
+        </form>
+    </div>
+
+  </body>
+</html>	
