@@ -31,3 +31,8 @@ VALUES (_transfusionID, _patientID, _nurseID, _date, _description, _infusionRate
 -- UPDATE QUERY
 
 -- DELETE QUERY
+DELETE FROM Patients
+WHERE PatientID = _patientID;
+
+DELETE FROM TransfusionOrders
+WHERE TransfusionID = _transfusionID;
