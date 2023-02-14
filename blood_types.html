@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<title>Area X Blood Bankers</title>
+  </head>
+
+  <body>
+    <h1>Area X Blood Bankers</h1>
+    [ <a href="home.html"> Home </a> | <a href="patients.html"> Patients </a> | <a href="nurses.html"> Nurses</a> | <a href="product_types.html"> Product Types </a>]
+    <div id="browse_blood_types">
+        <h2>Browse Blood Types</h2>
+        
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>BloodTypeID</th>
+            </tr>
+            <tr>
+                <td>AB+</td>
+            </tr>
+            <tr>
+                <td>AB-</td>
+            </tr>
+            <tr>
+                <td>A+</td>
+            </tr>
+            <tr>
+                <td>A-</td>
+            </tr>
+            <tr>
+                <td>B+</td>
+            </tr>
+            <tr>
+                <td>B-</td>
+            </tr>
+            <tr>
+                <td>O+</td>
+            </tr>
+            <tr>
+                <td>O-</td>
+            </tr>
+          </table> 
+    </div>
+    <br><br>
+    <div id="insert_blood_type">
+        <form method="POST" id="addBloodType">
+            <fieldset>
+                <legend><strong>Add New Blood Type</strong></legend>
+                <label> Name of Blood Type </label> <input type="text" name="BloodTypeID"><br><br>
+                <input class="button" type="submit" id="addBloodType" value="Add Blood Type">
+            </fieldset>
+        </form>
+    </div>
+
+  </body>
+</html>	
