@@ -1,4 +1,10 @@
 -- SELECT QUERIES
+SELECT * FROM Patients;
+SELECT * FROM Nurses;
+SELECT * FROM BloodProducts;
+SELECT * FROM ProductTypes;
+SELECT * FROM BloodTypes;
+SELECT * FROM TransfusionOrders;
 
 -- INSERT QUERIES
 INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
