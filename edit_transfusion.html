@@ -13,53 +13,11 @@
     <a href="nurses.html"> Nurses</a> |
     <a href="product_types.html"> Product Types</a> |
     <a href="blood_types.html"> Blood Types</a> ]
-    <div id="browse_transfusion_orders">
-        <h2>Browse Transfusion Orders</h2>
-        
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>TransfusionID</th>
-                <th>PatientID</th>
-                <th>NurseID</th>
-                <th>Date and Time</th>
-                <th>Description</th>
-                <th>Infusion Rate (mL/hr)</th>
-                <th>Edit Transfusion</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>2</td>
-                <td>2023-01-29 17:05:23</td>
-                <td> </td>
-                <td>100</td>
-                <td><a href="edit_transfusion.html"><button>Edit</button></a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>3</td>
-                <td>2</td>
-                <td>2023-01-02 17:05:23</td>
-                <td> </td>
-                <td>112.0</td>
-                <td><a href="edit_transfusion.html"><button>Edit</button></a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>4</td>
-                <td>3</td>
-                <td>2023-01-20 02:23:19</td>
-                <td> </td>
-                <td> 98.0 </td>
-                <td><a href="edit_transfusion.html"><button>Edit</button></a></td>
-            </tr>
-          </table> 
-    </div>
     <br><br>
-    <div id="insert_transfusion_order">
-        <form method="POST" id="addTransfusionOrder">
+    <div id="edit_transfusion_order">
+        <form method="POST" id="editTransfusionOrder">
             <fieldset>
-                <legend><strong>Add New Transfusion Order</strong></legend>
+                <legend><strong>Edit Transfusion Order</strong></legend>
 
                 <label> Patient </label> <select name="PatientID">
                     <option value="1"> Edmond Phillips </option>
