@@ -132,7 +132,7 @@ INSERT INTO TransfusionDetails(TransfusionID, BloodProductID, Volume)
 VALUES (1, 1, 200),
        (1, 3, 100),
        (2, 1, 100),
-       (3, 4, 100);
+       (4, 4, 125);
 
 SELECT * FROM TransfusionDetails;
 
