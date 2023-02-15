@@ -14,7 +14,6 @@ SELECT NurseID, Name FROM Nurses;
 -- select the current volume of a blood product
 SELECT Volume FROM BloodProductID WHERE BloodProductID = _bloodProductID;
 
-
 -- INSERT QUERIES
 INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
 VALUES  (_productTypeId, _bloodTypeID, _drawnDate, _expirationDate, _donorID, _volume);
