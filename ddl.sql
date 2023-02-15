@@ -98,11 +98,11 @@ VALUES ('Edmond Phillips', '1976-02-02', 23509120, (SELECT BloodTypeID FROM Bloo
        ('Maribelle Washington', '1923-03-23', 57912188, (SELECT BloodTypeID FROM BloodTypes WHERE BloodTypeID = 'AB+')),
        ('Eugene Anderson', '1951-08-07', 61083444, (SELECT BloodTypeID FROM BloodTypes WHERE BloodTypeID = 'A+'));
 
-INSERT INTO Nurses (Name)
-VALUES ('Joey Lee'),
-       ('Donny Bactol'),
-       ('Beth Wiendels'),
-       ('Brittany Hansen');
+INSERT INTO Nurses (Name, Extension)
+VALUES ('Joey Lee', 54017),
+       ('Donny Bactol', 32101),
+       ('Beth Wiendels', 59990),
+       ('Brittany Hansen', 78123);
 
 INSERT INTO BloodProducts (BloodProductID, ProductTypeID, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
 VALUES (1, (SELECT ProductTypeID FROM ProductTypes WHERE ProductTypeID = 'Packed Red Blood Cells'), (SELECT BloodTypeID FROM BloodTypes WHERE BloodTypeID = 'A-'), '2023-01-12 13:34:22', '2023-04-12 13:34:22', 2309971, 325),
