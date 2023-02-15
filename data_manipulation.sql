@@ -1,5 +1,5 @@
 -- SELECT QUERIES
--- Queries to display entire tables
+-- Queries to display entire table
 SELECT * FROM Patients;
 SELECT * FROM Nurses;
 SELECT * FROM BloodProducts;
@@ -10,6 +10,9 @@ SELECT * FROM TransfusionOrders;
 -- Queries to select nurses and patients on drop down display for patients.html page.
 SELECT PatientID, Name FROM Patients;
 SELECT NurseID, Name FROM Nurses;
+
+-- select the current volume of a blood product
+SELECT Volume FROM BloodProductID WHERE BloodProductID = _bloodProductID;
 
 
 -- INSERT QUERIES
@@ -42,10 +45,20 @@ UPDATE Patients
 SET Name = _name, BirthDate = _birthDate, MedicalRecordNumber = _medicalRecordNumber, BloodTypeID = _bloodTypeID 
 WHERE PatientID = _patientID;
 
+-- update patient blood type to null
+UPDATE Patients
+SET BloodTypeID = NULL
+WHERE PatientID = _patientID;
+
 -- update transfusion order based on submission of edit transfusion form
 UPDATE TransfusionOrders
 SET PatientID = _patientID, NurseID = _nurseID, Date = _date, Description = _description, InfusionRate = _infusionRate)
 WHERE TransfusionID = _transfusionID
+
+--update volume of a blood product due to a transfusion order
+UPDATE BloodProducts
+SET Volume = _volume
+WHERE BloodProductID = _bloodproductID;
 
 -- DELETE QUERIES
 DELETE FROM Patients
