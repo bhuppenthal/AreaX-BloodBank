@@ -7,7 +7,7 @@ SELECT * FROM ProductTypes;
 SELECT * FROM BloodTypes;
 SELECT * FROM TransfusionOrders;
 
--- Queries to select nurses and patients on drop down display for patients.html page.
+-- Queries to select nurses and patients on drop down display for transfusion_orders page.
 SELECT PatientID, Name FROM Patients;
 SELECT NurseID, Name FROM Nurses;
 
