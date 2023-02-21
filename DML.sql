@@ -14,6 +14,12 @@ SELECT NurseID, Name FROM Nurses;
 -- select the current volume of a blood product
 SELECT Volume FROM BloodProductID WHERE BloodProductID = _bloodProductID;
 
+-- select the data required to fill out the transfusion orders overview
+SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
+FROM TransfusionOrders
+INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
+INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;
+
 -- select the data required to fill out the line by line blood product totals on transfusion orders page
 SELECT Patients.Name, Nurses.Name, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate
 FROM TransfusionOrders
