@@ -43,13 +43,13 @@ CREATE OR REPLACE TABLE Nurses (
 /* --- Creating Transaction Table --- */
 CREATE OR REPLACE TABLE TransfusionOrders (
     TransfusionID int AUTO_INCREMENT UNIQUE NOT NULL,
-    PatientID int NOT NULL,
+    PatientID int,
     NurseID int NOT NULL,
     Date datetime NOT NULL,
     Description varchar(255),
     InfusionRate decimal NOT NULL,
     PRIMARY KEY (TransfusionID),
-    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE SET NULL,
     FOREIGN KEY (NurseID) REFERENCES Nurses(NurseID)
 );
 
