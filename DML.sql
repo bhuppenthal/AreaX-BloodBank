@@ -65,7 +65,7 @@ WHERE PatientID = _patientID;
 
 -- update transfusion order based on submission of edit transfusion form
 UPDATE TransfusionOrders
-SET PatientID = _patientID, NurseID = _nurseID, Date = _date, Description = _description, InfusionRate = _infusionRate)
+SET PatientID = _patientID, NurseID = _nurseID, Date = _date, Description = _description, InfusionRate = _infusionRate
 WHERE TransfusionID = _transfusionID
 
 --update volume of a blood product due to a transfusion order
