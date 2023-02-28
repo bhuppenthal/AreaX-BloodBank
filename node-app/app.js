@@ -10,7 +10,7 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 39129;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 39199;                 // Set a port number at the top so it's easy to change in the future
 
 
 // Database
@@ -52,6 +52,12 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
 
+
+app.get('/patient-update', function (req, res) {
+    res.render('patient-update', {});
+});
+
+    
     app.post('/add-patient-ajax', function(req, res) 
     {
         // Capture the incoming data and parse it back to a JS object

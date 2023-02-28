@@ -33,7 +33,7 @@
             <td>{{moment this.BirthDate format="DD-MM-YYYY"}}</td>
             <td>{{this.MedicalRecordNumber}}</td>
             <td>{{this.BloodTypeID}}</td>
-            <td><button onclick="updatePatient({{this.PatientID}})">Edit</button></td>
+            <td></a><button onclick="updatePatient({{this.PatientID}})">Edit</button></td>
             <td><button onclick="deletePatient({{this.PatientID}})">Delete</button></td>
         </tr>
         {{/each}}
