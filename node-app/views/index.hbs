@@ -1,3 +1,70 @@
 <!-- index.hbs -->
 <h1>The server is running!</h1>
 <p>If you see this text, the server is <strong>definitely</strong> working!</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table id="patients_table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.PatientID}}</td>
+            <td>{{this.Name}}</td>
+            <td>{{this.BirthDate}}</td>
+            <td>{{this.MedicalRecordNumber}}</td>
+            <td>{{this.BloodTypeID}}</td>
+            <td><button onclick="deletePatient({{this.PatientID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete-patient.js"></script>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Data with AJAX</h2>
+<p>To add a new patient, please enter their information below and click 'Submit'!</p>
+<form id="add-patient-form-ajax">
+    <label for="input-name">Name: </label>
+    <input type="text" name="input-name" id="input-name">
+    
+    <label for="input-birth-date">Birth Date: </label>
+    <input type="text" name="input-birth-date" id="input-birth-date">
+
+    <label for="input-medical-record-number">Medical Record Number: </label>
+    <input type="number" name="input-medical-record-number" id="input-medical-record-number">
+
+    {{!-- <label for="input-blood-type-id">BloodTypeID: </label>
+    <input type="text" name="input-blood-type-id" id="input-blood-type-id"> --}}
+
+    <label for="input-blood-type-id">BloodTypeID: </label>
+    <select name="input-blood-type-id" id="input-blood-type-id">
+        <option value="">Select a BloodType</option>
+        {{#each bloodtypes}}
+        <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add-patient.js"></script>
