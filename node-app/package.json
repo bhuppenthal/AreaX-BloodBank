@@ -1,0 +1,15 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brenda Huppenthal and Joanna Getek",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "forever": "^4.0.3"
+  }
+}
