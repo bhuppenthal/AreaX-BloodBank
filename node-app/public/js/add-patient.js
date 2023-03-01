@@ -16,6 +16,7 @@ addPersonForm.addEventListener("submit", function (e) {
     // Get the values from the form fields
     let NameValue = inputName.value;
     let BirthDateValue = inputBirthDate.value;
+    console.log(BirthDateValue);
     let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
     let BloodTypeIDValue = inputBloodTypeID.value;
 
@@ -78,19 +79,27 @@ addRowToTable = (data) => {
     let MedicalRecordNumberCell = document.createElement("TD");
     let BloodTypeIDCell = document.createElement("TD");
 
+    let EditCell = document.createElement("TD");
     let DeleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.PatientID;
     NameCell.innerText = newRow.Name;
-    BirthDateCell.innerText = newRow.BirthDate;
+    BirthDateCell.innerText = newRow.BirthDate.slice(0,10).split('-').reverse().join('-');
+    console.log(BirthDateCell.innerText);
     MedicalRecordNumberCell.innerText = newRow.MedicalRecordNumber;
     BloodTypeIDCell.innerText = newRow.BloodTypeID;
+
+    EditCell = document.createElement("button");
+    EditCell.innerHTML = "Edit";
+    EditCell.onclick = function () {
+        editPatient(newRow.PatientID)
+    }
 
     DeleteCell = document.createElement("button");
     DeleteCell.innerHTML = "Delete";
     DeleteCell.onclick = function() {
-        deletePerson(newRow.PatientID);
+        deletePatient(newRow.PatientID);
     };
 
 
@@ -100,6 +109,7 @@ addRowToTable = (data) => {
     row.appendChild(BirthDateCell);
     row.appendChild(MedicalRecordNumberCell);
     row.appendChild(BloodTypeIDCell);
+    row.appendChild(EditCell);
     row.appendChild(DeleteCell);
     
     // Add a row attribute so the deleteRow function can find a newly added row

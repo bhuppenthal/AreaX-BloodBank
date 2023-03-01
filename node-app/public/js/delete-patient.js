@@ -15,6 +15,7 @@ function deletePatient(PatientID) {
 
             // Add the new data to the table
             deleteRow(PatientID);
+            window.location.reload()    // reloads the page
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
