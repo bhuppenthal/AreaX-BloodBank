@@ -1,6 +1,5 @@
-{{!-- Create a table --}}
 
-<table id="blood-products-table">
+<table id="transfusion-orders-table">
 
     {{!-- Header section --}}
     <thead>
@@ -22,13 +21,12 @@
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr>
-            <td>{{this.BloodProductID}}</td>
-            <td>{{this.ProductTypeID}}</td>
-            <td>{{this.BloodTypeID}}</td>
-            <td>{{moment this.DrawnDate format="DD-MM-YYYY HH:MM:SS"}}</td>
+            <td>{{this.TransfusionID}}</td>
+            <td>{{this.PatientID}}</td>
+            <td>{{this.NurseID}}</td>
             <td>{{moment this.ExpirationDate format="DD-MM-YYYY HH:MM:SS"}}</td>
-            <td>{{this.DonorID}}</td>
-            <td>{{this.Volume}}</td>
+            <td>{{this.Description}}</td>
+            <td>{{this.InfusionRate}}</td>
         </tr>
         {{/each}}
     </tbody>

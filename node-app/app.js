@@ -89,6 +89,16 @@ app.get('/product-types', function(req, res)
         })
 });  
 
+app.get('/transfusions', function(req, res) 
+    {
+        let query1 = "SELECT * FROM TransfusionOrders;";
+
+        db.pool.query(query1, function(error, rows, fields){
+
+            res.render('transfusions-view', {data: rows});
+        })
+});
+
 app.post('/add-nurse-ajax', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
