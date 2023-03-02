@@ -78,5 +78,5 @@ function updateRow(data, PatientID){
             td.innerHTML = parsedData[0].name; 
         }
     }
-    //window.location.reload()
+    window.location.reload();
 }

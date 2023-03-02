@@ -31,7 +31,7 @@ function deletePatient(PatientID) {
 
 function deleteRow(PatientID){
 
-    let table = document.getElementById("patients_table");
+    let table = document.getElementById("patients-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
@@ -40,4 +40,5 @@ function deleteRow(PatientID){
             break;
        }
     }
+    window.location.reload();
 }
