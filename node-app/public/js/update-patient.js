@@ -64,10 +64,9 @@ function updateRow(data, PatientID){
     let table = document.getElementById("patients-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
-       console.log(`the row attribute is ${table.rows[i].getAttribute("data-value")}`);
         //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == PatientID) {
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == PatientID) {
 
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
@@ -77,7 +76,7 @@ function updateRow(data, PatientID){
 
             // Reassign homeworld to our value we updated to
             td.innerHTML = parsedData[0].name; 
-       }
+        }
     }
-    window.location.reload()
+    //window.location.reload()
 }
