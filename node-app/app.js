@@ -47,6 +47,95 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
 
+app.get('/nurses', function(req,res)
+    {
+        let query1 = "SELECT * FROM Nurses;";
+
+        db.pool.query(query1, function(error, results, fields)
+        {
+            return res.render('nurse-view', {data: results})
+        })
+    })
+
+
+
+app.get('/blood-products', function(req, res)
+    {  
+        let query1 = "SELECT * FROM BloodProducts;";               // Define our query
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('blood-products-view', {data: rows});                  // Render the index.hbs file, and also send the renderer
+        })                                                      // an object where 'data' is equal to the 'rows' we
+    });                                                         // received back from the query
+
+app.get('/blood-types', function(req, res) 
+    {
+        let query1 = "SELECT * FROM BloodTypes;";
+
+        db.pool.query(query1, function(error, rows, fields){
+
+            res.render('blood-types-view', {data: rows});
+        })
+});    
+
+app.get('/product-types', function(req, res) 
+    {
+        let query1 = "SELECT * FROM ProductTypes;";
+
+        db.pool.query(query1, function(error, rows, fields){
+
+            res.render('product-types-view', {data: rows});
+        })
+});  
+
+app.get('/transfusions', function(req, res) 
+    {
+        let query1 = "SELECT * FROM TransfusionOrders;";
+
+        db.pool.query(query1, function(error, rows, fields){
+
+            res.render('transfusions-view', {data: rows});
+        })
+});
+
+app.post('/add-nurse-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Nurses (Name, Extension) VALUES ('${data.Name}', '${data.Extension}');`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Nurses
+            query2 = `SELECT * FROM Nurses;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
 /*
     PATIENT FORMS
 */
