@@ -21,7 +21,7 @@ INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
 INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;
 
 -- select the data required to fill out the line by line blood product totals on transfusion orders page
-SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate
+SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate
 FROM TransfusionOrders
 INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientId
 INNER JOIN Nurses ON TransfusionOrders.NurseId = Nurses.NurseID
