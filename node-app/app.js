@@ -53,9 +53,9 @@ app.get('/', function(req, res)
     });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
 
 
-app.get('/patient-update', function (req, res) {
-    res.render('patient-update', {});
-});
+    // app.get('/patient-update', function (req, res) {
+    //     res.render('patient-update', {});
+    // });
 
     
     app.post('/add-patient-ajax', function(req, res) 
@@ -135,6 +135,46 @@ app.get('/patient-update', function (req, res) {
                       })
                   }
       })});
+
+    app.put('/put-patient-ajax', function(req,res,next){
+    let data = req.body;
+    
+    //let homeworld = parseInt(data.homeworld);
+    //let person = parseInt(data.fullname);
+    let PatientID = parseInt(data.PatientID);
+    let MedicalRecordNumber = parseInt(data.MedicalRecordNumber);
+    
+    let queryUpdatePatient = 
+    `UPDATE Patients 
+    SET BirthDate = '${data.BirthDate}', MedicalRecordNumber = ${MedicalRecordNumber}, BloodTypeID = '${data.BloodTypeID}'
+    WHERE PatientID = ${PatientID};`;
+    let selectPatient = `SELECT * FROM Patients WHERE id = ?`
+    
+            // Run the 1st query
+            db.pool.query(queryUpdatePatient, function(error, rows, fields){
+                if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                }
+    
+                // If there was no error, we run our second query and return that data so we can use it to update the people's
+                // table on the front-end
+                else
+                {
+                    // Run the second query
+                    db.pool.query(selectPatient, [PatientID], function(error, rows, fields) {
+    
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.send(rows);
+                        }
+                    })
+                }
+    })});
 
 /*
     LISTENER

@@ -70,3 +70,36 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add-patient.js"></script>
+
+
+<h2>Updating Patient Form</h2>
+<p>To update a specific patient fill out the form below</p>
+<form id="update-patient-form-ajax">
+
+    <label for="update-name">Full Name: </label>
+    <select name="update-name" id="update-patientID">
+        <option value="">Select a Patient</option>
+        {{#each data}}
+        <option value="{{this.PatientID}}">{{this.Name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-birth-date">Birth Date: </label>
+    <input type="date" name="update-birth-date" id="update-birth-date">
+
+    <label for="update-medical-record-number">Medical Record Number: </label>
+    <input type="number" name="update-medical-record-number" id="update-medical-record-number">
+
+    <label for="update-blood-type-id">BloodTypeID: </label>
+    <select name="update-blood-type-id" id="update-blood-type-id">
+        <option value="">Select a BloodType</option>
+        {{#each bloodtypes}}
+        <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update-patient.js"></script>

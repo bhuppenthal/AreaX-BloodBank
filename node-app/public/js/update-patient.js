@@ -3,19 +3,19 @@
 let updatePatientForm = document.getElementById('update-patient-form-ajax');
 
 // Modify the objects we need
-updatePersonForm.addEventListener("submit", function (e) {
+updatePatientForm.addEventListener("submit", function (e) {
    
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputName = document.getElementById("input-name");
-    let inputBirthDate = document.getElementById("input-birth-date");
-    let inputMedicalRecordNumber = document.getElementById("input-medical-record-number");
-    let inputBloodTypeID = document.getElementById("input-blood-type-id");
+    let inputPatientID = document.getElementById("update-patientID");
+    let inputBirthDate = document.getElementById("update-birth-date");
+    let inputMedicalRecordNumber = document.getElementById("update-medical-record-number");
+    let inputBloodTypeID = document.getElementById("update-blood-type-id");
 
     // Get the values from the form fields
-    let NameValue = inputName.value;
+    let PatientIDValue = inputPatientID.value;
     let BirthDateValue = inputBirthDate.value;
     let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
     let BloodTypeIDValue = inputBloodTypeID.value;
@@ -23,19 +23,20 @@ updatePersonForm.addEventListener("submit", function (e) {
     // currently the database table for bsg_people does not allow updating values to NULL
     // so we must abort if being bassed NULL for homeworld
 
-    // if (isNaN(homeworldValue)) 
-    // {
-    //     return;
-    // }
+    if (isNaN(PatientIDValue)) 
+    {
+        return;
+    }
 
 
     // Put our data we want to send in a javascript object
     let data = {
-        Name: NameValue,
+        PatientID: PatientIDValue,
         BirthDate: BirthDateValue,
         MedicalRecordNumber: MedicalRecordNumberValue,
         BloodTypeID: BloodTypeIDValue
     }
+    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -47,7 +48,8 @@ updatePersonForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, NameValue);
+            updateRow(xhttp.response, PatientIDValue);
+            window.location.reload()
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -57,6 +59,7 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    console.log(data)
 
 })
 
@@ -81,4 +84,5 @@ function updateRow(data, PatientID){
             td.innerHTML = parsedData[0].name; 
        }
     }
+    window.location.reload()
 }
