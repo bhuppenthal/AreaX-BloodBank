@@ -21,7 +21,21 @@
             <td>{{this.NurseID}}</td>
             <td>{{this.Name}}</td>
             <td>{{this.Extension}}</td>
+            <td></a><button onclick="updateNurse({{this.NurseID}})">Edit</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<p>To add a new nurse, enter their information below.</p>
+<form id="add-nurse-form-ajax">
+    <label for="input-name">Full Name: </label>
+    <input type="text" name="input-name" id="input-name">
+    
+    <label for="input-extension">Extension: </label>
+    <input type="text" name="input-extension" id="input-extension">
+
+    <input type="submit">
+</form>
+
+<script src="./js/add-nurse.js"></script>

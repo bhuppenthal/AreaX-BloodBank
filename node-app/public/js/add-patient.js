@@ -49,7 +49,7 @@ addPersonForm.addEventListener("submit", function (e) {
             inputBloodTypeID.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
+            console.log("There was an error with the input.");
         }
     }
 
@@ -93,17 +93,21 @@ addRowToTable = (data) => {
     BloodTypeIDCell.innerText = newRow.BloodTypeID;
     //console.log(BloodTypeIDCell.innerText);
 
-    EditCell = document.createElement("button");
-    EditCell.innerHTML = "Edit";
-    EditCell.onclick = function () {
-        editPatient(newRow.PatientID)
+    EditCell = document.createElement("TD");
+    EditButton = document.createElement("button");
+    EditButton.innerHTML = "Edit";
+    EditButton.onclick = function () {
+        editPatient(newRow.PatientID);
     }
+    EditCell.appendChild(EditButton);
 
-    DeleteCell = document.createElement("button");
-    DeleteCell.innerHTML = "Delete";
-    DeleteCell.onclick = function() {
+    DeleteCell = document.createElement("TD");
+    DeleteButton = document.createElement("button");
+    DeleteButton.innerHTML = "Delete";
+    DeleteButton.onclick = function() {
         deletePatient(newRow.PatientID);
     };
+    DeleteCell.appendChild(DeleteButton);
 
 
     // Add the cells to the row 
