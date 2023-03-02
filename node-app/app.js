@@ -1,6 +1,3 @@
-
-// App.js
-
 /*
     SETUP
 */
@@ -10,7 +7,7 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 39199;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 42420;                 // Set a port number at the top so it's easy to change in the future
 
 
 // Database
@@ -26,8 +23,6 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 /*
     ROUTES
 */
-// app.js
-
 app.get('/', function(req, res)
     {  
         let query1 = "SELECT * FROM Patients;";               // Define our query
@@ -52,7 +47,20 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
 
+app.get('/nurses', function(req,res)
+    {
+        let query1 = "SELECT * FROM Nurses;";
 
+        db.pool.query(query1, function(error, results, fields)
+        {
+            return res.render('nurse-view', {data: results})
+        })
+    })
+
+
+/*
+    PATIENT FORMS
+*/
 app.get('/patient-update', function (req, res) {
     res.render('patient-update', {});
 });
@@ -135,6 +143,10 @@ app.get('/patient-update', function (req, res) {
                       })
                   }
       })});
+
+/*
+    NURSE FORMS
+*/
 
 /*
     LISTENER

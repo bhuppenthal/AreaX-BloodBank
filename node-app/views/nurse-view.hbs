@@ -1,0 +1,27 @@
+<h1>Nurse Table</h1>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<table id="nurses_table">
+
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.NurseID}}</td>
+            <td>{{this.Name}}</td>
+            <td>{{this.Extension}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
