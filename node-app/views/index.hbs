@@ -31,15 +31,19 @@
             <td>{{moment this.BirthDate format="DD-MM-YYYY"}}</td>
             <td>{{this.MedicalRecordNumber}}</td>
             <td>{{this.BloodTypeID}}</td>
-            <td></a><button onclick="updatePatient({{this.PatientID}})">Edit</button></td>
+            <td><button id="editButton" onclick="showEditForm()">Edit</button></td>
             <td><button onclick="deletePatient({{this.PatientID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 <script src="./js/delete-patient.js"></script>
+<script src="./js/show-patient-update.js"></script>
+
+
 
 {{!-- Form to add a record to the table  --}}
+<div id="add-section">
 <h2>Adding Data with AJAX</h2>
 <p>To add a new patient, please enter their information below and click 'Submit'!</p>
 <form id="add-patient-form-ajax">
@@ -68,8 +72,9 @@
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add-patient.js"></script>
+</div>
 
-
+<div id="update-section" hidden>
 <h2>Updating Patient Form</h2>
 <p>To update a specific patient fill out the form below</p>
 <form id="update-patient-form-ajax">
@@ -101,3 +106,4 @@
 </form>
 
 <script src="./js/update-patient.js"></script>
+</div>
