@@ -155,15 +155,11 @@ app.post('/add-nurse-ajax', function(req, res)
         }
     })
 });
+
 /*
     PATIENT FORMS
 */
-    // app.get('/patient-update', function (req, res) {
-    //     res.render('patient-update', {});
-    // });
-    
-app.post('/add-patient-ajax', function(req, res) 
-{
+app.post('/add-patient-ajax', function(req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
@@ -209,8 +205,7 @@ app.post('/add-patient-ajax', function(req, res)
     })
 });
 
-app.delete('/delete-patient-ajax', function(req,res,next)
-{
+app.delete('/delete-patient-ajax', function(req,res,next) {
     let data = req.body;
     let PatientID = parseInt(data.id);
     let deleteTransfusionOrdersPatient = `DELETE FROM TransfusionOrders WHERE PatientID = ?`; //delete from intersection table first
@@ -241,8 +236,7 @@ app.delete('/delete-patient-ajax', function(req,res,next)
                 }
 })});
 
-app.put('/put-patient-ajax', function(req,res,next)
-{
+app.put('/put-patient-ajax', function(req,res,next) {
     console.log('Reached /put-patient-ajax');
     let data = req.body;
     
@@ -284,7 +278,58 @@ app.put('/put-patient-ajax', function(req,res,next)
 /*
     NURSE FORMS
 */
+app.get('/nurses', function(req,res) {
+    let query1 = "SELECT * FROM Nurses;";
 
+    db.pool.query(query1, function(error, results, fields)
+    {
+        return res.render('nurse-view', {data: results})
+    });
+});
+    
+app.post('/add-nurse-ajax', function(req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Nurses (Name, Extension) VALUES ('${data.Name}', '${data.Extension}');`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Nurses
+            query2 = `SELECT * FROM Nurses;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.put("/put-nurse-ajax", function(req, res) {
+    //pass for now
+});
+
+app.delete("/delete-nurse-ajax", function(req, res, next) {
+    // pass for now
+});
 
 /*
     LISTENER
