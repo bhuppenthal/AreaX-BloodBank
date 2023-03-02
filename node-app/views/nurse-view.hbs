@@ -1,8 +1,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/add-nurse.js"></script>
 
-<table id="nurses_table">
-
+<table id="nurses-table">
+    
     <thead>
         <tr>
             {{#each data.[0]}}
@@ -21,11 +20,14 @@
             <td>{{this.NurseID}}</td>
             <td>{{this.Name}}</td>
             <td>{{this.Extension}}</td>
-            <td></a><button onclick="updateNurse({{this.NurseID}})">Edit</button></td>
+            <td><button onclick="updateNurse({{this.NurseID}},'{{this.Name}}',{{this.Extension}})">Edit</button></td>
+            <td><button onclick="deleteNurse({{this.NurseID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
+
 </table>
+<script src="./js/update-nurse.js"></script>
 
 <p>To add a new nurse, enter their information below.</p>
 <form id="add-nurse-form-ajax">
@@ -37,3 +39,5 @@
 
     <input type="submit">
 </form>
+<script src="./js/add-nurse.js"></script>
+
