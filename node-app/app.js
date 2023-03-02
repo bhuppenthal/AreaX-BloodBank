@@ -91,11 +91,11 @@ app.get('/product-types', function(req, res)
 
 app.get('/transfusions', function(req, res) 
     {
-        let query1 = "SELECT * FROM TransfusionOrders;";
+        let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID;";
 
         db.pool.query(query1, function(error, rows, fields){
-
             res.render('transfusions-view', {data: rows});
+            console.log({data: rows});
         })
 });
 
