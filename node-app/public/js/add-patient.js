@@ -19,6 +19,7 @@ addPersonForm.addEventListener("submit", function (e) {
     console.log(BirthDateValue);
     let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
     let BloodTypeIDValue = inputBloodTypeID.value;
+    console.log(BloodTypeIDValue);
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -27,6 +28,7 @@ addPersonForm.addEventListener("submit", function (e) {
         MedicalRecordNumber: MedicalRecordNumberValue,
         BloodTypeID: BloodTypeIDValue
     }
+    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -89,6 +91,7 @@ addRowToTable = (data) => {
     console.log(BirthDateCell.innerText);
     MedicalRecordNumberCell.innerText = newRow.MedicalRecordNumber;
     BloodTypeIDCell.innerText = newRow.BloodTypeID;
+    //console.log(BloodTypeIDCell.innerText);
 
     EditCell = document.createElement("button");
     EditCell.innerHTML = "Edit";
