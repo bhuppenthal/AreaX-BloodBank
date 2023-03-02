@@ -20,14 +20,16 @@ updatePatientForm.addEventListener("submit", function (e) {
     let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
     let BloodTypeIDValue = inputBloodTypeID.value;
     
-    // currently the database table for bsg_people does not allow updating values to NULL
-    // so we must abort if being bassed NULL for homeworld
-
     if (isNaN(PatientIDValue)) 
     {
         return;
     }
 
+    if (isNaN(inputMedicalRecordNumber))
+    {
+        console.log("NaN medical record number");
+        MedicalRecordNumberValue = "NULL";
+    }
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -58,11 +60,9 @@ updatePatientForm.addEventListener("submit", function (e) {
     }
 
     // Send the request and wait for the response
+    console.log(`JSON data: ${data}`);
     xhttp.send(JSON.stringify(data));
-    console.log(data)
-
 })
-
 
 function updateRow(data, PatientID){
     let parsedData = JSON.parse(data);

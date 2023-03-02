@@ -100,89 +100,90 @@ app.post('/add-nurse-ajax', function(req, res)
     //     res.render('patient-update', {});
     // });
     
-    app.post('/add-patient-ajax', function(req, res) 
+app.post('/add-patient-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let MedicalRecordNumber = parseInt(data.MedicalRecordNumber);
+    if (isNaN(MedicalRecordNumber))
     {
-        // Capture the incoming data and parse it back to a JS object
-        let data = req.body;
-    
-        // Capture NULL values
-        let MedicalRecordNumber = parseInt(data.MedicalRecordNumber);
-        if (isNaN(MedicalRecordNumber))
-        {
-            MedicalRecordNumber = 'NULL'
+        MedicalRecordNumber = 'NULL'
+    }
+
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Patients (Name, BirthDate, MedicalRecordNumber, BloodTypeID) VALUES ('${data.Name}', '${data.BirthDate}', ${MedicalRecordNumber}, '${data.BloodTypeID}');`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
         }
+        else
+        {
+            // If there was no error, perform a SELECT * on Patients
+            query2 = `SELECT * FROM Patients;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.delete('/delete-patient-ajax', function(req,res,next)
+{
+    let data = req.body;
+    let PatientID = parseInt(data.id);
+    let deleteTransfusionOrdersPatient = `DELETE FROM TransfusionOrders WHERE PatientID = ?`; //delete from intersection table first
+    let deletePatient= `DELETE FROM Patients WHERE PatientID = ?`;                // then delete from own table
     
     
-        // Create the query and run it on the database
-        query1 = `INSERT INTO Patients (Name, BirthDate, MedicalRecordNumber, BloodTypeID) VALUES ('${data.Name}', '${data.BirthDate}', ${MedicalRecordNumber}, '${data.BloodTypeID}');`;
-        db.pool.query(query1, function(error, rows, fields){
-    
-            // Check to see if there was an error
-            if (error) {
-    
-                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error)
-                res.sendStatus(400);
-            }
-            else
+            // Run the 1st query
+            db.pool.query(deleteTransfusionOrdersPatient, [PatientID], function(error, rows, fields)
             {
-                // If there was no error, perform a SELECT * on Patients
-                query2 = `SELECT * FROM Patients;`;
-                db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                }
     
-                    // If there was an error on the second query, send a 400
-                    if (error) {
-                        
-                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                        console.log(error);
-                        res.sendStatus(400);
-                    }
-                    // If all went well, send the results of the query back.
-                    else
-                    {
-                        res.send(rows);
-                    }
-                })
-            }
-        })
-    });
+                else
+                {
+                    // Run the second query
+                    db.pool.query(deletePatient, [PatientID], function(error, rows, fields) {
+    
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.sendStatus(204);
+                        }
+                    })
+                }
+})});
 
-    app.delete('/delete-patient-ajax', function(req,res,next){
-        let data = req.body;
-        let PatientID = parseInt(data.id);
-        let deleteTransfusionOrdersPatient = `DELETE FROM TransfusionOrders WHERE PatientID = ?`; //delete from intersection table first
-        let deletePatient= `DELETE FROM Patients WHERE PatientID = ?`;                // then delete from own table
-      
-      
-              // Run the 1st query
-              db.pool.query(deleteTransfusionOrdersPatient, [PatientID], function(error, rows, fields){
-                  if (error) {
-      
-                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                  console.log(error);
-                  res.sendStatus(400);
-                  }
-      
-                  else
-                  {
-                      // Run the second query
-                      db.pool.query(deletePatient, [PatientID], function(error, rows, fields) {
-      
-                          if (error) {
-                              console.log(error);
-                              res.sendStatus(400);
-                          } else {
-                              res.sendStatus(204);
-                          }
-                      })
-                  }
-      })});
-
-    app.put('/put-patient-ajax', function(req,res,next){
+app.put('/put-patient-ajax', function(req,res,next)
+{
+    console.log('Reached /put-patient-ajax');
     let data = req.body;
     
-    //let homeworld = parseInt(data.homeworld);
-    //let person = parseInt(data.fullname);
     let PatientID = parseInt(data.PatientID);
     let MedicalRecordNumber = parseInt(data.MedicalRecordNumber);
     
