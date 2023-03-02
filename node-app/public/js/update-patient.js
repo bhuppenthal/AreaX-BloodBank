@@ -25,12 +25,6 @@ updatePatientForm.addEventListener("submit", function (e) {
         return;
     }
 
-    if (isNaN(inputMedicalRecordNumber))
-    {
-        console.log("NaN medical record number");
-        MedicalRecordNumberValue = "NULL";
-    }
-
     // Put our data we want to send in a javascript object
     let data = {
         PatientID: PatientIDValue,
@@ -60,8 +54,8 @@ updatePatientForm.addEventListener("submit", function (e) {
     }
 
     // Send the request and wait for the response
-    console.log(`JSON data: ${data}`);
     xhttp.send(JSON.stringify(data));
+    console.log(`JSON data: ${data}`);
 })
 
 function updateRow(data, PatientID){
@@ -70,7 +64,8 @@ function updateRow(data, PatientID){
     let table = document.getElementById("patients-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
+       console.log(`the row attribute is ${table.rows[i].getAttribute("data-value")}`);
+        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == PatientID) {
 

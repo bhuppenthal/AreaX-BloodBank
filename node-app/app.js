@@ -7,7 +7,7 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 42420;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
 
 
 // Database
@@ -191,7 +191,7 @@ app.put('/put-patient-ajax', function(req,res,next)
     `UPDATE Patients 
     SET BirthDate = '${data.BirthDate}', MedicalRecordNumber = ${MedicalRecordNumber}, BloodTypeID = '${data.BloodTypeID}'
     WHERE PatientID = ${PatientID};`;
-    let selectPatient = `SELECT * FROM Patients WHERE id = ?`
+    let selectPatient = `SELECT * FROM Patients WHERE PatientID = ?`
     
             // Run the 1st query
             db.pool.query(queryUpdatePatient, function(error, rows, fields){
