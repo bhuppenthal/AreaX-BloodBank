@@ -7,7 +7,7 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 55871;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
 
 
 // Database
@@ -24,28 +24,9 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
     ROUTES
 */
 app.get('/', function(req, res)
-    {  
-        let query1 = "SELECT * FROM Patients;";               // Define our query
-        
-        let query2 = "SELECT * FROM BloodTypes"; // This query is used to populate the drop down so user can select BloodType
-
-
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
-
-            // Save the patients
-            let patients = rows;
-
-            // Run the second query
-            db.pool.query(query2, (error, rows, fields) =>{
-                
-                //Save the BloodTypes
-                let bloodtypes = rows;
-                return res.render('index', {data: patients, bloodtypes: bloodtypes});
-            })    
-
-            //res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-    });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
+    {
+        res.render('index');
+    });
 
 app.get('/patients', function(req, res)
     {  
