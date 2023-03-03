@@ -47,6 +47,28 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query                                        // will process this file, before sending the finished HTML to the client.                                      // requesting the web site.
 
+app.get('/patients', function(req, res)
+    {  
+        let query1 = "SELECT * FROM Patients;";               // Define our query
+        
+        let query2 = "SELECT * FROM BloodTypes"; // This query is used to populate the drop down so user can select BloodType
+
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            // Save the patients
+            let patients = rows;
+
+            // Run the second query
+            db.pool.query(query2, (error, rows, fields) =>{
+                
+                //Save the BloodTypes
+                let bloodtypes = rows;
+                return res.render('patient-view', {data: patients, bloodtypes: bloodtypes});
+            })    
+        })
+    });
+
 app.get('/nurses', function(req,res)
     {
         let query1 = "SELECT * FROM Nurses;";
@@ -56,8 +78,6 @@ app.get('/nurses', function(req,res)
             return res.render('nurse-view', {data: results})
         })
     })
-
-
 
 app.get('/blood-products', function(req, res)
     {  
