@@ -61,14 +61,36 @@ app.get('/nurses', function(req,res)
     })
 
 app.get('/blood-products', function(req, res)
-    {  
-        let query1 = "SELECT * FROM BloodProducts;";               // Define our query
+{  
+    let query1 = "SELECT * FROM BloodProducts;";               // Define our query
+    
+    let query2 = "SELECT * FROM BloodTypes"; // This query is used to populate the drop down so user can select BloodType
 
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+    let query3 = "SELECT * FROM ProductTypes"; 
 
-            res.render('blood-products-view', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-    });                                                         // received back from the query
+    db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+        // Save the patients
+        let patients = rows;
+
+        // Run the second query
+        db.pool.query(query2, (error, rows, fields) =>{
+            
+            //Save the BloodTypes
+            let bloodtypes = rows;
+
+            //Run third query
+            db.pool.query(query3, (error, rows, fields) => {
+
+                //Save the ProductTypes
+                let producttypes = rows;
+
+                return res.render('blood-products-view', {data: patients, bloodtypes: bloodtypes, producttypes: producttypes});
+            })
+        })    
+    })
+});
+
 
 app.get('/blood-types', function(req, res) 
     {
@@ -330,6 +352,48 @@ app.put("/put-nurse-ajax", function(req, res) {
 
 app.delete("/delete-nurse-ajax", function(req, res, next) {
     // pass for now
+});
+
+/*
+    BLOOD PRODUCT FORMS
+*/
+app.post('/add-blood-product-ajax', function(req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    console.log(data);
+    // Create the query and run it on the database
+    query1 = `INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
+    VALUES  ('${data.ProductTypeID}', '${data.BloodTypeID}', '${data.DrawnDate}','${data.ExpirationDate}', '${data.DonorID}', '${data.Volume}');`;
+    
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on Nurses
+            query2 = `SELECT * FROM BloodProducts;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
 });
 
 /*
