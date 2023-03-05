@@ -33,3 +33,41 @@
         {{/each}}
     </tbody>
 </table> 
+
+{{!-- Form to add a record to the table  --}}
+<div id="add-section">
+<h2>Add a New Blood Product</h2>
+<p>To add a new new blood product, please enter their information below and click 'Submit'!</p>
+<form id="add-blood-product-form-ajax">
+    <label for="input-product-type-id">ProductTypeID: </label>
+    <select name="input-product-type-id" id="input-product-type-id">
+        <option value="">Select a Product Type</option>
+        {{#each producttypes}}
+        <option value="{{this.ProductTypeID}}">{{this.ProductTypeID}}</option>
+        {{/each}}
+    </select> <br><br>
+
+    <label for="input-blood-type-id">BloodTypeID: </label>
+    <select name="input-blood-type-id" id="input-blood-type-id">
+        <option value="">Select a BloodType</option>
+        {{#each bloodtypes}}
+        <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
+        {{/each}}
+    </select> <br><br>
+    
+    <label for="input-drawn-date">Drawn Date: </label>
+    <input type="datetime-local" name="input-drawn-date" id="input-drawn-date"> <br><br>
+
+    <label for="input-expiration-date">Expiration Date: </label>
+    <input type="datetime-local" name="input-expiration-date" id="input-expiration-date"> <br><br>
+
+    <label for="input-donor-id">Donor ID: </label>
+    <input type="number" name="input-donor-id" id="input-donor-id"> <br><br>
+
+    <label for="input-volume">Volume : </label>
+    <input type="number" name="input-volume" id="input-volume"> <br><br>
+
+    <input type="submit">
+</form>
+<script src="./js/add-blood-product.js"></script>
+</div>
