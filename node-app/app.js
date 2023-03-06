@@ -7,7 +7,8 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
+
 
 
 // Database
@@ -347,7 +348,34 @@ app.post('/add-nurse-ajax', function(req, res) {
 });
 
 app.put("/put-nurse-ajax", function(req, res) {
-    //pass for now
+    let data = req.body;
+
+    let NurseID = parseInt(data.NurseID);
+    let Extension = parseInt(data.Extension);
+
+    let queryUpdateNurse =
+    `UPDATE Nurses
+    SET Extension = '${Extension}'
+    WHERE NurseID = ${NurseID};`;
+
+    let selectNurse = `SELECT * FROM Nurses WHERE NurseID = ?;`
+
+    db.pool.query(queryUpdateNurse, function(error, rows, field) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            db.pool.query(selectNurse, [NurseID], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            })
+        }
+    })
 });
 
 app.delete("/delete-nurse-ajax", function(req, res, next) {
