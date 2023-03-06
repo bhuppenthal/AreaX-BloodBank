@@ -13,5 +13,4 @@ function showEditForm (PatientID, BirthDate, MedicalRecordNumber, BloodTypeID) {
 
     let BloodTypeIDCell = document.getElementById("update-blood-type-id");
     BloodTypeIDCell.value = BloodTypeID;
-
 };

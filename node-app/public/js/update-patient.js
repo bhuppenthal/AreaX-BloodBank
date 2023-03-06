@@ -1,4 +1,3 @@
-
 // Get the objects we need to modify
 let updatePatientForm = document.getElementById('update-patient-form-ajax');
 

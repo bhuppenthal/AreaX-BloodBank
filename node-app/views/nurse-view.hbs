@@ -20,7 +20,7 @@
             <td>{{this.NurseID}}</td>
             <td>{{this.Name}}</td>
             <td>{{this.Extension}}</td>
-            <td><button onclick="updateNurse({{this.NurseID}},'{{this.Name}}',{{this.Extension}})">Edit</button></td>
+            <td><button onclick="showEditForm({{this.NurseID}},{{this.Extension}})">Edit</button></td>
             <td><button onclick="deleteNurse({{this.NurseID}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -28,6 +28,7 @@
 
 </table>
 <script src="./js/update-nurse.js"></script>
+<script src="./js/show-nurse-update.js"></script>
 
 <p>To add a new nurse, enter their information below.</p>
 <form id="add-nurse-form-ajax">
@@ -41,3 +42,21 @@
 </form>
 <script src="./js/add-nurse.js"></script>
 
+<div id="update-section" hidden>
+    <p>To update a nurse, change only the update information below.</p>
+    <form id="update-nurse-form-ajax">
+        <label for="update-name">Full Name: </label>
+        <select name="update-name" id="update-nurseID">
+            <option value="">Select a Nurse</option>
+            {{#each data}}
+            <option value="{{this.NurseID}}">{{this.Name}}</option>
+            {{/each}}
+        </select>
+
+        <label for="update-extension">Extension: </label>
+        <input type="text" name="update-extension" id="update-extension">
+
+        <input type="submit"> 
+    
+    </form>
+</div>

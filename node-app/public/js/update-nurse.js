@@ -1,9 +1,26 @@
-let nurseForm = document.getElementById('nurses-table');
+// get the Nurse we need to modify
+let updateNurseForm = document.getElementById('update-nurse-form-ajax');
 
-function updateNurse(nurseID, name, extension) {
-    console.log(`received request to update ${nurseID}, ${name}, ${extension}`);
+// modify the nurse object
+updateNurseForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-    // render a form with this info loaded into it
+    // fetch the nurse data
+    let inputNurseID = document.getElementById("update-nurseID");
+    let inputExtension = document.getElementById("update-extension");
 
-    // upon submission of this form, we can trigger update of table
-}
+    // get the values from the form fields
+    let NurseIDValue = inputNurseID.value;
+    let ExtensionValue = inputExtension.value;
+
+    if (isNaN(NurseIDValue)) {
+        return;
+    }
+
+    // package data into a javascript object
+    let data = {
+        NurseID: NurseIDValue,
+        Extension: ExtensionValue
+    }
+    console.log(`nurse to update ${data}`);
+})
