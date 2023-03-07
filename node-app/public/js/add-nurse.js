@@ -71,7 +71,6 @@ addRowToTable = (data) => {
     let idCell = document.createElement("TD");
     let NameCell = document.createElement("TD");
     let ExtensionCell = document.createElement("TD");
-
     let EditCell = document.createElement("TD");
     let DeleteCell = document.createElement("TD");
 
@@ -80,17 +79,19 @@ addRowToTable = (data) => {
     NameCell.innerText = newRow.Name;
     ExtensionCell.innerText = newRow.Extension;
 
-    EditCell = document.createElement("button");
-    EditCell.innerHTML = "Edit";
-    EditCell.onclick = function () {
+    EditButton = document.createElement("button");
+    EditButton.innerHTML = "Edit";
+    EditButton.onclick = function () {
         editPatient(newRow.PatientID)
     }
+    EditCell.appendChild(EditButton);
 
-    DeleteCell = document.createElement("button");
-    DeleteCell.innerHTML = "Delete";
-    DeleteCell.onclick = function() {
+    DeleteButton = document.createElement("button");
+    DeleteButton.innerHTML = "Delete";
+    DeleteButton.onclick = function() {
         deletePatient(newRow.PatientID);
     };
+    DeleteCell.appendChild(DeleteButton);
 
     // Add the cells to the row 
     row.appendChild(idCell);

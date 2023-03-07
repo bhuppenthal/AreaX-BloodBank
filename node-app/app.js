@@ -379,7 +379,19 @@ app.put("/put-nurse-ajax", function(req, res) {
 });
 
 app.delete("/delete-nurse-ajax", function(req, res, next) {
-    // pass for now
+    console.log("inside /delete-nurse-ajax");
+
+    let data = req.body;
+    let NurseID = parseInt(data.id);
+    let deleteNurse = `DELETE FROM Nurses WHERE NurseID = ?;`
+
+    db.pool.query(deleteNurse, [NurseID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }})
 });
 
 /*

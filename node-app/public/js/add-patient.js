@@ -81,9 +81,6 @@ addRowToTable = (data) => {
     let MedicalRecordNumberCell = document.createElement("TD");
     let BloodTypeIDCell = document.createElement("TD");
 
-    let EditCell = document.createElement("TD");
-    let DeleteCell = document.createElement("TD");
-
     // Fill the cells with correct data
     idCell.innerText = newRow.PatientID;
     NameCell.innerText = newRow.Name;
