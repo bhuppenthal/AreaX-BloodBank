@@ -84,7 +84,7 @@
     <select name="input-patient" id="input-patient">
         <option value="">Select a Patient</option>
         {{#each patients}}
-        <option value="{{this.PatientID}}">{{this.Name}}</option>
+        <option value="{{this.PatientID}}, {{this.Name}}">{{this.Name}}</option>
         {{/each}}
     </select> <br><br>
 
@@ -92,7 +92,7 @@
     <select name="input-nurse" id="input-nurse">
         <option value="">Select a Nurse</option>
         {{#each nurses}}
-        <option value="{{this.NurseID}}">{{this.Name}}</option>
+        <option value="{{this.NurseID}}, {{this.Name}}">{{this.Name}}</option>
         {{/each}}
     </select> <br><br>
     

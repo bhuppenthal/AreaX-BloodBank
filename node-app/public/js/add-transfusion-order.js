@@ -15,10 +15,18 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let inputInfusionRate = document.getElementById("input-infusion-rate");
     let inputBloodProductID = document.getElementById("input-blood-product-id");
     let inputVolume = document.getElementById("input-volume");
-
+    
+    //Patients input has a string with the id and name in input, we'll split into array:
+    let Patients_Arr = inputPatientID.value.split(', ');
+    console.log(Patients_Arr);
+    let PatientIDValue = Patients_Arr[0]
     // Get the values from the form fields
-    let PatientIDValue = inputPatientID.value;
-    let NurseIDValue = inputNurseID.value;
+    // let PatientIDValue = inputPatientID.value;
+    console.log(PatientIDValue)
+    let Nurses_Arr = inputNurseID.value.split(', ');
+    let NurseIDValue = Nurses_Arr[0]
+    // let NurseIDValue = inputNurseID.value;
+    console.log(NurseIDValue)
     let DateTimeValue = inputDateTime.value;
     let DescriptionValue = inputDescription.value;
     let InfusionRateValue = inputInfusionRate.value;
@@ -46,8 +54,9 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
+            console.log(Patients_Arr[1], Nurses_Arr[1])
             // Add the new data to the table
-            addRowToTable(xhttp.response);
+            addRowToTable(xhttp.response, Patients_Arr[1], Nurses_Arr[1]);
 
             // Clear the input fields for another transaction
             inputPatientID.value = '';
@@ -71,8 +80,10 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
-addRowToTable = (data) => {
+addRowToTable = (data, patient_name, nurse_name) => {
 
+    console.log("This is fron the addRowToTable function")
+    console.log(patient_name, nurse_name)
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("transfusion-orders-table");
 
@@ -94,8 +105,9 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     idCell.innerText = newRow.TransfusionID;
-    PatientCell.innerText = newRow.PatientID;
-    NurseCell.innerText = newRow.NurseID;
+    // console.log(`${patient_name}`);
+    PatientCell.innerHTML = `${patient_name}`;
+    NurseCell.innerText = `${nurse_name}`;
     DateTimeCell.innerText = newRow.Date;
     DescriptionCell.innerText = newRow.Description;
     InfusionRateCell.innerText = newRow.InfusionRate;

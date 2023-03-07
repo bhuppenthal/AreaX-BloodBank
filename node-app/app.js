@@ -7,7 +7,7 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 32125;                 // Set a port number at the top so it's easy to change in the future
 
 
 
