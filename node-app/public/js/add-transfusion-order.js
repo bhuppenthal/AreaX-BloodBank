@@ -3,6 +3,7 @@ let addTransfusionOrderForm = document.getElementById('add-transfusion-order-for
 
 // Modify the objects we need
 addTransfusionOrderForm.addEventListener("submit", function (e) {
+    console.log("Registered an add transfusion order submit.") ;
     
     // Prevent the form from submitting
     e.preventDefault();
@@ -134,9 +135,8 @@ addRowToTable = (data) => {
     currentTable.appendChild(row);
 }
 
-
 // Trying to dynamically display a list of blood product inputs on form.
-function addBloodProduct() {
+function addBloodProductRow() {
     console.log("Registered a click to add new blood product line.");
 
     let currentTable = document.getElementById('blood-product-table');

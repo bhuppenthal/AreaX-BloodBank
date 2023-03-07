@@ -153,7 +153,7 @@ app.get('/transfusions', function(req, res)
                         db.pool.query(query5, (error, rows, fields) => {
                             //Save the blood products
                             let bloodproducts = rows;
-                            return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts});
+                            return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, row:[0,1,2]});
                         })
                     })
                 })
