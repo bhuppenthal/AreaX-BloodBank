@@ -1,0 +1,38 @@
+<table id="blood-types-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.BloodTypeID}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table> 
+
+<div id="add-blood-type-section">
+<p>To add a new blood type, enter the information below.</p>
+<form id="add-blood-type-form-ajax">
+    <label for="input-blood-type-id">BloodType: </label>
+    <input type="text" name="input-blood-type-id" id="input-blood-type-id">
+
+    <input type="submit">
+</form>
+</div>
+<script src="./js/add-blood-type.js"></script>

@@ -1,0 +1,31 @@
+{{!-- <h2>Updating Patient Form</h2>
+<p>To update a specific patient fill out the form below</p>
+<form id="update-patient-form-ajax">
+
+    <label for="input-name">Full Name: </label>
+    <select name="input-name" id="input-name">
+        <option value="test">Select a Patient</option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.Name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-birth-date">Birth Date: </label>
+    <input type="text" name="input-birth-date" id="input-birth-date">
+
+    <label for="input-medical-record-number">Medical Record Number: </label>
+    <input type="number" name="input-medical-record-number" id="input-medical-record-number">
+
+    <label for="input-blood-type-id">BloodTypeID: </label>
+    <select name="input-blood-type-id" id="input-blood-type-id">
+        <option value="">Select a BloodType</option>
+        {{#each bloodtypes}}
+        <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update-patient.js"></script> --}}

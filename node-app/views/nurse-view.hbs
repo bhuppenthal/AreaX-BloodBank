@@ -1,0 +1,62 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<table id="nurses-table">
+    
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.NurseID}}</td>
+            <td>{{this.Name}}</td>
+            <td>{{this.Extension}}</td>
+            <td><button onclick="showEditForm({{this.NurseID}},{{this.Extension}})">Edit</button></td>
+            <td><button onclick="deleteNurse({{this.NurseID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/show-nurse-update.js"></script>
+<script src="./js/delete-nurse.js"></script>
+
+<p>To add a new nurse, enter their information below.</p>
+<form id="add-nurse-form-ajax">
+    <label for="input-name">Full Name: </label>
+    <input type="text" name="input-name" id="input-name">
+    
+    <label for="input-extension">Extension: </label>
+    <input type="text" name="input-extension" id="input-extension">
+
+    <input type="submit">
+</form>
+<script src="./js/add-nurse.js"></script>
+
+<div id="update-section" hidden>
+    <p>To update a nurse, change only the update information below.</p>
+    <form id="update-nurse-form-ajax">
+        <label for="update-name">Full Name: </label>
+        <select name="update-name" id="update-nurseID">
+            <option value="">Select a Nurse</option>
+            {{#each data}}
+            <option value="{{this.NurseID}}">{{this.Name}}</option>
+            {{/each}}
+        </select>
+
+        <label for="update-extension">Extension: </label>
+        <input type="text" name="update-extension" id="update-extension">
+
+        <input type="submit"> 
+    
+    </form>
+</div>
+<script src="./js/update-nurse.js"></script>
