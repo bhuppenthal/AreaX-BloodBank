@@ -68,10 +68,10 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
 })
 
-
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToTable = (data) => {
+    console.log(`Received this data to add to the table: ${JSON.stringify(data)}`);
 
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("transfusion-orders-table");
@@ -131,5 +131,24 @@ addRowToTable = (data) => {
     row.setAttribute('data-value', newRow.TransfusionID);
 
     // Add the row to the table
+    currentTable.appendChild(row);
+}
+
+
+// Trying to dynamically display a list of blood product inputs on form.
+function addBloodProduct() {
+    console.log("Registered a click to add new blood product line.");
+
+    let currentTable = document.getElementById('blood-product-table');
+    let newRowIndex = currentTable.rows.length;
+
+    // create the new cells
+    row = document.createElement("TR");
+    bloodProductCell = document.createElement("TD");
+    volumeCell = document.createElement("TD");
+
+    row.appendChild(bloodProductCell);
+    row.appendChild(volumeCell);
+
     currentTable.appendChild(row);
 }

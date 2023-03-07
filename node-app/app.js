@@ -560,7 +560,12 @@ app.post('/add-transfusion-order-ajax', function(req, res)
         else
         {
             // If there was no error, perform a SELECT * on TransfusionOrders
-            query2 = `SELECT * FROM TransfusionOrders;`;
+            // query2 = `SELECT * FROM TransfusionOrders;`;
+            query2 = `SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
+            FROM TransfusionOrders
+            INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
+            INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;`;
+
             db.pool.query(query2, function(error, rows, fields){
 
                 // If there was an error on the second query, send a 400

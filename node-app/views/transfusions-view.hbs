@@ -105,6 +105,32 @@
     <label for="input-infusion-rate">Infusion Rate mL/hr: </label>
     <input type="number" name="input-infusion-rate" id="input-infusion-rate"> <br><br>
 
+    {{! Trying to add a button to trigger a script to add a new form field }}
+    {{! Let's try making a table ? And then the click can add rows? }}
+
+    <table id="blood-product-table">
+        <tr>
+            <th>Blood Product ID</th>
+            <th>Volume</th>
+        </tr>
+        <tr>
+            <td>
+                <select name="input-blood-product-id" id="input-blood-product-id">
+                <option value="">Select a Blood Product</option>
+                {{#each bloodproducts}}
+                <option value="{{this.BloodProductID}}">{{this.BloodTypeID}}  {{this.ProductTypeID}}</option>
+                {{/each}}
+                </select>
+            </td>
+            <td>
+               <input type="number" name="input-volume" id="input-volume"> 
+            </td>
+        </tr>
+    </table>
+    <button id="add-blood-product" onclick="addBloodProduct()">Add Blood Product</button>
+
+    <br><br>
+
     <label for="input-blood-product-id">BloodProductID: </label>
     <select name="input-blood-product-id" id="input-blood-product-id">
         <option value="">Select a Blood Product</option>
@@ -112,11 +138,10 @@
         <option value="{{this.BloodProductID}}">{{this.BloodTypeID}}  {{this.ProductTypeID}}</option>
         {{/each}}
     </select> 
-    
     <label for="input-volume">Volume: </label>
     <input type="number" name="input-volume" id="input-volume">
+    <br>
     <br><br>
-
     <input type="submit">
 </form>
 
