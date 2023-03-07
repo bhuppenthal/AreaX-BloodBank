@@ -119,11 +119,13 @@ app.get('/transfusions', function(req, res)
 
         let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
 
-        // db.pool.query(query1, function(error, rows, fields){
-        //     res.render('transfusions-view', {data: rows});
-        //     console.log({data: rows});
-        // })
+        let query3 = "SELECT PatientID, Name FROM Patients;";
 
+        let query4 = "SELECT NurseID, Name FROM Nurses;";
+
+        let query5 = "Select BloodProductID, ProductTypeID, BloodTypeID FROM BloodProducts;";
+
+        // Run the first query
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
             // Save the transfusiondetails
@@ -135,11 +137,27 @@ app.get('/transfusions', function(req, res)
                 
                 //Save the transfusion orders
                 let transfusionorders = rows;
-                console.log(transfusionorders);
-                return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders});
-            })    
 
-            //res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
+                //Run the third query
+                db.pool.query(query3, (error, rows, fields) => {
+                    //Save the patients
+                    let patients = rows;
+                    // console.log(patients);
+                
+                    // Running the fourth query
+                    db.pool.query(query4, (error, rows, fields) =>{
+                        //Save the nurses
+                        let nurses = rows;
+
+                        //annndd the fifth query
+                        db.pool.query(query5, (error, rows, fields) => {
+                            //Save the blood products
+                            let bloodproducts = rows;
+                            return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts});
+                        })
+                    })
+                })
+            })    
         })    
 });
 
@@ -521,7 +539,45 @@ app.post('/add-product-type-ajax', function(req, res)
 /*
 TRANSFUSION ORDER FORMS
 */
+app.post('/add-transfusion-order-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    console.log(data)
 
+    // Create the query and run it on the database
+    query1 = `INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
+    VALUES ('${data.TransfusionID}', '${data.PatientID}', '${data.NurseID}', '${data.Date}', '${data.Description}', '${data.InfusionRate}');`;
+
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on TransfusionOrders
+            query2 = `SELECT * FROM TransfusionOrders;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
 
 /*
     LISTENER
