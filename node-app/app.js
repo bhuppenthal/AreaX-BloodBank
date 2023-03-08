@@ -8,7 +8,6 @@ var helpers = require('handlebars-helpers')(); //helper package used to format d
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 32125;                 // Set a port number at the top so it's easy to change in the future
 
 // Database
 var db = require('./database/db-connector')
@@ -431,12 +430,23 @@ app.delete("/delete-nurse-ajax", function(req, res, next) {
 app.post('/add-blood-product-ajax', function(req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
-
     console.log(data);
+
     // Create the query and run it on the database
     query1 = `INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
     VALUES  ('${data.ProductTypeID}', '${data.BloodTypeID}', '${data.DrawnDate}','${data.ExpirationDate}', '${data.DonorID}', '${data.Volume}');`;
-    
+   
+    // create a list of queries?
+    let transfusion_detail_queries = [];
+    let blood_products = data.BloodProducts;
+    for (let i = 0; i < data.BloodProducts.length; i++) {
+        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
+                                        VALUES (${1}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
+    }
+    console.log(`the transfusion details queries: ${transfusion_detail_queries}`);
+
+
+    // transfusion order query
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -464,6 +474,14 @@ app.post('/add-blood-product-ajax', function(req, res) {
                 }
             })
         }
+
+    /*// create a list of queries?
+    let transfusion_detail_queries = [];
+    let blood_products = data.BloodProducts;
+    for (let i = 0; i < data.BloodProducts.length; i++) {
+        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
+                                        VALUES (${TransfusionID}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
+    }*/
     })
 });
 

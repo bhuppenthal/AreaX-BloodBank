@@ -72,8 +72,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
             inputDateTime.value = '';
             inputDescription.value = '';
             inputInfusionRate.value = '';
-            inputBloodProductID.value = '';
-            inputVolume.value = '';
+            // i may have to somehow initialize the blood product rows again too
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.");
@@ -87,12 +86,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
-<<<<<<< HEAD
-addRowToTable = (data) => {
-    console.log(`Received this data to add to the table: ${JSON.stringify(data)}`);
-=======
 addRowToTable = (data, patient_name, nurse_name) => {
->>>>>>> dev
 
     // console.log("This is fron the addRowToTable function")
     // console.log(patient_name, nurse_name)
