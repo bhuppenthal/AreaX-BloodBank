@@ -20,6 +20,7 @@ var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
+let blood_product_rows = [0];
 
 /*
     ROUTES
@@ -153,13 +154,20 @@ app.get('/transfusions', function(req, res)
                         db.pool.query(query5, (error, rows, fields) => {
                             //Save the blood products
                             let bloodproducts = rows;
-                            return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, row:[0,1,2]});
+                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, bloodproductrows:blood_product_rows});
                         })
                     })
                 })
             })    
         })    
 });
+
+app.get('/increment-blood-product-rows', function(req, res) {
+    console.log('Inside /increment-blood-product-rows');
+    blood_product_rows.push(blood_product_rows.length);
+    console.log(`${blood_product_rows}`);
+    res.send({bloodproductrows: blood_product_rows});
+})
 
 app.post('/add-nurse-ajax', function(req, res) 
 {

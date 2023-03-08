@@ -139,16 +139,13 @@ addRowToTable = (data) => {
 function addBloodProductRow() {
     console.log("Registered a click to add new blood product line.");
 
-    let currentTable = document.getElementById('blood-product-table');
-    let newRowIndex = currentTable.rows.length;
+    data = {inc_rows: true};
 
-    // create the new cells
-    row = document.createElement("TR");
-    bloodProductCell = document.createElement("TD");
-    volumeCell = document.createElement("TD");
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/increment-blood-product-rows", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
 
-    row.appendChild(bloodProductCell);
-    row.appendChild(volumeCell);
+    xhttp.send(JSON.stringify(data));
 
-    currentTable.appendChild(row);
+    window.location.reload();
 }

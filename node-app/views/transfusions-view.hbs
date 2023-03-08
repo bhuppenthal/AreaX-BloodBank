@@ -45,7 +45,7 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
+            {{#each transfusiondetails.[0]}}
             <th>
                 {{@key}}
             </th>
@@ -57,7 +57,7 @@
     <tbody>
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
+        {{#each transfusiondetails}}
         <tr>
             <td>{{this.TransfusionID}}</td>
             <td>{{this.PatientName}}</td>
@@ -71,8 +71,6 @@
         {{/each}}
     </tbody>
 </table> 
-
-
 
 {{!-- Form to add a record to the table  --}}
 <div id="add-section">
@@ -104,18 +102,15 @@
     <label for="input-infusion-rate">Infusion Rate mL/hr: </label>
     <input type="number" name="input-infusion-rate" id="input-infusion-rate"> <br><br>
 
-    {{! Trying to add a button to trigger a script to add a new form field }}
-    {{! Let's try making a table ? And then the click can add rows? }}
-
     <table id="blood-product-table">
         <tr>
             <th>Blood Product ID</th>
             <th>Volume</th>
         </tr>
-        {{#each row}}
+        {{#each bloodproductrows}}
             <tr>
                 <td>
-                    <select name="input-blood-product-id" id="input-blood-product-id">
+                    <select name="input-blood-product-id" id="input-blood-product-id{{this}}">
                         <option value="">Select a Blood Product</option>
                         {{#each ../bloodproducts}}
                             <option value="{{this.BloodProductID}}">{{this.BloodTypeID}}  {{this.ProductTypeID}}</option>
@@ -129,6 +124,8 @@
         {{/each}}
     </table>
     <button id="add-blood-product" type="button" onclick="addBloodProductRow()">Add Blood Product</button>
+
+
     <br><br>
     <input type="submit">
 </form>
