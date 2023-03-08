@@ -14,8 +14,18 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let inputDateTime = document.getElementById("input-date-time");
     let inputDescription = document.getElementById("input-description");
     let inputInfusionRate = document.getElementById("input-infusion-rate");
-    let inputBloodProductID = document.getElementById("input-blood-product-id");
-    let inputVolume = document.getElementById("input-volume");
+
+    // loop through the blood products
+    let bloodProducts = []
+    for (let i = 0; i < 5; i++) {
+        console.log("input-blood-product-id".concat('',i.toString()));
+        let inputBloodProduct = document.getElementById("input-blood-product-id".concat('', i.toString()));
+        let inputVolume = document.getElementById("input-volume".concat('', i.toString()));
+
+        bloodProducts.push({BloodProductID: inputBloodProduct.value,
+                            VolumeValue: inputVolume.value});
+    }
+    console.log(bloodProducts);
 
     // Get the values from the form fields
     let PatientIDValue = inputPatientID.value;
@@ -23,8 +33,6 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let DateTimeValue = inputDateTime.value;
     let DescriptionValue = inputDescription.value;
     let InfusionRateValue = inputInfusionRate.value;
-    let BloodProductIDValue = inputBloodProductID.value;
-    let VolumeValue = inputVolume.value;
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -33,8 +41,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
         DateTime: DateTimeValue,
         Description: DescriptionValue,
         InfusionRate: InfusionRateValue,
-        BloodProductID: BloodProductIDValue,
-        Volume: VolumeValue  
+        BloodProducts: bloodProducts
     }
     console.log(data)
 
