@@ -89,12 +89,23 @@ addRowToTable = (data) => {
     let DonorIDCell = document.createElement("TD");
     let VolumeCell = document.createElement("TD");
 
+    //Drawn Date And Expiration Date Formatting
+    Drawn_Date_Format = newRow.DrawnDate;
+    Drawn_Date_Format_DMY = Drawn_Date_Format.slice(0,10).split('-').reverse().join('-');
+    Drawn_Date_Format_HMS = " " + Drawn_Date_Format.slice(11,19);
+
+    Exp_Date_Format = newRow.ExpirationDate;
+    Exp_Date_Format_DMY = Exp_Date_Format.slice(0,10).split('-').reverse().join('-');
+    Exp_Date_Format_HMS = " " + Exp_Date_Format.slice(11,19);
+
     // Fill the cells with correct data
     idCell.innerText = newRow.BloodProductID;
     ProductTypeIDCell.innerText = newRow.ProductTypeID;
     BloodTypeIDCell.innerText = newRow.BloodTypeID;
-    DrawnDateCell.innerText = newRow.DrawnDate;
-    ExpirationDateCell.innerText = newRow.ExpirationDate;
+    // DrawnDateCell.innerText = newRow.DrawnDate;
+    DrawnDateCell.innerText = Drawn_Date_Format_DMY + Drawn_Date_Format_HMS;
+    // ExpirationDateCell.innerText = newRow.ExpirationDate;
+    ExpirationDateCell.innerText = Exp_Date_Format_DMY + Exp_Date_Format_HMS;
     DonorIDCell.innerText = newRow.DonorID;
     VolumeCell.innerText = newRow.Volume;
 

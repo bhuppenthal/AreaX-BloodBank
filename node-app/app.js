@@ -1,15 +1,13 @@
 /*
     SETUP
 */
+PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
-
-
 
 // Database
 var db = require('./database/db-connector')
@@ -17,9 +15,11 @@ var db = require('./database/db-connector')
 // Handlebars 
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
+const { query } = require('express');
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
+let blood_product_rows = [0,1,2,3,4];
 
 /*
     ROUTES
@@ -115,15 +115,19 @@ app.get('/product-types', function(req, res)
 
 app.get('/transfusions', function(req, res) 
     {
-        let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID;";
+        //transfusion details
+        let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID ORDER BY TransfusionOrders.TransfusionID ASC;";
 
+        // transfusion orders
         let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
 
-        // db.pool.query(query1, function(error, rows, fields){
-        //     res.render('transfusions-view', {data: rows});
-        //     console.log({data: rows});
-        // })
+        let query3 = "SELECT PatientID, Name FROM Patients;";
 
+        let query4 = "SELECT NurseID, Name FROM Nurses;";
+
+        let query5 = "Select BloodProductID, ProductTypeID, BloodTypeID FROM BloodProducts;";
+
+        // Run the first query
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
             // Save the transfusiondetails
@@ -135,13 +139,42 @@ app.get('/transfusions', function(req, res)
                 
                 //Save the transfusion orders
                 let transfusionorders = rows;
-                console.log(transfusionorders);
-                return res.render('transfusions-view', {data: transfusiondetails, transfusionorders: transfusionorders});
-            })    
 
-            //res.render('index', {data: rows});                  // Render the index.hbs file, and also send the renderer
+                //Run the third query
+                db.pool.query(query3, (error, rows, fields) => {
+                    //Save the patients
+                    let patients = rows;
+                    // console.log(patients);
+                
+                    // Running the fourth query
+                    db.pool.query(query4, (error, rows, fields) =>{
+                        //Save the nurses
+                        let nurses = rows;
+
+                        //annndd the fifth query
+                        db.pool.query(query5, (error, rows, fields) => {
+                            //Save the blood products
+                            let bloodproducts = rows;
+                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, bloodproductrows:blood_product_rows});
+                        })
+                    })
+                })
+            })    
         })    
 });
+
+/*
+app.post('/transfusion-update-rows', function(req, res) {
+    console.log('Inside /increment-blood-product-rows');
+    if (req.body.increment) {
+        blood_product_rows.push(blood_product_rows.length);
+    } else {
+        blood_product_rows = [0];
+    }
+    console.log(`${blood_product_rows}`);
+    res.send({bloodproductrows: blood_product_rows});
+})
+*/
 
 app.post('/add-nurse-ajax', function(req, res) 
 {
@@ -400,12 +433,15 @@ app.delete("/delete-nurse-ajax", function(req, res, next) {
 app.post('/add-blood-product-ajax', function(req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
-
     console.log(data);
+
     // Create the query and run it on the database
     query1 = `INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
     VALUES  ('${data.ProductTypeID}', '${data.BloodTypeID}', '${data.DrawnDate}','${data.ExpirationDate}', '${data.DonorID}', '${data.Volume}');`;
+   
     
+
+    // transfusion order query
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -433,6 +469,7 @@ app.post('/add-blood-product-ajax', function(req, res) {
                 }
             })
         }
+
     })
 });
 
@@ -521,7 +558,84 @@ app.post('/add-product-type-ajax', function(req, res)
 /*
 TRANSFUSION ORDER FORMS
 */
+app.post('/add-transfusion-order-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    console.log(data)
 
+    // Create the query and run it on the database
+    queryTransfusionOrder = `INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
+    VALUES ('${data.TransfusionID}', '${data.PatientID}', '${data.NurseID}', '${data.Date}', '${data.Description}', '${data.InfusionRate}');`;
+
+    queryTransfusionID = `SELECT TransfusionID
+    FROM TransfusionOrders
+    WHERE PatientID = ${data.PatientID} AND NurseID = ${data.NurseID} AND Date = '${data.Date}';`
+    
+    // If there was no error, perform a SELECT * on TransfusionOrders
+    // query2 = `SELECT * FROM TransfusionOrders;`;
+    queryGetData = `SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
+    FROM TransfusionOrders
+    INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
+    INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;`;
+
+    db.pool.query(queryTransfusionOrder, function(error, rows, fields){
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+            db.pool.query(queryTransfusionID, function(error, rows, fields){
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    console.log(`the transfusion order id: ${JSON.stringify(rows)}`);
+                    console.log(`get the value ${rows[0].TransfusionID}`);
+                    // build the transfusion detail query now that we have the order id
+                    let queryTransfusionDetail = "";
+                    let blood_products = data.BloodProducts;
+                    for (let i = 0; i < data.BloodProducts.length; i++) {
+
+                        queryTransfusionDetail = `INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume) VALUES (${rows[0].TransfusionID}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue});`
+                        console.log(`query: ${queryTransfusionDetail}`);
+                        db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                            if (error) {
+                                console.log('error with transfusion detail query');
+                            }
+                        });
+                    }
+                    console.log(`the transfusion details queries: ${queryTransfusionDetail}`);
+
+                    db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            res.send(rows);
+                        }
+                    })
+
+                }
+            })
+        }
+    })
+})
+
+app.delete("/delete-transfusion-order-ajax", function(req, res, next) {
+
+    let data = req.body;
+    let TransfusionID = parseInt(data.id);
+    let deleteTransfusionOrder = `DELETE FROM TransfusionOrders WHERE TransfusionID = ?;`
+
+    db.pool.query(deleteTransfusionOrder, [TransfusionID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }})
+});
 
 /*
     LISTENER
