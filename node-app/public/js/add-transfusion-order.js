@@ -37,7 +37,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let data = {
         PatientID: PatientIDValue,
         NurseID: NurseIDValue,
-        DateTime: DateTimeValue,
+        Date: DateTimeValue,
         Description: DescriptionValue,
         InfusionRate: InfusionRateValue,
         BloodProductID: BloodProductIDValue,
@@ -82,8 +82,8 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 // bsg_people
 addRowToTable = (data, patient_name, nurse_name) => {
 
-    console.log("This is fron the addRowToTable function")
-    console.log(patient_name, nurse_name)
+    // console.log("This is fron the addRowToTable function")
+    // console.log(patient_name, nurse_name)
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("transfusion-orders-table");
 
@@ -108,7 +108,16 @@ addRowToTable = (data, patient_name, nurse_name) => {
     // console.log(`${patient_name}`);
     PatientCell.innerHTML = `${patient_name}`;
     NurseCell.innerText = `${nurse_name}`;
-    DateTimeCell.innerText = newRow.Date;
+
+    Date_Format = newRow.Date
+    Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
+    Date_Format_HMS = " " + Date_Format.slice(11,19);
+    // console.log(Date_Format_DMY);
+    // console.log(Date_Format_HMS)
+    // console.log(newRow.Date);
+    // DateTimeCell.innerText = newRow.Date;
+    DateTimeCell.innerText = Date_Format_DMY + Date_Format_HMS;
+
     DescriptionCell.innerText = newRow.Description;
     InfusionRateCell.innerText = newRow.InfusionRate;
 
