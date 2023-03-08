@@ -1,15 +1,13 @@
 /*
     SETUP
 */
+PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
-
-
 
 // Database
 var db = require('./database/db-connector')
@@ -20,7 +18,7 @@ var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
-let blood_product_rows = [0];
+let blood_product_rows = [0,1,2,3,4];
 
 /*
     ROUTES
@@ -162,12 +160,18 @@ app.get('/transfusions', function(req, res)
         })    
 });
 
-app.get('/increment-blood-product-rows', function(req, res) {
+/*
+app.post('/transfusion-update-rows', function(req, res) {
     console.log('Inside /increment-blood-product-rows');
-    blood_product_rows.push(blood_product_rows.length);
+    if (req.body.increment) {
+        blood_product_rows.push(blood_product_rows.length);
+    } else {
+        blood_product_rows = [0];
+    }
     console.log(`${blood_product_rows}`);
     res.send({bloodproductrows: blood_product_rows});
 })
+*/
 
 app.post('/add-nurse-ajax', function(req, res) 
 {

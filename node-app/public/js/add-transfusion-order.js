@@ -37,7 +37,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
         Volume: VolumeValue  
     }
     console.log(data)
-    
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-transfusion-order-ajax", true);
@@ -136,16 +136,17 @@ addRowToTable = (data) => {
 }
 
 // Trying to dynamically display a list of blood product inputs on form.
+/*
 function addBloodProductRow() {
     console.log("Registered a click to add new blood product line.");
 
-    data = {inc_rows: true};
+    data = {increment: true};
 
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "/increment-blood-product-rows", true);
+    xhttp.open("POST", "/transfusion-update-rows", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     xhttp.send(JSON.stringify(data));
 
     window.location.reload();
-}
+}*/
