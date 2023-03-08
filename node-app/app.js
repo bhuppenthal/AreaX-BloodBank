@@ -1,7 +1,7 @@
 /*
     SETUP
 */
-PORT        = 32123;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
@@ -436,15 +436,7 @@ app.post('/add-blood-product-ajax', function(req, res) {
     query1 = `INSERT INTO BloodProducts (ProductTypeId, BloodTypeID, DrawnDate, ExpirationDate, DonorID, Volume)
     VALUES  ('${data.ProductTypeID}', '${data.BloodTypeID}', '${data.DrawnDate}','${data.ExpirationDate}', '${data.DonorID}', '${data.Volume}');`;
    
-    // create a list of queries?
-    let transfusion_detail_queries = [];
-    let blood_products = data.BloodProducts;
-    for (let i = 0; i < data.BloodProducts.length; i++) {
-        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
-                                        VALUES (${1}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
-    }
-    console.log(`the transfusion details queries: ${transfusion_detail_queries}`);
-
+    
 
     // transfusion order query
     db.pool.query(query1, function(error, rows, fields){
@@ -475,13 +467,6 @@ app.post('/add-blood-product-ajax', function(req, res) {
             })
         }
 
-    /*// create a list of queries?
-    let transfusion_detail_queries = [];
-    let blood_products = data.BloodProducts;
-    for (let i = 0; i < data.BloodProducts.length; i++) {
-        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
-                                        VALUES (${TransfusionID}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
-    }*/
     })
 });
 
@@ -579,6 +564,17 @@ app.post('/add-transfusion-order-ajax', function(req, res)
     // Create the query and run it on the database
     query1 = `INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
     VALUES ('${data.TransfusionID}', '${data.PatientID}', '${data.NurseID}', '${data.Date}', '${data.Description}', '${data.InfusionRate}');`;
+
+    // create a list of queries?
+    let transfusion_detail_queries = [];
+    let blood_products = data.BloodProducts;
+    for (let i = 0; i < data.BloodProducts.length; i++) {
+        console.log('entering the for loop');
+        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
+                                        VALUES (${1}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
+    }
+    console.log(`the transfusion details queries: ${transfusion_detail_queries}`);
+
 
     db.pool.query(query1, function(error, rows, fields){
 
