@@ -20,6 +20,9 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     for (let i = 0; i < 5; i++) {
         console.log("input-blood-product-id".concat('',i.toString()));
         let inputBloodProduct = document.getElementById("input-blood-product-id".concat('', i.toString()));
+        if (inputBloodProduct.value === '') {
+            break;
+        }
         let inputVolume = document.getElementById("input-volume".concat('', i.toString()));
 
         bloodProducts.push({BloodProductID: inputBloodProduct.value,
@@ -81,6 +84,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    window.location.reload();
 
 })
 

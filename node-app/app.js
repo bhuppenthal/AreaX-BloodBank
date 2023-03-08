@@ -15,6 +15,7 @@ var db = require('./database/db-connector')
 // Handlebars 
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
+const { query } = require('express');
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
@@ -114,8 +115,10 @@ app.get('/product-types', function(req, res)
 
 app.get('/transfusions', function(req, res) 
     {
-        let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID;";
+        //transfusion details
+        let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID ORDER BY TransfusionOrders.TransfusionID ASC;";
 
+        // transfusion orders
         let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
 
         let query3 = "SELECT PatientID, Name FROM Patients;";
@@ -562,54 +565,62 @@ app.post('/add-transfusion-order-ajax', function(req, res)
     console.log(data)
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
+    queryTransfusionOrder = `INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
     VALUES ('${data.TransfusionID}', '${data.PatientID}', '${data.NurseID}', '${data.Date}', '${data.Description}', '${data.InfusionRate}');`;
 
-    // create a list of queries?
-    let transfusion_detail_queries = [];
-    let blood_products = data.BloodProducts;
-    for (let i = 0; i < data.BloodProducts.length; i++) {
-        console.log('entering the for loop');
-        transfusion_detail_queries.push(`INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
-                                        VALUES (${1}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue}`);
-    }
-    console.log(`the transfusion details queries: ${transfusion_detail_queries}`);
+    queryTransfusionID = `SELECT TransfusionID
+    FROM TransfusionOrders
+    WHERE PatientID = ${data.PatientID} AND NurseID = ${data.NurseID} AND Date = '${data.Date}';`
+    
+    // If there was no error, perform a SELECT * on TransfusionOrders
+    // query2 = `SELECT * FROM TransfusionOrders;`;
+    queryGetData = `SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
+    FROM TransfusionOrders
+    INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
+    INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;`;
 
-
-    db.pool.query(query1, function(error, rows, fields){
-
-        // Check to see if there was an error
+    db.pool.query(queryTransfusionOrder, function(error, rows, fields){
         if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error)
             res.sendStatus(400);
-        }
-        else
-        {
-            // If there was no error, perform a SELECT * on TransfusionOrders
-            // query2 = `SELECT * FROM TransfusionOrders;`;
-            query2 = `SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
-            FROM TransfusionOrders
-            INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
-            INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;`;
-
-            db.pool.query(query2, function(error, rows, fields){
-
+        } else {
+            db.pool.query(queryTransfusionID, function(error, rows, fields){
                 // If there was an error on the second query, send a 400
                 if (error) {
                     // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                     console.log(error);
                     res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
+                } else {
+                    console.log(`the transfusion order id: ${JSON.stringify(rows)}`);
+                    console.log(`get the value ${rows[0].TransfusionID}`);
+                    // build the transfusion detail query now that we have the order id
+                    let queryTransfusionDetail = "";
+                    let blood_products = data.BloodProducts;
+                    for (let i = 0; i < data.BloodProducts.length; i++) {
+
+                        queryTransfusionDetail = `INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume) VALUES (${rows[0].TransfusionID}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue});`
+                        console.log(`query: ${queryTransfusionDetail}`);
+                        db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                            if (error) {
+                                console.log('error with transfusion detail query');
+                            }
+                        });
+                    }
+                    console.log(`the transfusion details queries: ${queryTransfusionDetail}`);
+
+                    db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            res.send(rows);
+                        }
+                    })
+
                 }
             })
         }
     })
-});
+})
 
 app.delete("/delete-transfusion-order-ajax", function(req, res, next) {
 
