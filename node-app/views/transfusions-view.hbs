@@ -30,11 +30,12 @@
             <td>{{this.Description}}</td>
             <td>{{this.InfusionRate}}</td>
             <td><button id="editButton" onclick="showEditForm('{{this.TransfusionID}}')">Edit</button></td>
-            <td><button onclick="deleteTransfusion({{this.TransfusionID}})">Delete</button></td>
+            <td><button onclick="deleteTransfusionOrder({{this.TransfusionID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table> 
+<script src="./js/delete-transfusion-order.js"></script>
 
 <h2>Transfusion Details View</h2>
 <table id="transfusion-details-table">
@@ -81,7 +82,7 @@
     <select name="input-patient" id="input-patient">
         <option value="">Select a Patient</option>
         {{#each patients}}
-        <option value="{{this.PatientID}}">{{this.Name}}</option>
+        <option value="{{this.PatientID}}, {{this.Name}}">{{this.Name}}</option>
         {{/each}}
     </select> <br><br>
 
@@ -89,7 +90,7 @@
     <select name="input-nurse" id="input-nurse">
         <option value="">Select a Nurse</option>
         {{#each nurses}}
-            <option value="{{this.NurseID}}">{{this.Name}}</option>
+        <option value="{{this.NurseID}}, {{this.Name}}">{{this.Name}}</option>
         {{/each}}
     </select> <br><br>
     

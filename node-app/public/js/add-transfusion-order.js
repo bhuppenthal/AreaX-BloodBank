@@ -27,9 +27,17 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     }
     console.log(bloodProducts);
 
+    //Patients input has a string with the id and name in input, we'll split into array:
+    let Patients_Arr = inputPatientID.value.split(', ');
+    console.log(Patients_Arr);
+    let PatientIDValue = Patients_Arr[0]
     // Get the values from the form fields
-    let PatientIDValue = inputPatientID.value;
-    let NurseIDValue = inputNurseID.value;
+    // let PatientIDValue = inputPatientID.value;
+    console.log(PatientIDValue)
+    let Nurses_Arr = inputNurseID.value.split(', ');
+    let NurseIDValue = Nurses_Arr[0]
+    // let NurseIDValue = inputNurseID.value;
+    console.log(NurseIDValue)
     let DateTimeValue = inputDateTime.value;
     let DescriptionValue = inputDescription.value;
     let InfusionRateValue = inputInfusionRate.value;
@@ -38,7 +46,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let data = {
         PatientID: PatientIDValue,
         NurseID: NurseIDValue,
-        DateTime: DateTimeValue,
+        Date: DateTimeValue,
         Description: DescriptionValue,
         InfusionRate: InfusionRateValue,
         BloodProducts: bloodProducts
@@ -54,8 +62,9 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
+            console.log(Patients_Arr[1], Nurses_Arr[1])
             // Add the new data to the table
-            addRowToTable(xhttp.response);
+            addRowToTable(xhttp.response, Patients_Arr[1], Nurses_Arr[1]);
 
             // Clear the input fields for another transaction
             inputPatientID.value = '';
@@ -78,9 +87,15 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
+<<<<<<< HEAD
 addRowToTable = (data) => {
     console.log(`Received this data to add to the table: ${JSON.stringify(data)}`);
+=======
+addRowToTable = (data, patient_name, nurse_name) => {
+>>>>>>> dev
 
+    // console.log("This is fron the addRowToTable function")
+    // console.log(patient_name, nurse_name)
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("transfusion-orders-table");
 
@@ -102,9 +117,19 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     idCell.innerText = newRow.TransfusionID;
-    PatientCell.innerText = newRow.PatientID;
-    NurseCell.innerText = newRow.NurseID;
-    DateTimeCell.innerText = newRow.Date;
+    // console.log(`${patient_name}`);
+    PatientCell.innerHTML = `${patient_name}`;
+    NurseCell.innerText = `${nurse_name}`;
+
+    Date_Format = newRow.Date
+    Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
+    Date_Format_HMS = " " + Date_Format.slice(11,19);
+    // console.log(Date_Format_DMY);
+    // console.log(Date_Format_HMS)
+    // console.log(newRow.Date);
+    // DateTimeCell.innerText = newRow.Date;
+    DateTimeCell.innerText = Date_Format_DMY + Date_Format_HMS;
+
     DescriptionCell.innerText = newRow.Description;
     InfusionRateCell.innerText = newRow.InfusionRate;
 
