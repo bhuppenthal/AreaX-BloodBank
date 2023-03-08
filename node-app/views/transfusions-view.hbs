@@ -31,11 +31,12 @@
             <td>{{this.Description}}</td>
             <td>{{this.InfusionRate}}</td>
             <td><button id="editButton" onclick="showEditForm('{{this.TransfusionID}}')">Edit</button></td>
-            <td><button onclick="deleteTransfusion({{this.TransfusionID}})">Delete</button></td>
+            <td><button onclick="deleteTransfusionOrder({{this.TransfusionID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table> 
+<script src="./js/delete-transfusion-order.js"></script>
 
 <h2>Transfusion Details View</h2>
 <table id="transfusion-details-table">

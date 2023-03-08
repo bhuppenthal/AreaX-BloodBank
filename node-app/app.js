@@ -579,6 +579,21 @@ app.post('/add-transfusion-order-ajax', function(req, res)
     })
 });
 
+app.delete("/delete-transfusion-order-ajax", function(req, res, next) {
+
+    let data = req.body;
+    let TransfusionID = parseInt(data.id);
+    let deleteTransfusionOrder = `DELETE FROM TransfusionOrders WHERE TransfusionID = ?;`
+
+    db.pool.query(deleteTransfusionOrder, [TransfusionID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }})
+});
+
 /*
     LISTENER
 */
