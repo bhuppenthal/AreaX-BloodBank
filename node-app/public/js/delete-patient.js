@@ -15,7 +15,7 @@ function deletePatient(PatientID) {
 
             // Add the new data to the table
             deleteRow(PatientID);
-            window.location.reload()    // reloads the page
+            // window.location.reload()    // reloads the page
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
@@ -32,13 +32,21 @@ function deletePatient(PatientID) {
 function deleteRow(PatientID){
 
     let table = document.getElementById("patients-table");
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == PatientID) {
-            table.deleteRow(i);
-            break;
-       }
-    }
-    window.location.reload();
+
+    // getting the correct row using idname
+    let row = document.getElementById(`row-${PatientID}`);
+    let row_index = row.rowIndex;
+    console.log(`row index is ${row_index}`);
+
+    table.deleteRow(row_index);
+    // for (let i = 0, row; row = table.rows[i]; i++) {
+    //    //iterate through rows
+    //    //rows would be accessed using the "row" variable assigned in the for loop
+    //    if (table.rows[i].getAttribute("data-value") == PatientID) {
+    //         table.deleteRow(i);
+    //         break;
+    //    }
+    // }
+    // window.location.reload();
+
 }
