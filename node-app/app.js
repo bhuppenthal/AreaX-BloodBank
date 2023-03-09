@@ -637,6 +637,46 @@ app.delete("/delete-transfusion-order-ajax", function(req, res, next) {
         }})
 });
 
+
+app.put('/put-transfusion-order-ajax', function(req,res,next) {
+    console.log('Reached /put-transfusion-order-ajax');
+    let data = req.body;
+    
+    let TransfusionID = parseInt(data.TransfusionID);
+    let PatientID = parseInt(data.PatientID);
+    let NurseID = parseInt(data.NurseID)
+    let InfusionRate= parseInt(data.InfusionRate);
+    
+    let queryUpdateTransfusionOrder = `UPDATE TransfusionOrders SET PatientID = '${PatientID}', NurseID = '${NurseID}', Date = '${data.Date}', Description = '${data.Description}', InfusionRate = '${InfusionRate}' WHERE TransfusionID = '${TransfusionID}';`;
+
+    let selectTransfusionOrder = `SELECT * FROM TransfusionOrders WHERE TransfusionID = ?`
+    
+            // Run the 1st query
+            db.pool.query(queryUpdateTransfusionOrder, function(error, rows, fields){
+                if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                }
+    
+                // If there was no error, we run our second query and return that data so we can use it to update the people's
+                // table on the front-end
+                else
+                {
+                    // Run the second query
+                    db.pool.query(selectTransfusionOrder, [TransfusionID], function(error, rows, fields) {
+    
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.send(rows);
+                        }
+                    })
+                }
+    })});
+
 /*
     LISTENER
 */

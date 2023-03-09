@@ -29,13 +29,14 @@
             <td>{{moment this.Date format="DD-MM-YYYY HH:MM:SS"}}</td>
             <td>{{this.Description}}</td>
             <td>{{this.InfusionRate}}</td>
-            <td><button id="editButton" onclick="showEditForm('{{this.TransfusionID}}')">Edit</button></td>
+            <td><button id="editButton" onclick="showEditForm('{{this.TransfusionID}}', '{{this.PatientName}}', '{{this.NurseName}}', '{{moment this.Date format="YYYY-MM-DD HH:MM:SS"}}', '{{this.Description}}', '{{this.InfusionRate}}')">Edit</button></td>
             <td><button onclick="deleteTransfusionOrder({{this.TransfusionID}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table> 
 <script src="./js/delete-transfusion-order.js"></script>
+<script src="./js/show-transfusion-order-update.js"></script>
 
 <h2>Transfusion Details View</h2>
 <table id="transfusion-details-table">
@@ -131,4 +132,44 @@
     <input type="submit">
 </form>
 <script src="./js/add-transfusion-order.js"></script>
+</div>
+
+<div id="update-section" hidden>
+<h2>Updating Transfusion Order Form</h2>
+<p>To update a specific transfusion order fill out the form below</p>
+<form id="update-transfusion-order-form-ajax">
+
+    <label for"update-transfusion-id">TransfusionID</label>
+    <input type="number" name="update-transfusion-id" id="update-transfusion-id">
+
+    <label for="update-name">Full Name: </label>
+    <select name="update-name" id="update-patientID">
+        <option value="">Select a Patient</option>
+        {{#each patients}}
+        <option value="{{this.PatientID}}, {{this.Name}}">{{this.Name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="update-nurse">Nurse Name: </label>
+    <select name="update-nurse" id="update-nurseID">
+        <option value="">Select a Nurse</option>
+        {{#each nurses}}
+        <option value="{{this.NurseID}}, {{this.Name}}">{{this.Name}}</option>
+        {{/each}}
+    </select> <br><br>
+
+    <label for="update-date-time">Date and Time: </label>
+    <input type="datetime-local" name="update-date-time" id="update-date-time"> <br><br>
+
+    <label for="update-description">Description: </label>
+    <input type="text" name="update-description" id="update-description"> <br><br>
+
+    <label for="update-infusion-rate">Infusion Rate mL/hr: </label>
+    <input type="number" name="update-infusion-rate" id="update-infusion-rate"> <br><br>
+
+    <input type="submit">
+
+</form>
+
+<script src="./js/update-transfusion-order.js"></script>
 </div>
