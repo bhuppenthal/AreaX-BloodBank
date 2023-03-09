@@ -8,16 +8,16 @@ updatePatientForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputPatientID = document.getElementById("update-patientID");
-    let inputBirthDate = document.getElementById("update-birth-date");
-    let inputMedicalRecordNumber = document.getElementById("update-medical-record-number");
-    let inputBloodTypeID = document.getElementById("update-blood-type-id");
+    let updatePatientID = document.getElementById("update-patientID");
+    let updateBirthDate = document.getElementById("update-birth-date");
+    let updateMedicalRecordNumber = document.getElementById("update-medical-record-number");
+    let updateBloodTypeID = document.getElementById("update-blood-type-id");
 
     // Get the values from the form fields
-    let PatientIDValue = inputPatientID.value;
-    let BirthDateValue = inputBirthDate.value;
-    let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
-    let BloodTypeIDValue = inputBloodTypeID.value;
+    let PatientIDValue = updatePatientID.value;
+    let BirthDateValue = updateBirthDate.value;
+    let MedicalRecordNumberValue = updateMedicalRecordNumber.value;
+    let BloodTypeIDValue = updateBloodTypeID.value;
     
     if (isNaN(PatientIDValue)) 
     {
@@ -44,7 +44,11 @@ updatePatientForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, PatientIDValue);
-            window.location.reload()
+            // window.location.reload()
+            updatePatientID.value = '';
+            updateBirthDate.value = '';
+            updateMedicalRecordNumber.value = '';
+            updateBloodTypeID.value = '';
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -59,23 +63,38 @@ updatePatientForm.addEventListener("submit", function (e) {
 
 function updateRow(data, PatientID){
     let parsedData = JSON.parse(data);
-    
+    console.log(`in update row parsedData = ${JSON.stringify(parsedData)}, PatientID = ${PatientID}`)
+    // getting table using id name
     let table = document.getElementById("patients-table");
+    // getting correct row using id name
+    let row = document.getElementById(`row-${PatientID}`)
 
-    for (let i = 0, row; row = table.rows[i]; i++) {
+    // updating each of the columns, [2] is Birthdate, [3] is MRN, [4] is BloodTypeID (indices the table rows)
+    let BirthDate_td = row.getElementsByTagName('td')[2];
+    BirthDate_td.innerHTML = parsedData[0].BirthDate.slice(0,10).split('-').reverse().join('-');
+
+    let MRN_td = row.getElementsByTagName("td")[3];
+    MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
+
+    let BloodTypeID_td = row.getElementsByTagName('td')[4];
+    BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+
+    // for (let i = 0, row; row = table.rows[i]; i++) {
+    //     console.log(`entered for loop, i is ${i}`);
         //iterate through rows
         //rows would be accessed using the "row" variable assigned in the for loop
-        if (table.rows[i].getAttribute("data-value") == PatientID) {
 
-            // Get the location of the row where we found the matching person ID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
+        // if (table.rows[i].getAttribute("data-value") == PatientID) {
+        //     console.log(`i is ${i} inside if statement`);
+        //     // Get the location of the row where we found the matching person ID
+        //     let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-
-            // Reassign homeworld to our value we updated to
-            td.innerHTML = parsedData[0].name; 
-        }
-    }
-    window.location.reload();
+        //     // Get td of homeworld value
+        //     let td = updateRowIndex.getElementsByTagName("td")[3];
+        //     console.log(`inside update row parsedData[0].MRN is: ${parsedData[0].MedicalRecordNumber}`)
+        //     // Reassign homeworld to our value we updated to
+        //     td.innerHTML = parsedData[0].MedicalRecordNumber; 
+        // }
+    // }
+    // window.location.reload();
 }

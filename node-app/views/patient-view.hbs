@@ -25,7 +25,7 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr id="row-{{this.PatientID}}">
             <td>{{this.PatientID}}</td>
             <td>{{this.Name}}</td>
             <td>{{moment this.BirthDate format="DD-MM-YYYY"}}</td>
