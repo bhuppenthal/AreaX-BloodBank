@@ -1,4 +1,4 @@
-function showEditForm (NurseID, NurseExtension) {
+function showNurseEditForm (NurseID, NurseExtension) {
     console.log(`show edit form for ${NurseID}`);
 
     document.getElementById("update-section").hidden = false;

@@ -17,7 +17,7 @@ function deleteNurse(NurseID) {
             window.location.reload();
         } else {
             console.log("There was an error with the input or request.");
-            window.alert("This nurse could not be deleted.");
+            // window.alert("This nurse could not be deleted.");
         }
     }
     
