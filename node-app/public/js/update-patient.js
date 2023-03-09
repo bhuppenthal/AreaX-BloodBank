@@ -52,7 +52,8 @@ updatePatientForm.addEventListener("submit", function (e) {
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
+            console.log("There was an error with the input.");
+            window.alert("There was an issue with the update request.");
         }
     }
 

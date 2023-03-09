@@ -35,7 +35,7 @@ CREATE OR REPLACE TABLE Patients (
 
 CREATE OR REPLACE TABLE Nurses (
     NurseID int AUTO_INCREMENT UNIQUE NOT NULL,
-    Name varchar(55),
+    Name varchar(55) NOT NULL,
     Extension int UNIQUE,
     PRIMARY KEY (NurseID)
 );

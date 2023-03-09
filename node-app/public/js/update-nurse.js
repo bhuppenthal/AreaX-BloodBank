@@ -39,6 +39,7 @@ updateNurseForm.addEventListener("submit", function (e) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input or request.");
+            window.alert("This nurse could not be updated.");
         }
     }
 
