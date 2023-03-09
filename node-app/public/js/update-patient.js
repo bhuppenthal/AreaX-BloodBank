@@ -68,34 +68,50 @@ function updateRow(data, PatientID){
     // getting table using id name
     let table = document.getElementById("patients-table");
     // getting correct row using id name
-    let row = document.getElementById(`row-${PatientID}`)
+    let row_by_id = document.getElementById(`row-${PatientID}`)
 
-    // updating each of the columns, [2] is Birthdate, [3] is MRN, [4] is BloodTypeID (indices the table rows)
-    let BirthDate_td = row.getElementsByTagName('td')[2];
-    BirthDate_td.innerHTML = parsedData[0].BirthDate.slice(0,10).split('-').reverse().join('-');
+    if (row_by_id != null) {
+        // updating each of the columns, [2] is Birthdate, [3] is MRN, [4] is BloodTypeID (indices the table rows)
+        let BirthDate_td = row_by_id.getElementsByTagName('td')[2];
+        BirthDate_td.innerHTML = parsedData[0].BirthDate.slice(0,10).split('-').reverse().join('-');
 
-    let MRN_td = row.getElementsByTagName("td")[3];
-    MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
+        let MRN_td = row_by_id.getElementsByTagName("td")[3];
+        MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
 
-    let BloodTypeID_td = row.getElementsByTagName('td')[4];
-    BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+        let BloodTypeID_td = row_by_id.getElementsByTagName('td')[4];
+        BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+    } else {
 
-    // for (let i = 0, row; row = table.rows[i]; i++) {
-    //     console.log(`entered for loop, i is ${i}`);
-        //iterate through rows
-        //rows would be accessed using the "row" variable assigned in the for loop
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        console.log(`entered for loop, i is ${i}`);
+        // iterate through rows
+        // rows would be accessed using the "row" variable assigned in the for loop
 
-        // if (table.rows[i].getAttribute("data-value") == PatientID) {
-        //     console.log(`i is ${i} inside if statement`);
-        //     // Get the location of the row where we found the matching person ID
-        //     let updateRowIndex = table.getElementsByTagName("tr")[i];
+        if (table.rows[i].getAttribute("data-value") == PatientID) {
+            console.log(`i is ${i} inside if statement`);
+            // Get the location of the row where we found the matching person ID
+            let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-        //     // Get td of homeworld value
-        //     let td = updateRowIndex.getElementsByTagName("td")[3];
-        //     console.log(`inside update row parsedData[0].MRN is: ${parsedData[0].MedicalRecordNumber}`)
-        //     // Reassign homeworld to our value we updated to
-        //     td.innerHTML = parsedData[0].MedicalRecordNumber; 
-        // }
-    // }
+
+            let BirthDate_td = updateRowIndex.getElementsByTagName('td')[2];
+            BirthDate_td.innerHTML = parsedData[0].BirthDate.slice(0,10).split('-').reverse().join('-');
+    
+            let MRN_td = updateRowIndex.getElementsByTagName("td")[3];
+            MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
+    
+            let BloodTypeID_td = updateRowIndex.getElementsByTagName('td')[4];
+            BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+
+
+
+            // // Get td of update values
+            // let td = updateRowIndex.getElementsByTagName("td")[3];
+            // // console.log(`inside update row parsedData[0].MRN is: ${parsedData[0].MedicalRecordNumber}`)
+            // // // Reassign homeworld to our value we updated to
+            // td.innerHTML = parsedData[0].MedicalRecordNumber; 
+        }
+    }
+    }
+    document.getElementById("update-section").hidden = true;
     // window.location.reload();
 }

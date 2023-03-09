@@ -96,7 +96,7 @@ addRowToTable = (data) => {
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
         // editPatient(newRow.PatientID);
-        showEditForm(newRow.PatientID, newRow.BirthDate, newRow.MedicalRecordNumber, newRow.BloodTypeID)
+        showEditForm(newRow.PatientID, newRow.BirthDate.slice(0,10), newRow.MedicalRecordNumber, newRow.BloodTypeID)
     }
     EditCell.appendChild(EditButton);
 
@@ -123,4 +123,12 @@ addRowToTable = (data) => {
 
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // adding new patient to the drop down
+    let selectMenu = document.getElementById("update-patientID");
+    let option = document.createElement("option");
+    option.text = newRow.Name;
+    option.value = newRow.PatientID;
+    selectMenu.add(option);
+    // End of new step 8 code.
 }

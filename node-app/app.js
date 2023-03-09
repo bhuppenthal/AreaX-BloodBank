@@ -1,7 +1,7 @@
 /*
     SETUP
 */
-PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
@@ -162,6 +162,19 @@ app.get('/transfusions', function(req, res)
             })    
         })    
 });
+
+/*
+app.post('/transfusion-update-rows', function(req, res) {
+    console.log('Inside /increment-blood-product-rows');
+    if (req.body.increment) {
+        blood_product_rows.push(blood_product_rows.length);
+    } else {
+        blood_product_rows = [0];
+    }
+    console.log(`${blood_product_rows}`);
+    res.send({bloodproductrows: blood_product_rows});
+})
+*/
 
 app.post('/add-nurse-ajax', function(req, res) 
 {
@@ -593,6 +606,16 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                             }
                         });
                     }
+                    console.log(`the transfusion details queries: ${queryTransfusionDetail}`);
+
+                    db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            res.send(rows);
+                        }
+                    })
+
                 }
             })
         }
