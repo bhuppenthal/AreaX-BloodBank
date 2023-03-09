@@ -94,7 +94,8 @@ addRowToTable = (data) => {
     EditButton = document.createElement("button");
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
-        editPatient(newRow.PatientID);
+        // editPatient(newRow.PatientID);
+        showEditForm(newRow.PatientID, newRow.BirthDate, newRow.MedicalRecordNumber, newRow.BloodTypeID)
     }
     EditCell.appendChild(EditButton);
 
