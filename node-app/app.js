@@ -163,19 +163,6 @@ app.get('/transfusions', function(req, res)
         })    
 });
 
-/*
-app.post('/transfusion-update-rows', function(req, res) {
-    console.log('Inside /increment-blood-product-rows');
-    if (req.body.increment) {
-        blood_product_rows.push(blood_product_rows.length);
-    } else {
-        blood_product_rows = [0];
-    }
-    console.log(`${blood_product_rows}`);
-    res.send({bloodproductrows: blood_product_rows});
-})
-*/
-
 app.post('/add-nurse-ajax', function(req, res) 
 {
     // Capture the incoming data and parse it back to a JS object
@@ -606,16 +593,6 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                             }
                         });
                     }
-                    console.log(`the transfusion details queries: ${queryTransfusionDetail}`);
-
-                    db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            res.send(rows);
-                        }
-                    })
-
                 }
             })
         }
