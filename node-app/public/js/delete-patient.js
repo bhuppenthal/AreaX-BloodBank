@@ -35,19 +35,23 @@ function deleteRow(PatientID){
     let table = document.getElementById("patients-table");
 
     // getting the correct row using idname
-    let row = document.getElementById(`row-${PatientID}`);
-    let row_index = row.rowIndex;
-    console.log(`row index is ${row_index}`);
 
-    table.deleteRow(row_index);
-    // for (let i = 0, row; row = table.rows[i]; i++) {
-    //    //iterate through rows
-    //    //rows would be accessed using the "row" variable assigned in the for loop
-    //    if (table.rows[i].getAttribute("data-value") == PatientID) {
-    //         table.deleteRow(i);
-    //         break;
-    //    }
-    // }
+    let row_by_id = document.getElementById(`row-${PatientID}`);
+
+    if (row_by_id !== null) {
+        let row_index = row_by_id.rowIndex;
+        console.log(`row index is ${row_index}`);
+        table.deleteRow(row_index);
+    } else {
+        for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == PatientID) {
+                table.deleteRow(i);
+                break;
+            }
+        }
+    }
     // window.location.reload();
 
 }
