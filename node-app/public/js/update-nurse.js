@@ -35,7 +35,9 @@ updateNurseForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             // add the data to the table
             updateRow(xhttp.response, NurseIDValue);
-            window.location.reload();
+            // window.location.reload();
+            inputNurseID.value = '';
+            inputExtension.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input or request.");
@@ -49,16 +51,28 @@ updateNurseForm.addEventListener("submit", function (e) {
 })
 
 function updateRow(data, NurseID) {
+
+    console.log("in updateRow")
     let parsedData = JSON.parse(data);
 
     let table = document.getElementById("nurses-table");
+    let row_by_id = document.getElementById(`row-${NurseID}`)
 
-    for (let i = 0, row; row = table.rows[i]; i++) {
-        if (table.rows[i].getAttribute("data-value) == NurseID")) {
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
-            let td = updateRowIndex.getElementsByTagName("td");
-            td.innerHTML = parsedData[0].name;
+    if (row_by_id != null){
+        console.log("inside row by id is not null")
+        // index [2] is the extension col
+        let Extension_td = row_by_id.getElementById('td')[2];
+        Extension_td.innerHTML = parsedData[0].Extension;
+    } else {
+        for (let i = 0, row; row = table.rows[i]; i++) {
+            if (table.rows[i].getAttribute("data-value) == NurseID")) {
+                let updateRowIndex = table.getElementsByTagName("tr")[i];
+                let td = updateRowIndex.getElementsByTagName("td");
+                td.innerHTML = parsedData[0].name;
+                console.log("in the for loop");
+            }
         }
-    }
-    window.location.reload();
+    };
+    // document.getElementById("update-section").hidden = true;
+    // window.location.reload();
 }
