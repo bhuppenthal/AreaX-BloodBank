@@ -65,14 +65,14 @@ function updateRow(data, NurseID) {
         Extension_td.innerHTML = parsedData[0].Extension;
     } else {
         for (let i = 0, row; row = table.rows[i]; i++) {
-            if (table.rows[i].getAttribute("data-value) == NurseID")) {
+            if (table.rows[i].getAttribute("data-value") == NurseID) {
                 let updateRowIndex = table.getElementsByTagName("tr")[i];
-                let td = updateRowIndex.getElementsByTagName("td");
-                td.innerHTML = parsedData[0].name;
+                let Extension_td = updateRowIndex.getElementsByTagName("td")[2];
+                Extension_td.innerHTML = parsedData[0].Extension;
                 console.log("in the for loop");
             }
         }
     };
-    // document.getElementById("update-section").hidden = true;
+    document.getElementById("update-section").hidden = true;
     // window.location.reload();
 }

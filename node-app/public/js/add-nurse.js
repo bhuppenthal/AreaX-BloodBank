@@ -41,8 +41,8 @@ addNurseForm.addEventListener("submit", function(e) {
             addRowToTable(xhttp.response);
 
             // Clear the fields in the form
-            // inputName.value = '';
-            // inputExtension.value = '';
+            inputName.value = '';
+            inputExtension.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the nurse input.");
