@@ -141,6 +141,15 @@ app.get('/transfusions', function(req, res)
                 
                 //Save the transfusion orders
                 let transfusionorders = rows;
+                // console.log(transfusionorders)
+                // console.log(`from transfusion order packet patient name is: ${transfusionorders[3].PatientName}`)
+                // loop through all the transfusion order rows and if PatientName is null, set to "DELETED"
+                for (let order of transfusionorders) {
+                    if (order.PatientName === null) {
+                        order.PatientName = "DELETED";
+                    }
+                };
+                // console.log(`from transfusion order after loop patient name is: ${transfusionorders[3].PatientName}`)
 
                 //Run the third query
                 db.pool.query(query3, (error, rows, fields) => {
@@ -593,8 +602,8 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    console.log(`the transfusion order id: ${JSON.stringify(rows)}`);
-                    console.log(`get the value ${rows[0].TransfusionID}`);
+                    // console.log(`the transfusion order id: ${JSON.stringify(rows)}`);
+                    // console.log(`get the value ${rows[0].TransfusionID}`);
                     // build the transfusion detail query now that we have the order id
                     let queryTransfusionDetail = "";
                     let blood_products = data.BloodProducts;
