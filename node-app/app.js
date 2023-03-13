@@ -119,7 +119,9 @@ app.get('/transfusions', function(req, res)
         let query1 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID ORDER BY TransfusionOrders.TransfusionID ASC;";
 
         // transfusion orders
-        let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
+        let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
+
+        // let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
 
         let query3 = "SELECT PatientID, Name FROM Patients;";
 
