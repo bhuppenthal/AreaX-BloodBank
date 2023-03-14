@@ -22,7 +22,7 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each transfusionorders}}
-        <tr>
+        <tr id="row-{{this.TransfusionID}}">
             <td>{{this.TransfusionID}}</td>
             <td>{{this.PatientName}}</td>
             <td>{{this.NurseName}}</td>
