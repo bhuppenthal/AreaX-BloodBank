@@ -32,18 +32,30 @@ function deleteRow(NurseID) {
     //getting the correct row using idname
     let row_by_id = document.getElementById(`row-${NurseID}`);
 
-    if (row_by_id != null) {
+    if (row_by_id !== null) {
         let row_index = row_by_id.rowIndex;
         console.log(`row index is ${row_index}`);
         table.deleteRow(row_index);
+        deleteDropDownMenu(NurseID);
     } else {
         for (let i = 0, row; row = table.rows[i]; i++) {
             if (table.rows[i].getAttribute("data-value") == NurseID) {
                 console.log("inside the table for loop")
                 table.deleteRow(i);
+                deleteDropDownMenu(NurseID);
                 break;
             }
         }
 }
     // window.location.reload();
+}
+
+function deleteDropDownMenu(nurseID) {
+    let selectMenu = document.getElementById("update-nurseID");
+    for (let i = 0; i < selectMenu.length; i++) {
+        if (Number(selectMenu.options[i].value) === Number(nurseID)) {
+            selectMenu[i].remove();
+            break;
+        }
+    }
 }

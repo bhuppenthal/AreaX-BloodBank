@@ -58,7 +58,7 @@ function updateRow(data, NurseID) {
     let table = document.getElementById("nurses-table");
     let row_by_id = document.getElementById(`row-${NurseID}`)
 
-    if (row_by_id != null){
+    if (row_by_id !== null){
         console.log("inside row by id is not null")
         // index [2] is the extension col
         let Extension_td = row_by_id.getElementById('td')[2];
