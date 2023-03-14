@@ -68,7 +68,7 @@ function updateRow(data, PatientID){
     // getting table using id name
     let table = document.getElementById("patients-table");
     // getting correct row using id name
-    let row_by_id = document.getElementById(`row-${PatientID}`)
+    let row_by_id = document.getElementById(`row-${PatientID}`);
 
     if (row_by_id != null) {
         // updating each of the columns, [2] is Birthdate, [3] is MRN, [4] is BloodTypeID (indices the table rows)

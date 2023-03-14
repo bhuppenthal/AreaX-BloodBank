@@ -1,7 +1,9 @@
 function showEditForm (TransfusionID, PatientName, NurseName, Date, Description, InfusionRate) {
     console.log("in show edit form transfusion order")
     document.getElementById("update-section").hidden = false;
-    
+
+    // console.log(`in show edit form, patients are: ${JSON.stringify(patients)}`)
+
     let TransfusionIDCell = document.getElementById("update-transfusion-id");
     TransfusionIDCell.value = TransfusionID;
 

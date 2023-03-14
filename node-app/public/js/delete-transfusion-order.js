@@ -33,13 +33,24 @@ function deleteTransfusionOrder(TransfusionID) {
 function deleteRow(TransfusionID){
 
     let table = document.getElementById("transfusion-orders-table");
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == TransfusionID) {
-            table.deleteRow(i);
-            break;
-       }
-    }
-    window.location.reload();
+
+    // getting row by id if no attribute is listed
+    let row_by_id = document.getElementById(`row-${TransfusionID}`);
+
+    if (row_by_id !== null) {
+        let row_index = row_by_id.rowIndex;
+        table.deleteRow(row_index);
+    } else {
+    // other wise the row will have an attribute set from "add-transfusion-order" 
+    // and can use the attribute to find correct row
+        for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == TransfusionID) {
+                table.deleteRow(i);
+                break;
+            }
+        };
+}
+    // window.location.reload();
 }

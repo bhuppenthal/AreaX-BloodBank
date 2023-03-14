@@ -41,8 +41,8 @@ addNurseForm.addEventListener("submit", function(e) {
             addRowToTable(xhttp.response);
 
             // Clear the fields in the form
-            inputName = '';
-            inputExtension = '';
+            inputName.value = '';
+            inputExtension.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the nurse input.");
@@ -83,14 +83,15 @@ addRowToTable = (data) => {
     EditButton = document.createElement("button");
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
-        editPatient(newRow.PatientID)
+        // editPatient(newRow.PatientID)
+        showNurseEditForm(newRow.NurseID, newRow.Extension)
     }
     EditCell.appendChild(EditButton);
 
     DeleteButton = document.createElement("button");
     DeleteButton.innerHTML = "Delete";
     DeleteButton.onclick = function() {
-        deletePatient(newRow.PatientID);
+        deleteNurse(newRow.NurseID);
     };
     DeleteCell.appendChild(DeleteButton);
 
@@ -106,4 +107,11 @@ addRowToTable = (data) => {
 
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // adding new nurse to the drop down
+    let selectMenu = document.getElementById("update-nurseID");
+    let option = document.createElement("option");
+    option.text = newRow.Name;
+    option.value = newRow.NurseID;
+    selectMenu.add(option);
 }
