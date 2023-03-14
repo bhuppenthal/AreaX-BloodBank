@@ -19,6 +19,12 @@ const { query } = require('express');
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
+// registering the hbs partials
+// const path = require("path");
+// exphbs.registerPartials(pth.join(__dirname, "../" + "/views/partials"));
+// app.use(express.static(path.join(__dirname, "../", "/public")));
+
+
 let blood_product_rows = [0,1,2,3,4];
 
 /*
@@ -626,7 +632,7 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                     //         res.send(rows);
                     //     }
                     // })
-
+                    // res.redirect('/transfusions');
                 }
             })
         }

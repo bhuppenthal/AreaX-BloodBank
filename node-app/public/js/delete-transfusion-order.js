@@ -15,7 +15,7 @@ function deleteTransfusionOrder(TransfusionID) {
 
             // Add the new data to the table
             deleteRow(TransfusionID);
-            // window.location.reload()    // reloads the page
+            window.location.reload()    // reloads the page
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {

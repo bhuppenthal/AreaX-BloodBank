@@ -42,16 +42,28 @@ function deleteRow(PatientID){
         let row_index = row_by_id.rowIndex;
         console.log(`row index is ${row_index}`);
         table.deleteRow(row_index);
+        deleteDropDownMenu(PatientID);
     } else {
         for (let i = 0, row; row = table.rows[i]; i++) {
         //iterate through rows
         //rows would be accessed using the "row" variable assigned in the for loop
         if (table.rows[i].getAttribute("data-value") == PatientID) {
                 table.deleteRow(i);
+                deleteDropDownMenu(PatientID);
                 break;
             }
         }
     }
     // window.location.reload();
 
+}
+
+function deleteDropDownMenu(patientID) {
+    let selectMenu = document.getElementById("update-patientID");
+    for (let i = 0; i < selectMenu.length; i++) {
+        if (Number(selectMenu.options[i].value) === Number(patientID)) {
+            selectMenu[i].remove();
+            break;
+        }
+    }
 }
