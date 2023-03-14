@@ -32,13 +32,6 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
     let DescriptionValue = updateDescription.value;
     let InfusionRateValue = updateInfusionRate.value;
 
-
-    // if (isNaN(PatientIDValue)) 
-    // {
-    //     return;
-    // }
-
-    // Put our data we want to send in a javascript object
     let data = {
         TransfusionID: TransfusionIDValue,
         PatientID: PatientIDValue,

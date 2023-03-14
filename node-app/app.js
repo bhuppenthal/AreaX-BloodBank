@@ -1,7 +1,7 @@
 /*
     SETUP
 */
-PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 
 // Database
-var db = require('./database/db-connector')
+var db = require('./database/db-connector');
 
 // Handlebars 
 const { engine } = require('express-handlebars');
@@ -127,33 +127,24 @@ app.get('/transfusions', function(req, res)
 
         let query5 = "Select BloodProductID, ProductTypeID, BloodTypeID FROM BloodProducts;";
 
-        // Run the first query
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+        db.pool.query(query1, function(error, rows, fields){
 
-            // Save the transfusiondetails
             let transfusiondetails = rows;
-            console.log(transfusiondetails);
+            console.log(`transfusion details: ${JSON.stringify(transfusiondetails)}\n\n`);
 
-            // Run the second query
             db.pool.query(query2, (error, rows, fields) =>{
                 
-                //Save the transfusion orders
                 let transfusionorders = rows;
+                console.log(`transfusion orders: ${JSON.stringify(transfusionorders)}\n\n`)
 
-                //Run the third query
                 db.pool.query(query3, (error, rows, fields) => {
-                    //Save the patients
                     let patients = rows;
-                    // console.log(patients);
+                    console.log(`patients to show are: ${JSON.stringify(patients)}`);
                 
-                    // Running the fourth query
                     db.pool.query(query4, (error, rows, fields) =>{
-                        //Save the nurses
                         let nurses = rows;
 
-                        //annndd the fifth query
                         db.pool.query(query5, (error, rows, fields) => {
-                            //Save the blood products
                             let bloodproducts = rows;
                             return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, bloodproductrows:blood_product_rows});
                         })
@@ -162,19 +153,6 @@ app.get('/transfusions', function(req, res)
             })    
         })    
 });
-
-/*
-app.post('/transfusion-update-rows', function(req, res) {
-    console.log('Inside /increment-blood-product-rows');
-    if (req.body.increment) {
-        blood_product_rows.push(blood_product_rows.length);
-    } else {
-        blood_product_rows = [0];
-    }
-    console.log(`${blood_product_rows}`);
-    res.send({bloodproductrows: blood_product_rows});
-})
-*/
 
 app.post('/add-nurse-ajax', function(req, res) 
 {
@@ -265,33 +243,18 @@ app.post('/add-patient-ajax', function(req, res) {
 app.delete('/delete-patient-ajax', function(req,res,next) {
     let data = req.body;
     let PatientID = parseInt(data.id);
-    let deleteTransfusionOrdersPatient = `DELETE FROM TransfusionOrders WHERE PatientID = ?`; //delete from intersection table first
-    let deletePatient= `DELETE FROM Patients WHERE PatientID = ?`;                // then delete from own table
+    let deletePatient= `DELETE FROM Patients WHERE PatientID = ?`;
     
-    
-            // Run the 1st query
-            db.pool.query(deleteTransfusionOrdersPatient, [PatientID], function(error, rows, fields)
-            {
-                if (error) {
-                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                console.log(error);
-                res.sendStatus(400);
-                }
-    
-                else
-                {
-                    // Run the second query
-                    db.pool.query(deletePatient, [PatientID], function(error, rows, fields) {
-    
-                        if (error) {
-                            console.log(error);
-                            res.sendStatus(400);
-                        } else {
-                            res.sendStatus(204);
-                        }
-                    })
-                }
-})});
+    db.pool.query(deletePatient, [PatientID], function(error, rows, fields)
+    {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
 
 app.put('/put-patient-ajax', function(req,res,next) {
     console.log('Reached /put-patient-ajax');

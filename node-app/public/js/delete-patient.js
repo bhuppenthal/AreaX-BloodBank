@@ -12,11 +12,7 @@ function deletePatient(PatientID) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
-
-            // Add the new data to the table
             deleteRow(PatientID);
-            // window.location.reload()    // reloads the page
-
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.");
@@ -52,6 +48,4 @@ function deleteRow(PatientID){
             }
         }
     }
-    // window.location.reload();
-
 }
