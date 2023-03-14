@@ -144,7 +144,7 @@ app.get('/transfusions', function(req, res)
                 
                 let transfusionorders = rows;
                 console.log(transfusionorders)
-                console.log(`from transfusion order packet patient name is: ${transfusionorders[3].PatientName}`)
+                //console.log(`from transfusion order packet patient name is: ${transfusionorders[3].PatientName}`)
                 // loop through all the transfusion order rows and if PatientName is null, set to "DELETED"
                 for (let order of transfusionorders) {
                     if (order.PatientName === null) {
