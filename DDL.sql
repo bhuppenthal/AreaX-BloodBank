@@ -49,7 +49,7 @@ CREATE OR REPLACE TABLE TransfusionOrders (
     Description varchar(255),
     InfusionRate decimal NOT NULL,
     PRIMARY KEY (TransfusionID),
-    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE SET NULL,
+    CONSTRAINT PatientFK FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE SET NULL,
     FOREIGN KEY (NurseID) REFERENCES Nurses(NurseID)
 );
 
@@ -110,16 +110,15 @@ VALUES (1, (SELECT ProductTypeID FROM ProductTypes WHERE ProductTypeID = 'Packed
        (3, (SELECT ProductTypeID FROM ProductTypes WHERE ProductTypeID = 'Plasma'), (SELECT BloodTypeID FROM BloodTypes WHERE BloodTypeID = 'A+'), '2023-01-29 09:44:10', '2023-04-29 09:44:10', 8210871, 220),
        (4, (SELECT ProductTypeID FROM ProductTypes WHERE ProductTypeID = 'Packed Red Blood Cells'), (SELECT BloodTypeID FROM BloodTypes WHERE BloodTypeID = 'O+'), '2023-02-01 13:34:09', '2023-05-01 13:34:09', 3410041, 325);
 
-INSERT INTO TransfusionOrders(TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
+INSERT INTO TransfusionOrders (TransfusionID, PatientID, NurseID, Date, Description, InfusionRate)
 VALUES (1, (SELECT PatientID FROM Patients WHERE Name = "Edmond Phillips"), (SELECT NurseID FROM Nurses WHERE Name = "Donny Bactol"), '2023-01-29 12:05:44', NULL, 100.0),
        (2, (SELECT PatientID FROM Patients WHERE Name = "Maribelle Washington"), (SELECT NurseID FROM Nurses WHERE Name = "Donny Bactol"), '2023-01-02 17:05:23', NULL, 112.0),
        (3, (SELECT PatientID FROM Patients WHERE Name = "Eugene Anderson"), (SELECT NurseID FROM Nurses WHERE Name = "Beth Wiendels"), '2023-01-20 02:23:19', NULL, 98.0);
 
-INSERT INTO TransfusionDetails(TransfusionID, BloodProductID, Volume)
+INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume)
 VALUES (1, 1, 200),
        (1, 3, 100),
-       (2, 1, 100),
-       (4, 4, 125);
+       (2, 1, 100);
 
 /* The select queries below can be uncommented to view the sample data. */
 /*
