@@ -28,10 +28,10 @@ addProductTypeForm.addEventListener("submit", function(e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             // Add the row to the table
-            addRowToTable(xhttp.response);
+            addRowToTable(xhttp.response, productTypeIDValue);
 
             // Clear the fields in the form
-            inputProductTypeID = '';
+            inputProductTypeID.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the blood type id input.");
@@ -44,17 +44,17 @@ addProductTypeForm.addEventListener("submit", function(e) {
 })
 
 // Creates a single row from a data object
-addRowToTable = (data) => {
+addRowToTable = (data, productTypeIDValue) => {
 
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("product-types-table");
 
     // Get the location where we should insert the new row (end of table)
-    let newRowIndex = currentTable.rows.length;
+    // let newRowIndex = currentTable.rows.length;
 
-    // Get a reference to the new row from the database query (last object)
-    let parsedData = JSON.parse(data);
-    let newRow = parsedData[parsedData.length - 1]
+    // // Get a reference to the new row from the database query (last object)
+    // let parsedData = JSON.parse(data);
+    // let newRow = parsedData[parsedData.length - 1]
 
     // Create a row and 4 cells
     let row = document.createElement("TR");
@@ -62,13 +62,13 @@ addRowToTable = (data) => {
 
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.ProductTypeID;
+    idCell.innerText = productTypeIDValue;
 
     // Add the cells to the row 
     row.appendChild(idCell);
     
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.ProductTypeID);
+    row.setAttribute('data-value', productTypeIDValue);
 
     // Add the row to the table
     currentTable.appendChild(row);
