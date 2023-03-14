@@ -44,13 +44,13 @@ CREATE OR REPLACE TABLE Nurses (
 CREATE OR REPLACE TABLE TransfusionOrders (
     TransfusionID int AUTO_INCREMENT UNIQUE NOT NULL,
     PatientID int,
-    NurseID int NOT NULL,
+    NurseID int,
     Date datetime NOT NULL,
     Description varchar(255),
     InfusionRate decimal NOT NULL,
     PRIMARY KEY (TransfusionID),
     CONSTRAINT PatientFK FOREIGN KEY (PatientID) REFERENCES Patients(PatientID) ON DELETE SET NULL,
-    FOREIGN KEY (NurseID) REFERENCES Nurses(NurseID)
+    CONSTRAINT NurseFK FOREIGN KEY (NurseID) REFERENCES Nurses(NurseID) ON DELETE SET NULL
 );
 
 /* --- Creating Category Tables --- */
