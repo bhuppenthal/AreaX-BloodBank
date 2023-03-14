@@ -619,13 +619,13 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                     }
                     console.log(`the transfusion details queries: ${queryTransfusionDetail}`);
 
-                    db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            res.send(rows);
-                        }
-                    })
+                    // db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                    //     if (error) {
+                    //         console.log(error);
+                    //     } else {
+                    //         res.send(rows);
+                    //     }
+                    // })
 
                 }
             })
