@@ -119,7 +119,8 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     Date_Format = newRow.Date
     Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
     Date_Format_HMS = " " + Date_Format.slice(11,19);
-    DateTimeCell.innerText = Date_Format_DMY + Date_Format_HMS;
+    Final_Date = Date_Format_DMY + Date_Format_HMS
+    DateTimeCell.innerText = Final_Date;
 
     DescriptionCell.innerText = newRow.Description;
     InfusionRateCell.innerText = newRow.InfusionRate;
@@ -128,7 +129,8 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     EditButton = document.createElement("button");
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
-        editTransfusionOrder(newRow.TransfusionID);
+        // editTransfusionOrder(newRow.TransfusionID);
+        showEditForm(newRow.TransfusionID, patient_name, nurse_name, Final_Date, newRow.Description, newRow.InfusionRate);
     }
     EditCell.appendChild(EditButton);
 

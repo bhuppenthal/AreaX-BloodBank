@@ -1,7 +1,7 @@
 /*
     SETUP
 */
-PORT        = 55555;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
@@ -581,7 +581,7 @@ app.post('/add-transfusion-order-ajax', function(req, res)
 
                     db.pool.query(queryGetData, function(error, rows, fields){
 
-                        console.log(`Result of query: ${rows}`);
+                        console.log(`Result of query: ${JSON.stringify(rows)}`);
 
                         if (error) {
                             console.log(error);
@@ -589,7 +589,6 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                             let queryTransfusionDetail = "";
                             let bloodProducts = data.BloodProducts;
                             for (let i = 0; i < data.BloodProducts.length; i++) {
-
                                 queryTransfusionDetail = `INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume) VALUES (${newTransfusionID}, ${bloodProducts[i].BloodProductID}, ${bloodProducts[i].VolumeValue});`
                                 db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
                                     if (error) {
@@ -621,6 +620,40 @@ app.delete("/delete-transfusion-order-ajax", function(req, res, next) {
         } else {
             res.sendStatus(204);
         }})
+});
+
+app.post('/show-transfusion-order-ajax', function(req, res, next){
+    console.log("Reached show transfusion order ajax")
+    let data = req.body;
+    console.log(`data is ${JSON.stringify(data)}`);
+
+    let NurseName = data.NurseName;
+    let PatientName = data.PatientName;
+
+    let queryGetNurseID = `SELECT NurseID FROM Nurses WHERE Name = '${NurseName}';`;
+    let queryGetPatientID = `SELECT PatientID FROM Patients WHERE Name ='${PatientName}';`
+
+    //run the query
+    db.pool.query(queryGetNurseID, function(error, rows, fields){
+        if (error){
+            console.log(error);
+        } else {
+            let newNurseID = rows[0].NurseID;
+            
+            // run query to get patientID
+            db.pool.query (queryGetPatientID, function(error, rows, fields){
+                if (error){
+                    console.log(error);
+                } else {
+                    let newPatientID = rows[0].PatientID;
+                    res.send({newNurseID: newNurseID, newPatientID: newPatientID});
+                }
+            })
+
+            // res.send({newNurseID: newNurseID, newPatientID: newPatientID});
+        }
+    })
+
 });
 
 
