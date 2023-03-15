@@ -136,8 +136,6 @@ app.get('/transfusions', function(req, res)
         INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID \
         ORDER BY TransfusionOrders.TransfusionID ASC;'
 
-        // let query2 = "SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN Patients ON TransfusionOrders.PatientID = Patients.PatientID INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;";
-
         let query3 = "SELECT PatientID, Name FROM Patients;";
 
         let query4 = "SELECT NurseID, Name FROM Nurses;";
@@ -149,18 +147,27 @@ app.get('/transfusions', function(req, res)
             let transfusiondetails = rows;
             console.log(`transfusion details: ${JSON.stringify(transfusiondetails)}\n\n`);
 
+            for(let detail of transfusiondetails) {
+                if (detail.PatientName === null) {
+                    detail.PatientName = "DELETED";
+                }
+                if (detail.NurseName === null) {
+                    detail.NurseName = "DELETED";
+                }
+            }
+
             db.pool.query(query2, (error, rows, fields) =>{
                 
                 let transfusionorders = rows;
-                console.log(transfusionorders)
-                //console.log(`from transfusion order packet patient name is: ${transfusionorders[3].PatientName}`)
-                // loop through all the transfusion order rows and if PatientName is null, set to "DELETED"
+                console.log(`transfusion orders: ${JSON.stringify(transfusionorders)}`)
                 for (let order of transfusionorders) {
                     if (order.PatientName === null) {
                         order.PatientName = "DELETED";
                     }
+                    if (order.NurseName === null) {
+                        order.NurseName = "DELETED";
+                    }
                 };
-                // console.log(`from transfusion order after loop patient name is: ${transfusionorders[3].PatientName}`)
 
                 db.pool.query(query3, (error, rows, fields) => {
                     let patients = rows;
