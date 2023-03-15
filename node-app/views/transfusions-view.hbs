@@ -112,7 +112,7 @@
                     <select name="input-blood-product-id" id="input-blood-product-id{{this}}">
                         <option value="">Select a Blood Product</option>
                         {{#each ../bloodproducts}}
-                            <option value="{{this.BloodProductID}}">{{this.BloodTypeID}}  {{this.ProductTypeID}}</option>
+                            <option value="{{this.BloodProductID}}, {{this.BloodTypeID}}, {{this.ProductTypeID}}">{{this.BloodTypeID}}  {{this.ProductTypeID}}</option>
                         {{/each}}
                     </select>
                 </td>

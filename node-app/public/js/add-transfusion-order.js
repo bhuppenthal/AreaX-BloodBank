@@ -16,6 +16,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     let inputInfusionRate = document.getElementById("input-infusion-rate");
 
     let bloodProducts = []
+    let bloodAndProductTypes = []
     for (let i = 0; i < 5; i++) {
         console.log("input-blood-product-id".concat('',i.toString()));
         let inputBloodProduct = document.getElementById("input-blood-product-id".concat('', i.toString()));
@@ -24,8 +25,24 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
         }
         let inputVolume = document.getElementById("input-volume".concat('', i.toString()));
 
-        bloodProducts.push({BloodProductID: inputBloodProduct.value,
+        console.log(`inputBloodProduct.value = ${inputBloodProduct.value}`)
+        let inputBloodProdsArr = inputBloodProduct.value.split(', ');
+        console.log(`inputBloodProdsArr = ${inputBloodProdsArr}`)
+        let inputBloodProdID = inputBloodProdsArr[0]
+        let inputBloodTypeID = inputBloodProdsArr[1]
+        let inputProdTypeID = inputBloodProdsArr[2]
+        console.log(`inputBloodProdID is ${inputBloodProdID}`)
+        console.log(`inputBloodTypeID is ${inputBloodTypeID}`)
+        console.log(`inputProdTypeID is ${inputProdTypeID}`)
+        // back to norm putting just the ID back into value
+        // inputBloodProduct.value = inputBloodProdID;
+        // console.log(`inputBloodProduct.value = ${inputBloodProduct.value}`)
+
+        bloodProducts.push({BloodProductID: inputBloodProdID,
                             VolumeValue: inputVolume.value});
+        
+        bloodAndProductTypes.push({BloodTypeID: inputBloodTypeID, ProductTypeID: inputProdTypeID});
+
     }
     if (bloodProducts.length === 0) {
         window.alert("Transfusion orders require at least one blood product.");
@@ -49,6 +66,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
         InfusionRate: InfusionRateValue,
         BloodProducts: bloodProducts
     }
+    console.log(`bloodAndProductTypes is ${JSON.stringify(bloodAndProductTypes)}`);
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -63,7 +81,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
             response = JSON.parse(xhttp.response);
 
             addRowToOrderTable(response.newTransfusionID, data, Patients_Arr[1], Nurses_Arr[1]);
-            addRowToDetailsTable(response.newTransfusionID, response.bloodproductsinfo, data, Patients_Arr[1], Nurses_Arr[1]);
+            addRowToDetailsTable(response.newTransfusionID, bloodAndProductTypes, data, Patients_Arr[1], Nurses_Arr[1]);
             inputPatientID.value = '';
             inputNurseID.value = '';
             inputDateTime.value = '';
@@ -140,12 +158,18 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     currentTable.appendChild(row);
 }
 
-addRowToDetailsTable = (newTransfusionID, bloodproducts, newRow, patientName, nurseName) => {
+addRowToDetailsTable = (newTransfusionID, bloodAndProductTypes, newRow, patientName, nurseName) => {
 
     let currentTable = document.getElementById("transfusion-details-table");
     let BloodProducts = newRow.BloodProducts;
+    console.log(`capital blood products is ${JSON.stringify(BloodProducts)}`)
+    console.log(`blood and products is inside add row  ${JSON.stringify(bloodAndProductTypes)}`)
+    console.log(`new row is ${JSON.stringify(newRow)}`);
 
     for (let i = 0; i < BloodProducts.length; i++) {
+        
+        console.log(`the blood product cell is ${BloodProducts[i].BloodProductID}`)
+
         // Create a row and 4 cells
         let row = document.createElement("TR");
         let idCell = document.createElement("TD");
@@ -159,8 +183,8 @@ addRowToDetailsTable = (newTransfusionID, bloodproducts, newRow, patientName, nu
         idCell.innerText = newTransfusionID;
         PatientCell.innerHTML = `${patientName}`;
         NurseCell.innerText = `${nurseName}`;
-        ProductTypeCell.innerText = BloodProducts[i].BloodProductID;
-        BloodTypeCell.innerText = BloodProducts[i].BloodTypeID;
+        ProductTypeCell.innerText = bloodAndProductTypes[i].ProductTypeID;
+        BloodTypeCell.innerText = bloodAndProductTypes[i].BloodTypeID;
         VolumeCell.innerText = BloodProducts[i].VolumeValue;
         InfusionRateCell.innerText = newRow.InfusionRate;
 
