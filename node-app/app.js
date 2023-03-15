@@ -599,8 +599,8 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                                     }
                                 });
                             }
-                        }
                         res.send({newTransfusionID: newTransfusionID});
+                        }
                     });
                 }
             })
