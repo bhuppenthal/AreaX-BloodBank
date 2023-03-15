@@ -50,8 +50,6 @@ function deleteRow(PatientID){
             }
         }
     }
-<<<<<<< HEAD
-=======
     // window.location.reload();
 
 }
@@ -64,5 +62,4 @@ function deleteDropDownMenu(patientID) {
             break;
         }
     }
->>>>>>> 5b729b1917fa7ff5894d9d7f3e1fab47dc25f2f4
 }
