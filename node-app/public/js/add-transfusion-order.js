@@ -49,7 +49,6 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
         InfusionRate: InfusionRateValue,
         BloodProducts: bloodProducts
     }
-    console.log(`data sent: ${JSON.stringify(data)}`);
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -60,15 +59,17 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             console.log(`Successful addition! here's rows: ${xhttp.response}`);
-            console.log(`Extracting the fucking id: ${xhttp.response.newTransfusionID}`);
-            console.log(`type ${typeof(xhttp.response)}`);
 
-            addRowToOrderTable(JSON.parse(xhttp.response).newTransfusionID, data, Patients_Arr[1], Nurses_Arr[1]);
+            response = JSON.parse(xhttp.response);
+
+            addRowToOrderTable(response.newTransfusionID, data, Patients_Arr[1], Nurses_Arr[1]);
+            addRowToDetailsTable(response.newTransfusionID, response.bloodproductsinfo, data, Patients_Arr[1], Nurses_Arr[1]);
             inputPatientID.value = '';
             inputNurseID.value = '';
             inputDateTime.value = '';
             inputDescription.value = '';
             inputInfusionRate.value = '';
+            // for loop here for going through the selects
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             window.alert("There was an issue with the transfusion input.");
@@ -82,11 +83,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 // Creates a single row from an Object representing a single record from 
 // bsg_people
 addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
-    console.log("addRowToTable call");
-    console.log(`the new transfusion id: ${newTransfusionID}`);
-    console.log(`the data i received: ${JSON.stringify(newRow)}`);
     let currentTable = document.getElementById("transfusion-orders-table");
-
     // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
@@ -143,21 +140,42 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     currentTable.appendChild(row);
 }
 
-addRowToDetailsTable = (newTransfusionID, newRow, patientName, nurseName) => {
-    console.log("adding new rows to the details table");
+addRowToDetailsTable = (newTransfusionID, bloodproducts, newRow, patientName, nurseName) => {
 
     let currentTable = document.getElementById("transfusion-details-table");
+    let BloodProducts = newRow.BloodProducts;
 
-    // Create a row and 4 cells
-    let row = document.createElement("TR");
-    let idCell = document.createElement("TD");
-    let PatientCell = document.createElement("TD");
-    let NurseCell = document.createElement("TD");
-    let DateTimeCell = document.createElement("TD");
-    let DescriptionCell = document.createElement("TD");
-    let InfusionRateCell = document.createElement("TD");
+    for (let i = 0; i < BloodProducts.length; i++) {
+        // Create a row and 4 cells
+        let row = document.createElement("TR");
+        let idCell = document.createElement("TD");
+        let PatientCell = document.createElement("TD");
+        let NurseCell = document.createElement("TD");
+        let ProductTypeCell = document.createElement("TD");
+        let BloodTypeCell = document.createElement("TD");
+        let VolumeCell = document.createElement("TD");
+        let InfusionRateCell = document.createElement("TD");
 
-    for (let i = 0; i < newRow.BloodProducts.length; i++) {
+        idCell.innerText = newTransfusionID;
+        PatientCell.innerHTML = `${patientName}`;
+        NurseCell.innerText = `${nurseName}`;
+        ProductTypeCell.innerText = BloodProducts[i].BloodProductID;
+        BloodTypeCell.innerText = BloodProducts[i].BloodTypeID;
+        VolumeCell.innerText = BloodProducts[i].VolumeValue;
+        InfusionRateCell.innerText = newRow.InfusionRate;
 
+        row.appendChild(idCell);
+        row.appendChild(PatientCell);
+        row.appendChild(NurseCell);
+        row.appendChild(ProductTypeCell);
+        row.appendChild(BloodTypeCell);
+        row.appendChild(VolumeCell);
+        row.appendChild(InfusionRateCell);
+        
+        // Add a row attribute so the deleteRow function can find a newly added row
+        row.setAttribute('data-value', newRow.TransfusionID);
+
+        // Add the row to the table
+        currentTable.appendChild(row);
     }
 }

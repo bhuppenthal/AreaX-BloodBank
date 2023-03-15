@@ -12,3 +12,9 @@ LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nur
 INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID
 INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID
 ORDER BY TransfusionOrders.TransfusionID ASC;
+
+SELECT TransfusionOrders.TransfusionID, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionOrders.InfusionRate
+FROM TransfusionOrders
+INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID
+INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID
+WHERE TransfusionOrders.TransfusionID = 1;

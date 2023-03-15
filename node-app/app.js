@@ -121,14 +121,7 @@ app.get('/product-types', function(req, res)
 
 app.get('/transfusions', function(req, res) 
     {
-        //transfusion details
-        let getTransfusionDetails = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate \
-        FROM TransfusionOrders \
-        LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) \
-        LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nurses.NurseID);'
-
-        // transfusion orders
-        let getTransfusionOrders = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate \
+        let getTransfusionDetails = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate \
         FROM TransfusionOrders \
         LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) \
         LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nurses.NurseID) \
@@ -136,6 +129,11 @@ app.get('/transfusions', function(req, res)
         INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID \
         ORDER BY TransfusionOrders.TransfusionID ASC;'
 
+        let getTransfusionOrders = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate \
+        FROM TransfusionOrders \
+        LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) \
+        LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nurses.NurseID);'
+        
         let getPatients = "SELECT PatientID, Name FROM Patients;";
 
         let getNurses = "SELECT NurseID, Name FROM Nurses;";
@@ -180,7 +178,7 @@ app.get('/transfusions', function(req, res)
                             console.log(`${JSON.stringify(patients)}\n\n`)
                             console.log(`${JSON.stringify(nurses)}\n\n`)
                             console.log(`${JSON.stringify(bloodproducts)}\n\n`)
-                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts});
+                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, bloodproductrows: blood_product_rows});
                         })
                     })
                 })
@@ -558,7 +556,6 @@ TRANSFUSION ORDER FORMS
 app.post('/add-transfusion-order-ajax', function(req, res) 
 {
     let data = req.body;
-    console.log(`data in the post request is : ${data}`)
 
     queryTransfusionOrder = `INSERT INTO TransfusionOrders (PatientID, NurseID, Date, Description, InfusionRate)
     VALUES ('${data.PatientID}', '${data.NurseID}', '${data.Date}', '${data.Description}', '${data.InfusionRate}');`;
@@ -566,11 +563,6 @@ app.post('/add-transfusion-order-ajax', function(req, res)
     queryTransfusionID = `SELECT TransfusionID
     FROM TransfusionOrders
     WHERE PatientID = ${data.PatientID} AND NurseID = ${data.NurseID} AND Date = '${data.Date}';`
-    
-    queryGetData = `SELECT TransfusionOrders.TransfusionID, Patients.Name, Nurses.Name, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate
-    FROM TransfusionOrders
-    INNER JOIN Patients on TransfusionOrders.PatientID = Patients.PatientID
-    INNER JOIN Nurses ON TransfusionOrders.NurseID = Nurses.NurseID;`;
 
     db.pool.query(queryTransfusionOrder, function(error, rows, fields){
         if (error) {
@@ -583,19 +575,33 @@ app.post('/add-transfusion-order-ajax', function(req, res)
                     res.sendStatus(400);
                 } else {
                     let newTransfusionID = rows[0].TransfusionID;
-                    let queryTransfusionDetail = "";
-                    let blood_products = data.BloodProducts;
-                    for (let i = 0; i < data.BloodProducts.length; i++) {
 
-                        queryTransfusionDetail = `INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume) VALUES (${newTransfusionID}, ${blood_products[i].BloodProductID}, ${blood_products[i].VolumeValue});`
-                        db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
-                            if (error) {
-                                console.log('Error with transfusion detail query');
-                            } else {
-                                res.send({newTransfusionID: newTransfusionID});
+                    let queryGetData = `SELECT TransfusionOrders.TransfusionID, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionOrders.InfusionRate FROM TransfusionOrders INNER JOIN TransfusionDetails ON TransfusionOrders.TransfusionID = TransfusionDetails.TransfusionID INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID WHERE TransfusionOrders.TransfusionID = ${newTransfusionID};`;
+                    console.log(`${queryGetData}`);
+
+                    db.pool.query(queryGetData, function(error, rows, fields){
+
+                        console.log(`Result of query: ${rows}`);
+
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            let queryTransfusionDetail = "";
+                            let bloodProducts = data.BloodProducts;
+                            for (let i = 0; i < data.BloodProducts.length; i++) {
+
+                                queryTransfusionDetail = `INSERT INTO TransfusionDetails (TransfusionID, BloodProductID, Volume) VALUES (${newTransfusionID}, ${bloodProducts[i].BloodProductID}, ${bloodProducts[i].VolumeValue});`
+                                db.pool.query(queryTransfusionDetail, function(error, rows, fields) {
+                                    if (error) {
+                                        console.log('Error with transfusion detail query');
+                                    } else {
+                                        //res.send({newTransfusionID: newTransfusionID});
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+                        res.send({newTransfusionID: newTransfusionID});
+                    });
                 }
             })
         }
