@@ -63,7 +63,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
             console.log(`Extracting the fucking id: ${xhttp.response.newTransfusionID}`);
             console.log(`type ${typeof(xhttp.response)}`);
 
-            addRowToTable(JSON.parse(xhttp.response).newTransfusionID, data, Patients_Arr[1], Nurses_Arr[1]);
+            addRowToOrderTable(JSON.parse(xhttp.response).newTransfusionID, data, Patients_Arr[1], Nurses_Arr[1]);
             inputPatientID.value = '';
             inputNurseID.value = '';
             inputDateTime.value = '';
@@ -81,7 +81,7 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people
-addRowToTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
+addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     console.log("addRowToTable call");
     console.log(`the new transfusion id: ${newTransfusionID}`);
     console.log(`the data i received: ${JSON.stringify(newRow)}`);
@@ -141,4 +141,23 @@ addRowToTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
 
     // Add the row to the table
     currentTable.appendChild(row);
+}
+
+addRowToDetailsTable = (newTransfusionID, newRow, patientName, nurseName) => {
+    console.log("adding new rows to the details table");
+
+    let currentTable = document.getElementById("transfusion-details-table");
+
+    // Create a row and 4 cells
+    let row = document.createElement("TR");
+    let idCell = document.createElement("TD");
+    let PatientCell = document.createElement("TD");
+    let NurseCell = document.createElement("TD");
+    let DateTimeCell = document.createElement("TD");
+    let DescriptionCell = document.createElement("TD");
+    let InfusionRateCell = document.createElement("TD");
+
+    for (let i = 0; i < newRow.BloodProducts.length; i++) {
+
+    }
 }

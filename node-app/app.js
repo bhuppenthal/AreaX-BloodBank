@@ -122,13 +122,13 @@ app.get('/product-types', function(req, res)
 app.get('/transfusions', function(req, res) 
     {
         //transfusion details
-        let query1 = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate \
+        let getTransfusionDetails = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, TransfusionOrders.Date, TransfusionOrders.Description, TransfusionOrders.InfusionRate \
         FROM TransfusionOrders \
         LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) \
         LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nurses.NurseID);'
 
         // transfusion orders
-        let query2 = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate \
+        let getTransfusionOrders = 'SELECT TransfusionOrders.TransfusionID, Patients.Name AS PatientName, Nurses.Name AS NurseName, BloodProducts.ProductTypeID, BloodProducts.BloodTypeID, TransfusionDetails.Volume, TransfusionOrders.InfusionRate \
         FROM TransfusionOrders \
         LEFT JOIN Patients ON EXISTS(SELECT TransfusionOrders.PatientID INTERSECT SELECT Patients.PatientID) \
         LEFT JOIN Nurses ON EXISTS(SELECT TransfusionOrders.NurseID INTERSECT SELECT Nurses.NurseID) \
@@ -136,13 +136,13 @@ app.get('/transfusions', function(req, res)
         INNER JOIN BloodProducts ON TransfusionDetails.BloodProductID = BloodProducts.BloodProductID \
         ORDER BY TransfusionOrders.TransfusionID ASC;'
 
-        let query3 = "SELECT PatientID, Name FROM Patients;";
+        let getPatients = "SELECT PatientID, Name FROM Patients;";
 
-        let query4 = "SELECT NurseID, Name FROM Nurses;";
+        let getNurses = "SELECT NurseID, Name FROM Nurses;";
 
-        let query5 = "Select BloodProductID, ProductTypeID, BloodTypeID FROM BloodProducts;";
+        let getBloodProducts = "Select BloodProductID, ProductTypeID, BloodTypeID FROM BloodProducts;";
 
-        db.pool.query(query1, function(error, rows, fields){
+        db.pool.query(getTransfusionDetails, function(error, rows, fields){
 
             let transfusiondetails = rows;
             for(let detail of transfusiondetails) {
@@ -154,7 +154,7 @@ app.get('/transfusions', function(req, res)
                 }
             }
 
-            db.pool.query(query2, (error, rows, fields) =>{
+            db.pool.query(getTransfusionOrders, (error, rows, fields) =>{
                 
                 let transfusionorders = rows;
                 for (let order of transfusionorders) {
@@ -166,15 +166,21 @@ app.get('/transfusions', function(req, res)
                     }
                 };
 
-                db.pool.query(query3, (error, rows, fields) => {
+                db.pool.query(getPatients, (error, rows, fields) => {
                     let patients = rows;
                 
-                    db.pool.query(query4, (error, rows, fields) =>{
+                    db.pool.query(getNurses, (error, rows, fields) =>{
                         let nurses = rows;
 
-                        db.pool.query(query5, (error, rows, fields) => {
+                        db.pool.query(getBloodProducts, (error, rows, fields) => {
                             let bloodproducts = rows;
-                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts, bloodproductrows:blood_product_rows});
+
+                            console.log(`${JSON.stringify(transfusiondetails)}\n\n`)
+                            console.log(`${JSON.stringify(transfusionorders)}\n\n`)
+                            console.log(`${JSON.stringify(patients)}\n\n`)
+                            console.log(`${JSON.stringify(nurses)}\n\n`)
+                            console.log(`${JSON.stringify(bloodproducts)}\n\n`)
+                            return res.render('transfusions-view', {transfusiondetails: transfusiondetails, transfusionorders: transfusionorders, patients: patients, nurses: nurses, bloodproducts: bloodproducts});
                         })
                     })
                 })
