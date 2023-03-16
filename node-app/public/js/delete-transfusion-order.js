@@ -15,7 +15,8 @@ function deleteTransfusionOrder(TransfusionID) {
 
             // Add the new data to the table
             deleteRow(TransfusionID);
-            window.location.reload()    // reloads the page
+            deleteTransfusionDetailsRows(TransfusionID);
+            // window.location.reload()    // reloads the page, uncomment to fix
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
@@ -52,5 +53,37 @@ function deleteRow(TransfusionID){
             }
         };
 }
-    // window.location.reload();
+    // window.location.reload(); - was commented out always
 }
+
+function deleteTransfusionDetailsRows(TransfusionID) {
+    console.log("inside delete transfusion details rows")
+    let table = document.getElementById("transfusion-details-table");
+
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        console.log(`i inside first for loop ${i}`)
+        let table_row = table.getElementsByTagName("tr")[i];
+        console.log(table_row);
+        let TransfusionID_TD = table_row.getElementsByTagName('td')[0];
+        console.log(TransfusionID_TD);
+        //console.log(`TransfusionID_TD.innerHTML is: ${TransfusionID_TD.innerText}`)
+        if (TransfusionID_TD !== undefined) {
+            if (TransfusionID_TD.innerHTML === String(TransfusionID)) {
+                console.log("inside if statement td innerhtml")
+                // table_row.remove();
+                table.deleteRow(i);
+            }
+        }
+    }
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        console.log(`i inside second for loop ${i})`)
+        if (table.rows[i].getAttribute("data-value") == TransfusionID) {
+            console.log(`inside the if statement from get attribute, i is ${i}`)
+            // let updateRowIndex = table.getElementsByTagName("tr")[i];
+            table.deleteRow(i);
+        }
+    }
+
+};
