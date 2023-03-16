@@ -198,7 +198,7 @@ addRowToDetailsTable = (newTransfusionID, bloodAndProductTypes, newRow, patientN
         row.appendChild(InfusionRateCell);
         
         // Add a row attribute so the deleteRow function can find a newly added row
-        row.setAttribute('data-value', newRow.TransfusionID);
+        row.setAttribute('data-value', newTransfusionID);
 
         // Add the row to the table
         currentTable.appendChild(row);

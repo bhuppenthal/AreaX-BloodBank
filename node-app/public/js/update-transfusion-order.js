@@ -53,6 +53,7 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1]);
+            updateTransfusionDetailsRows(TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1], InfusionRateValue);
             // window.location.reload()
 
         }
@@ -132,3 +133,45 @@ function updateRow(data, TransfusionID, patient_name, nurse_name){
     document.getElementById("update-section").hidden = true;
     // window.location.reload();
 }
+
+function updateTransfusionDetailsRows(TransfusionID, patient_name, nurse_name, infusion_rate) {
+    console.log("inside update transfusion details rows")
+    let table = document.getElementById("transfusion-details-table");
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+        if (table.rows[i].getAttribute("data-value") == TransfusionID) {
+            console.log("inside the if statement")
+            let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+            let PatientName_td = updateRowIndex.getElementsByTagName('td')[1];
+            PatientName_td.innerHTML = patient_name;
+    
+            let NurseName_td = updateRowIndex.getElementsByTagName('td')[2];
+            NurseName_td.innerHTML = nurse_name;
+
+            let InfusionRate_td = updateRowIndex.getElementsByTagName('td')[6];
+            InfusionRate_td.innerHTML = infusion_rate;
+        }
+
+        let table_row = table.getElementsByTagName("tr")[i];
+        console.log(table_row);
+        let TransfusionID_TD = table_row.getElementsByTagName('td')[0];
+        console.log(TransfusionID_TD);
+        //console.log(`TransfusionID_TD.innerHTML is: ${TransfusionID_TD.innerText}`)
+        if (TransfusionID_TD !== undefined) {
+            if (TransfusionID_TD.innerHTML === TransfusionID) {
+                console.log("inside if statement td innerhtml")
+
+                let PatientName_td = table_row.getElementsByTagName('td')[1];
+                PatientName_td.innerHTML = patient_name;
+        
+                let NurseName_td = table_row.getElementsByTagName('td')[2];
+                NurseName_td.innerHTML = nurse_name;
+
+                let InfusionRate_td = table_row.getElementsByTagName('td')[6];
+                InfusionRate_td.innerHTML = infusion_rate;
+            }
+        }
+        
+    }
+};
