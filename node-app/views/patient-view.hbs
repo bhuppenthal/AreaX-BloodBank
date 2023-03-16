@@ -1,7 +1,8 @@
 <!-- index.hbs -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<link rel="stylesheet" href="css/style.css">
 {{!-- Create a table --}}
+<h2> View All Patients </h2>
 <table id="patients-table">
 
     {{!-- Header section --}}
@@ -44,20 +45,17 @@
 
 {{!-- Form to add a record to the table  --}}
 <div id="add-section">
-<h2>Adding Data with AJAX</h2>
+<h2>Add a New Patient</h2>
 <p>To add a new patient, please enter their information below and click 'Submit'!</p>
 <form id="add-patient-form-ajax">
-    <label for="input-name">Name: </label>
-    <input type="text" name="input-name" id="input-name">
+    <label for="input-name">Full Name: </label>
+    <input type="text" name="input-name" id="input-name"> <br><br>
     
     <label for="input-birth-date">Birth Date: </label>
-    <input type="date" name="input-birth-date" id="input-birth-date">
+    <input type="date" name="input-birth-date" id="input-birth-date"> <br><br>
 
     <label for="input-medical-record-number">Medical Record Number: </label>
-    <input type="number" name="input-medical-record-number" id="input-medical-record-number">
-
-    {{!-- <label for="input-blood-type-id">BloodTypeID: </label>
-    <input type="text" name="input-blood-type-id" id="input-blood-type-id"> --}}
+    <input type="number" name="input-medical-record-number" id="input-medical-record-number"> <br><br>
 
     <label for="input-blood-type-id">BloodTypeID: </label>
     <select name="input-blood-type-id" id="input-blood-type-id">
@@ -65,7 +63,7 @@
         {{#each bloodtypes}}
         <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
         {{/each}}
-    </select>
+    </select> <br><br>
 
     <input type="submit">
 </form>
@@ -75,8 +73,8 @@
 </div>
 
 <div id="update-section" hidden>
-<h2>Updating Patient Form</h2>
-<p>To update a specific patient fill out the form below</p>
+<h2>Update A Patient</h2>
+<p>To update a specific patient fill out the form below and click 'Submit'!</p>
 <form id="update-patient-form-ajax">
 
     <label for="update-name">Full Name: </label>
@@ -85,13 +83,13 @@
         {{#each data}}
         <option value="{{this.PatientID}}">{{this.Name}}</option>
         {{/each}}
-    </select>
+    </select><br><br>
 
     <label for="update-birth-date">Birth Date: </label>
-    <input type="date" name="update-birth-date" id="update-birth-date">
+    <input type="date" name="update-birth-date" id="update-birth-date"><br><br>
 
     <label for="update-medical-record-number">Medical Record Number: </label>
-    <input type="number" name="update-medical-record-number" id="update-medical-record-number">
+    <input type="number" name="update-medical-record-number" id="update-medical-record-number"><br><br>
 
     <label for="update-blood-type-id">BloodTypeID: </label>
     <select name="update-blood-type-id" id="update-blood-type-id">
@@ -100,7 +98,7 @@
         {{#each bloodtypes}}
         <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
         {{/each}}
-    </select>
+    </select><br><br>
 
     <input type="submit">
 

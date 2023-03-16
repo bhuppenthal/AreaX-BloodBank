@@ -1,0 +1,64 @@
+/* Importing Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Poppins:wght@300;400;500;700&family=Roboto:wght@300&display=swap');
+
+body {       
+  margin-left:50px;
+  background-color:ghostwhite;
+  padding: 1.5%;
+  font-family: 'Roboto', sans-serif;
+}
+/* #patients-table table {
+  width: 100%;
+} */
+
+table {
+  border-collapse:collapse;
+  text-align:left;
+  border:1px solid black;
+  /* table-layout: auto; */
+  width: 80%;
+  /* margin:0 auto; */
+  padding: 1%;
+}
+
+
+tr {
+  border:1px solid black;
+  border-spacing:100px;
+  /* background-color:; */
+  /* padding: 10px; */
+  text-align:left;
+}
+tr:nth-child(even) {
+  background-color: whitesmoke;
+}
+tr:hover {
+  color: whitesmoke;
+  background-color: rgb(141, 5, 5);
+}
+  th {
+    border:1px solid black;
+    /* height: 50px; */
+    padding:0.5%;
+  }
+  td {
+    border:1px solid black;
+    /* background-color:pink; */
+    padding:1%;
+    text-align:left;
+  }
+
+form {
+  padding: 0.5%;
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+  /* color:var(--custom-color-green);
+  background-color:var(--custom-color-mint); */
+  font-family: 'Roboto', sans-serif;
+  font-size:1em;
+  /* border:1px solid var(--custom-color-mint);
+  margin:0.5em;
+  padding:1%; */
+}
