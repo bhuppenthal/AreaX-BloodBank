@@ -61,7 +61,7 @@ function updateRow(data, NurseID) {
     if (row_by_id !== null){
         console.log("inside row by id is not null")
         // index [2] is the extension col
-        let Extension_td = row_by_id.getElementById('td')[2];
+        let Extension_td = row_by_id.getElementsByTagName('td')[2];
         Extension_td.innerHTML = parsedData[0].Extension;
     } else {
         for (let i = 0, row; row = table.rows[i]; i++) {
