@@ -1,7 +1,7 @@
 /*
     SETUP
 */
-PORT        = 56565;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 5006;                 // Set a port number at the top so it's easy to change in the future
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 var helpers = require('handlebars-helpers')(); //helper package used to format date
@@ -46,6 +46,11 @@ app.get('/patients', function(req, res)
 
             // Save the patients
             let patients = rows;
+            for (let patient of patients) {
+                if (patient.BloodTypeID === null) {
+                    patient.BloodTypeID = "N/A";
+                }
+            }
 
             // Run the second query
             db.pool.query(query2, (error, rows, fields) =>{
@@ -237,7 +242,6 @@ app.post('/add-patient-ajax', function(req, res) {
         MedicalRecordNumber = 'NULL'
     }
 
-
     // Create the query and run it on the database
     query1 = `INSERT INTO Patients (Name, BirthDate, MedicalRecordNumber, BloodTypeID) VALUES ('${data.Name}', '${data.BirthDate}', ${MedicalRecordNumber}, '${data.BloodTypeID}');`;
     db.pool.query(query1, function(error, rows, fields){
@@ -294,11 +298,18 @@ app.put('/put-patient-ajax', function(req,res,next) {
     
     let PatientID = parseInt(data.PatientID);
     let MedicalRecordNumber = parseInt(data.MedicalRecordNumber);
+    let BloodTypeID = data.BloodTypeID;
+    if (BloodTypeID !=='NULL') {
+        BloodTypeID = `'${data.BloodTypeID}'`
+    } 
     
     let queryUpdatePatient = 
     `UPDATE Patients 
-    SET BirthDate = '${data.BirthDate}', MedicalRecordNumber = ${MedicalRecordNumber}, BloodTypeID = '${data.BloodTypeID}'
+    SET BirthDate = '${data.BirthDate}', MedicalRecordNumber = ${MedicalRecordNumber}, BloodTypeID = ${BloodTypeID}
     WHERE PatientID = ${PatientID};`;
+
+
+
     let selectPatient = `SELECT * FROM Patients WHERE PatientID = ?`
     
             // Run the 1st query

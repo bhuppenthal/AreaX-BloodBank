@@ -79,7 +79,11 @@ function updateRow(data, PatientID){
         MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
 
         let BloodTypeID_td = row_by_id.getElementsByTagName('td')[4];
-        BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+        if (parsedData[0].BloodTypeID !== null) {
+            BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+        } else {
+            BloodTypeID_td.innerHTML = 'N/A';
+        }
     } else {
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -100,8 +104,12 @@ function updateRow(data, PatientID){
             MRN_td.innerHTML = parsedData[0].MedicalRecordNumber;
     
             let BloodTypeID_td = updateRowIndex.getElementsByTagName('td')[4];
-            BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
-
+            // BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+            if (parsedData[0].BloodTypeID !== null) {
+                BloodTypeID_td.innerHTML = parsedData[0].BloodTypeID;
+            } else {
+                BloodTypeID_td.innerHTML = 'N/A';
+            }
 
 
             // // Get td of update values

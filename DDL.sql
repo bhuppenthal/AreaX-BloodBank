@@ -25,7 +25,7 @@ CREATE OR REPLACE TABLE BloodProducts (
 
 CREATE OR REPLACE TABLE Patients (
     PatientID int AUTO_INCREMENT UNIQUE NOT NULL,
-    Name varchar(55) NOT NULL,
+    Name varchar(55) UNIQUE NOT NULL,
     BirthDate date,
     MedicalRecordNumber int UNIQUE NOT NULL,
     BloodTypeID varchar(3),
@@ -35,7 +35,7 @@ CREATE OR REPLACE TABLE Patients (
 
 CREATE OR REPLACE TABLE Nurses (
     NurseID int AUTO_INCREMENT UNIQUE NOT NULL,
-    Name varchar(55) NOT NULL,
+    Name varchar(55) UNIQUE NOT NULL,
     Extension int UNIQUE,
     PRIMARY KEY (NurseID)
 );
