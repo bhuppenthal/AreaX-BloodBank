@@ -119,8 +119,7 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     Date_Format = newRow.Date
     Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
     Date_Format_HMS = " " + Date_Format.slice(11,19);
-    Final_Date = Date_Format_DMY + Date_Format_HMS
-    DateTimeCell.innerText = Final_Date;
+    DateTimeCell.innerText = Date_Format_DMY + Date_Format_HMS;
 
     DescriptionCell.innerText = newRow.Description;
     InfusionRateCell.innerText = newRow.InfusionRate;
@@ -130,7 +129,7 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
         // editTransfusionOrder(newRow.TransfusionID);
-        showEditForm(newRow.TransfusionID, patient_name, nurse_name, Final_Date, newRow.Description, newRow.InfusionRate);
+        showEditForm(newTransfusionID, patient_name, nurse_name, newRow.Date, newRow.Description, newRow.InfusionRate);
     }
     EditCell.appendChild(EditButton);
 
@@ -138,7 +137,7 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     DeleteButton = document.createElement("button");
     DeleteButton.innerHTML = "Delete";
     DeleteButton.onclick = function() {
-        deleteTransfusionOrder(newRow.TransfusionID);
+        deleteTransfusionOrder(newTransfusionID);
     };
     DeleteCell.appendChild(DeleteButton);
 
@@ -154,7 +153,7 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
     row.appendChild(DeleteCell);
     
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.TransfusionID);
+    row.setAttribute('data-value', newTransfusionID);
 
     // Add the row to the table
     currentTable.appendChild(row);

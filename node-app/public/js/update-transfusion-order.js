@@ -52,7 +52,7 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, TransfusionIDValue);
+            updateRow(xhttp.response, TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1]);
             // window.location.reload()
 
         }
@@ -67,15 +67,23 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
     console.log(`JSON data: ${JSON.stringify(data)}`);
 })
 
-function updateRow(data, TransfusionID){
+function updateRow(data, TransfusionID, patient_name, nurse_name){
     let parsedData = JSON.parse(data);
+    console.log(`in update row parsedData = ${JSON.stringify(parsedData)}, TransfusionID = ${TransfusionID}`)
     
     let table = document.getElementById("transfusion-orders-table");
 
     let row_by_id = document.getElementById(`row-${TransfusionID}`);
 
-    if (row_by_id != null) {
+    if (row_by_id !== null) {
+        console.log("inside row_by_id is not null")
         //updating each of the columns, [1] is PatientName, [2] is NurseName, [3] is Date, [4] Description and [5] Infusion Rate
+
+        let PatientName_td = row_by_id.getElementsByTagName('td')[1];
+        PatientName_td.innerHTML = patient_name;
+
+        let NurseName_td = row_by_id.getElementsByTagName('td')[2];
+        NurseName_td.innerHTML = nurse_name;
 
         let Date_Format = parsedData[0].Date
         let Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
@@ -89,28 +97,36 @@ function updateRow(data, TransfusionID){
 
         let InfusionRate_td = row_by_id.getElementsByTagName('td')[5];
         InfusionRate_td.innerHTML = parsedData[0].InfusionRate;
-    }
-    for (let i = 0, row; row = table.rows[i]; i++) {
-        //iterate through rows
-        //rows would be accessed using the "row" variable assigned in the for loop
-        if (table.rows[i].getAttribute("data-value") == TransfusionID) {
+    } else {
+        for (let i = 0, row; row = table.rows[i]; i++) {
+            //iterate through rows
+            console.log("inside for loop")
+            //rows would be accessed using the "row" variable assigned in the for loop
+            if (table.rows[i].getAttribute("data-value") == TransfusionID) {
+                console.log(`iinside the if statement, TransfusionID is ${TransfusionID}`)
+                // Get the location of the row where we found the matching person ID
+                let updateRowIndex = table.getElementsByTagName("tr")[i];
+                
+                let PatientName_td = updateRowIndex.getElementsByTagName('td')[1];
+                PatientName_td.innerHTML = patient_name;
+        
+                let NurseName_td = updateRowIndex.getElementsByTagName('td')[2];
+                NurseName_td.innerHTML = nurse_name;
 
-            // Get the location of the row where we found the matching person ID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
-            
-            let Date_Format = parsedData[0].Date
-            let Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
-            let Date_Format_HMS = " " + Date_Format.slice(11,19);
+                let Date_Format = parsedData[0].Date
+                let Date_Format_DMY = Date_Format.slice(0,10).split('-').reverse().join('-');
+                let Date_Format_HMS = " " + Date_Format.slice(11,19);
 
-            let Date_td = updateRowIndex.getElementsByTagName('td')[3];
-            Date_td.innerHTML =  Date_Format_DMY + Date_Format_HMS;
-    
-            let Description_td = updateRowIndex.getElementsByTagName('td')[4];
-            Description_td.innerHTML = parsedData[0].Description;
-    
-            let InfusionRate_td = updateRowIndex.getElementsByTagName('td')[5];
-            InfusionRate_td.innerHTML = parsedData[0].InfusionRate;
-            
+                let Date_td = updateRowIndex.getElementsByTagName('td')[3];
+                Date_td.innerHTML =  Date_Format_DMY + Date_Format_HMS;
+        
+                let Description_td = updateRowIndex.getElementsByTagName('td')[4];
+                Description_td.innerHTML = parsedData[0].Description;
+        
+                let InfusionRate_td = updateRowIndex.getElementsByTagName('td')[5];
+                InfusionRate_td.innerHTML = parsedData[0].InfusionRate;
+                
+            }
         }
     }
     document.getElementById("update-section").hidden = true;
