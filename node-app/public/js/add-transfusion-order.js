@@ -88,6 +88,13 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
             inputDescription.value = '';
             inputInfusionRate.value = '';
             // for loop here for going through the selects
+            for (let i = 0; i < 5; i++) {
+                // console.log("input-blood-product-id".concat('',i.toString()));
+                let inputBloodProduct = document.getElementById("input-blood-product-id".concat('', i.toString()));
+                inputBloodProduct.value = '';
+                let inputVolume = document.getElementById("input-volume".concat('', i.toString()));
+                inputVolume.value = '';
+            }
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             window.alert("There was an issue with the transfusion input.");
