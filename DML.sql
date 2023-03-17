@@ -11,6 +11,10 @@ SELECT * FROM TransfusionOrders;
 SELECT PatientID, Name FROM Patients;
 SELECT NurseID, Name FROM Nurses;
 
+-- Queries to get the nurse and patient ID used to autopopulate the update transfusion order form
+SELECT NurseID FROM Nurses WHERE Name = _nurseName;
+SELECT PatientID FROM Patients WHERE Name =_patientName;
+
 -- select the current volume of a blood product
 SELECT Volume FROM BloodProductID WHERE BloodProductID = _bloodProductID;
 
