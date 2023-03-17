@@ -60,10 +60,11 @@ function deleteTransfusionDetailsRows(TransfusionID) {
     console.log("inside delete transfusion details rows")
     let table = document.getElementById("transfusion-details-table");
 
+    row_index = 1;
 
     for (let i = 0, row; row = table.rows[i]; i++) {
-        console.log(`i inside first for loop ${i}`)
-        let table_row = table.getElementsByTagName("tr")[i];
+        console.log(`i inside first for loop ${i}, row index is ${row_index}`)
+        let table_row = table.getElementsByTagName("tr")[row_index];
         console.log(table_row);
         let TransfusionID_TD = table_row.getElementsByTagName('td')[0];
         console.log(TransfusionID_TD);
@@ -72,7 +73,9 @@ function deleteTransfusionDetailsRows(TransfusionID) {
             if (TransfusionID_TD.innerHTML === String(TransfusionID)) {
                 console.log("inside if statement td innerhtml")
                 // table_row.remove();
-                table.deleteRow(i);
+                table.deleteRow(row_index);
+            } else {
+                row_index = row_index + 1;
             }
         }
     }

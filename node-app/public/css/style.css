@@ -34,7 +34,7 @@ tr:nth-child(even) {
 }
 tr:hover {
   color: whitesmoke;
-  background-color: rgb(141, 5, 5);
+  background-color: rgb(180, 63, 63);
 }
   th {
     border:1px solid black;
