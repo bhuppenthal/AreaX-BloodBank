@@ -60,6 +60,7 @@
     <label for="input-blood-type-id">BloodTypeID: </label>
     <select name="input-blood-type-id" id="input-blood-type-id">
         <option value="">Select a BloodType</option>
+        <option value='NULL'>N/A</option>
         {{#each bloodtypes}}
         <option value="{{this.BloodTypeID}}">{{this.BloodTypeID}}</option>
         {{/each}}

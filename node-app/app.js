@@ -241,9 +241,13 @@ app.post('/add-patient-ajax', function(req, res) {
     {
         MedicalRecordNumber = 'NULL'
     }
+    let BloodTypeID = data.BloodTypeID;
+    if (BloodTypeID !== 'NULL') {
+        BloodTypeID = `'${data.BloodTypeID}'`
+    } 
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO Patients (Name, BirthDate, MedicalRecordNumber, BloodTypeID) VALUES ('${data.Name}', '${data.BirthDate}', ${MedicalRecordNumber}, '${data.BloodTypeID}');`;
+    query1 = `INSERT INTO Patients (Name, BirthDate, MedicalRecordNumber, BloodTypeID) VALUES ('${data.Name}', '${data.BirthDate}', ${MedicalRecordNumber}, ${BloodTypeID});`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error

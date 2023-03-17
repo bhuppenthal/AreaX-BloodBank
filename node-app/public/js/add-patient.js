@@ -88,8 +88,13 @@ addRowToTable = (data) => {
     BirthDateCell.innerText = newRow.BirthDate.slice(0,10).split('-').reverse().join('-');
     console.log(BirthDateCell.innerText);
     MedicalRecordNumberCell.innerText = newRow.MedicalRecordNumber;
-    BloodTypeIDCell.innerText = newRow.BloodTypeID;
-    //console.log(BloodTypeIDCell.innerText);
+    // BloodTypeIDCell.innerText = newRow.BloodTypeID;
+    //console.log(BloodTypeIDCell.innerText); here change to N/A?
+    if (newRow.BloodTypeID !== null) {
+        BloodTypeIDCell.innerText = newRow.BloodTypeID;
+    } else {
+        BloodTypeIDCell.innerText = "N/A"
+    }
 
     EditCell = document.createElement("TD");
     EditButton = document.createElement("button");
