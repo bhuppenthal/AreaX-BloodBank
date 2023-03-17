@@ -2,4 +2,60 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 <h2>Welcome to our site!</h2>
-<p>Please visit the patient page to test changes, and tour the other static pages if you wish.</p>
+<p>Please visit the pages in the navigation bar to view and modify tables</p>
+
+<p> 
+    <b>Area X BloodBank</b> is a database driven front end allowing users to store information on
+    blood transfusions and related entities. This allows the blood bank technicians at Fake
+    Medical Centre to safely and efficiently store blood product information and chart the dispensing
+    of blood products for administration to inpatients.
+</p>
+<h2> Overview of Database Entities</h2>
+
+<table id="home-description-table">
+
+    <thead>
+        <tr>
+            <th>Entity</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>Patients</td>
+            <td>Records the details of the patients in the hospital</td>
+        </tr>
+        
+        <tr>
+            <td>Nurses</td>
+            <td>Records the details of the nurses who work in the hospital</td>
+        </tr>
+
+        <tr>
+            <td>Blood Products</td>
+            <td>Records the details of the blood products to be dispensed</td>
+        </tr>
+
+        <tr>
+            <td>Blood Types</td>
+            <td>Blood type of patients and products; based on A/B antigens and Rh factor</td>
+        </tr>
+
+        <tr>
+            <td>Product Types</td>
+            <td>Product given to patients such as red blood cells, cryo, plasma</td>
+        </tr>
+
+        <tr>
+            <td>Transfusion Orders</td>
+            <td>Records the details of a transfusion given to a patient</td>
+        </tr>
+
+        <tr>
+            <td>Transfusion Details</td>
+            <td>Intersection table for the M:M relationship between TransfusionOrders and BloodProducts</td>
+        </tr>
+
+    </tbody>
+</table>
