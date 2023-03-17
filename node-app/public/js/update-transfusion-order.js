@@ -56,6 +56,10 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
             updateTransfusionDetailsRows(TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1], InfusionRateValue);
             // window.location.reload()
 
+            // auto scroll up to table
+            let transfusionordertable = document.getElementById("transfusion-orders-table");
+            transfusionordertable.scrollIntoView();
+
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.");

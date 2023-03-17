@@ -95,6 +95,9 @@ addTransfusionOrderForm.addEventListener("submit", function (e) {
                 let inputVolume = document.getElementById("input-volume".concat('', i.toString()));
                 inputVolume.value = '';
             }
+            // auto scroll up to table
+            let transfusionordertable = document.getElementById("transfusion-orders-table");
+            transfusionordertable.scrollIntoView();
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             window.alert("There was an issue with the transfusion input.");
@@ -164,6 +167,13 @@ addRowToOrderTable = (newTransfusionID, newRow, patient_name, nurse_name) => {
 
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // adding new patient to the drop down
+    let selectMenu = document.getElementById("update-transfusion-id");
+    let option = document.createElement("option");
+    option.text = newTransfusionID;
+    option.value = newTransfusionID;
+    selectMenu.add(option);
 }
 
 addRowToDetailsTable = (newTransfusionID, bloodAndProductTypes, newRow, patientName, nurseName) => {

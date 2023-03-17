@@ -137,7 +137,12 @@
 <form id="update-transfusion-order-form-ajax">
 
     <label for"update-transfusion-id">TransfusionID</label>
-    <input type="number" name="update-transfusion-id" id="update-transfusion-id">
+    <select name="update-transfusion-id" id="update-transfusion-id">
+    <option value="">Select a TransfusionID</option>
+        {{#each transfusionorders}}
+        <option value="{{this.TransfusionID}}">{{this.TransfusionID}}</option>
+        {{/each}}
+    </select> <br><br>
 
     <label for="update-name">Full Name: </label>
     <select name="update-name" id="update-patientID">
@@ -145,7 +150,7 @@
         {{#each patients}}
         <option value="{{this.PatientID}}, {{this.Name}}">{{this.Name}}</option>
         {{/each}}
-    </select>
+    </select> <br><br>
 
     <label for="update-nurse">Nurse Name: </label>
     <select name="update-nurse" id="update-nurseID">
