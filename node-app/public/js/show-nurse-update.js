@@ -8,4 +8,8 @@ function showNurseEditForm (NurseID, NurseExtension) {
 
     let ExtensionCell = document.getElementById("update-extension");
     ExtensionCell.value = NurseExtension;
+
+    // auto scroll down to form
+    let nurseform = document.getElementById("update-nurse-form-ajax");
+    nurseform.scrollIntoView();
 }

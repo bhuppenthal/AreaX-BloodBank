@@ -61,8 +61,10 @@ function deleteTransfusionDetailsRows(TransfusionID) {
     let table = document.getElementById("transfusion-details-table");
 
     row_index = 1;
-
-    for (let i = 0, row; row = table.rows[i]; i++) {
+    table_length = table.rows.length;
+    console.log(`table length is ${table_length}`)
+    // for (let i = 0, row; row = table.rows[i]; i++) {
+    for (let i = 0; i < table_length; i++) {
         console.log(`i inside first for loop ${i}, row index is ${row_index}`)
         let table_row = table.getElementsByTagName("tr")[row_index];
         console.log(table_row);

@@ -13,4 +13,8 @@ function showEditForm (PatientID, BirthDate, MedicalRecordNumber, BloodTypeID) {
 
     let BloodTypeIDCell = document.getElementById("update-blood-type-id");
     BloodTypeIDCell.value = BloodTypeID;
+
+    // auto scroll down to form
+    let patientform = document.getElementById("update-patient-form-ajax");
+    patientform.scrollIntoView();
 };

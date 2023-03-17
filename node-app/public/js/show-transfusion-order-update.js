@@ -52,5 +52,8 @@ function showEditForm (TransfusionID, PatientName, NurseName, Date, Description,
     console.log(JSON.stringify(data));
     xhttp.send(JSON.stringify(data));
 
+    // auto scroll down to form
+    let transfusionform = document.getElementById("update-transfusion-order-form-ajax");
+    transfusionform.scrollIntoView();
 
 };
