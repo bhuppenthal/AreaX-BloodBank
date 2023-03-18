@@ -1,7 +1,9 @@
 /*
 CITATION
-SOURCE: CS340 starter code (github.com/osu-cs340-ecampus/nodejs-starter-app)
-REASON: The cited code served as boilerplate code for development of the app.
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
 */
 
 /*
