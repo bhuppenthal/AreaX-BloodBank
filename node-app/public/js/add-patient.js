@@ -1,3 +1,11 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
 // Get the objects we need to modify
 let addPersonForm = document.getElementById('add-patient-form-ajax');
 
@@ -16,10 +24,8 @@ addPersonForm.addEventListener("submit", function (e) {
     // Get the values from the form fields
     let NameValue = inputName.value;
     let BirthDateValue = inputBirthDate.value;
-    console.log(BirthDateValue);
     let MedicalRecordNumberValue = inputMedicalRecordNumber.value;
     let BloodTypeIDValue = inputBloodTypeID.value;
-    console.log(BloodTypeIDValue);
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -28,7 +34,6 @@ addPersonForm.addEventListener("submit", function (e) {
         MedicalRecordNumber: MedicalRecordNumberValue,
         BloodTypeID: BloodTypeIDValue
     }
-    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -60,8 +65,7 @@ addPersonForm.addEventListener("submit", function (e) {
 })
 
 
-// Creates a single row from an Object representing a single record from 
-// bsg_people
+// Creates a single row from an Object representing a single record from patients
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -74,7 +78,7 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and td cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let NameCell = document.createElement("TD");
@@ -86,10 +90,9 @@ addRowToTable = (data) => {
     idCell.innerText = newRow.PatientID;
     NameCell.innerText = newRow.Name;
     BirthDateCell.innerText = newRow.BirthDate.slice(0,10).split('-').reverse().join('-');
-    console.log(BirthDateCell.innerText);
     MedicalRecordNumberCell.innerText = newRow.MedicalRecordNumber;
-    // BloodTypeIDCell.innerText = newRow.BloodTypeID;
-    //console.log(BloodTypeIDCell.innerText); here change to N/A?
+
+    // if BloodTypeID is NULL, display as 'N/A' on table
     if (newRow.BloodTypeID !== null) {
         BloodTypeIDCell.innerText = newRow.BloodTypeID;
     } else {
@@ -100,7 +103,6 @@ addRowToTable = (data) => {
     EditButton = document.createElement("button");
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
-        // editPatient(newRow.PatientID);
         showEditForm(newRow.PatientID, newRow.BirthDate.slice(0,10), newRow.MedicalRecordNumber, newRow.BloodTypeID)
     }
     EditCell.appendChild(EditButton);
@@ -135,5 +137,5 @@ addRowToTable = (data) => {
     option.text = newRow.Name;
     option.value = newRow.PatientID;
     selectMenu.add(option);
-    // End of new step 8 code.
+
 }
