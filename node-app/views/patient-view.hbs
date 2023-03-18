@@ -1,15 +1,16 @@
-<!-- index.hbs -->
+<!-- patient-view.hbs -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <link rel="stylesheet" href="css/style.css">
-{{!-- Create a table --}}
+
 <h2> View All Patients </h2>
+
+{{!-- Create a table --}}
 <table id="patients-table">
 
     {{!-- Header section --}}
     <thead>
 
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
+        {{!-- For the first row, we print each key of the row object as a header --}}
         <tr>
             {{#each data.[0]}}
             <th>
@@ -24,7 +25,7 @@
     {{!-- Body section --}}
     <tbody>
 
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{!-- For each row, print the PatientID, Name, BirthDate, MedicalRecordNumber and BloodTypeID, in order --}}
         {{#each data}}
         <tr id="row-{{this.PatientID}}">
             <td>{{this.PatientID}}</td>
@@ -43,7 +44,7 @@
 
 
 
-{{!-- Form to add a record to the table  --}}
+{{!-- Form to add a patient to the table  --}}
 <div id="add-section">
 <h2>Add a New Patient</h2>
 <p>To add a new patient, please enter their information below and click 'Submit'!</p>
@@ -73,6 +74,7 @@
 <script src="./js/add-patient.js"></script>
 </div>
 
+{{!-- Form to update a record  --}}
 <div id="update-section" hidden>
 <h2>Update A Patient</h2>
 <p>To update a specific patient fill out the form below and click 'Submit'!</p>
@@ -104,6 +106,6 @@
     <input type="submit">
 
 </form>
-
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/update-patient.js"></script>
 </div>
