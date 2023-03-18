@@ -1,11 +1,15 @@
+{{!
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+}}
+
 <h2>Transfusion Orders View</h2>
 <table id="transfusion-orders-table">
-
-    {{!-- Header section --}}
+    
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             {{#each transfusionorders.[0]}}
             <th>
@@ -16,11 +20,8 @@
             <th>Delete</th>
         </tr>
     </thead>
-
-    {{!-- Body section --}}
+    
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each transfusionorders}}
         <tr id="row-{{this.TransfusionID}}">
             <td>{{this.TransfusionID}}</td>
@@ -34,14 +35,14 @@
         </tr>
         {{/each}}
     </tbody>
+
 </table> 
 <script src="./js/delete-transfusion-order.js"></script>
 <script src="./js/show-transfusion-order-update.js"></script>
 
 <h2>Transfusion Details View</h2>
 <table id="transfusion-details-table">
-
-    {{!-- Header section --}}
+    
     <thead>
         <tr>
             {{#each transfusiondetails.[0]}}
@@ -52,10 +53,7 @@
         </tr>
     </thead>
 
-    {{!-- Body section --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each transfusiondetails}}
         <tr>
             <td>{{this.TransfusionID}}</td>
@@ -65,13 +63,13 @@
             <td>{{this.BloodTypeID}}</td>
             <td>{{this.Volume}}</td>
             <td>{{this.InfusionRate}}</td>
-            
         </tr>
         {{/each}}
     </tbody>
+
 </table> 
 
-{{!-- Form to add a record to the table  --}}
+{{!-- Form to add a record to the TransfusionOrder table --}}
 <div id="add-section">
 <h2>Add New Transfusion Order</h2>
 <p>To add a new transfusion order, please enter the information below and click 'Submit'!</p>
@@ -122,15 +120,13 @@
             </tr>
         {{/each}}
     </table>
-    {{!<button id="add-blood-product" type="button" onclick="addBloodProductRow()">Add Blood Product</button>}}
-    
-
     <br><br>
     <input type="submit">
 </form>
 <script src="./js/add-transfusion-order.js"></script>
 </div>
 
+{{!-- Form to update a TransfusionOrder --}}
 <div id="update-section" hidden>
 <h2>Updating Transfusion Order Form</h2>
 <p>To update a specific transfusion order fill out the form below</p>
@@ -172,15 +168,4 @@
     <input type="submit">
 
 </form>
-
 <script src="./js/update-transfusion-order.js"></script>
-{{!-- <script type="text/javascript">
-    var source = "{{patient.PatientID}}, {{patient.Name}}";
-    var template = Handlebars.compile(source);
-    var data = patients;
-    var result = template(data);
-</script> --}}
-
-{{!-- <script src="./hb-helper.hbs"></script> --}}
-</script>
-</div>

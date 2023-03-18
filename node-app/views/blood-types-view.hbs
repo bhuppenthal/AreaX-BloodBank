@@ -1,11 +1,14 @@
+{{!
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+}}
+
 <h2>View All Blood Types</h2>
 <table id="blood-types-table" class="category-table">
-
-    {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             {{#each data.[0]}}
             <th>
@@ -15,7 +18,6 @@
         </tr>
     </thead>
 
-    {{!-- Body section --}}
     <tbody>
         {{#each data}}
         <tr>
@@ -23,8 +25,10 @@
         </tr>
         {{/each}}
     </tbody>
+
 </table> 
 
+{{!-- Form to add a new BloodType --}}
 <div id="add-blood-type-section">
 <h2>Add a New Blood Type</h2>
 <p>If you happen to find a new blood type in Area X, please add it to the form information below!</p>

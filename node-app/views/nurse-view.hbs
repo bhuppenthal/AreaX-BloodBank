@@ -1,4 +1,13 @@
+{{!
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+}}
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 <h2>View All Nurses</h2>
 <table id="nurses-table">
     
@@ -25,12 +34,15 @@
         </tr>
         {{/each}}
     </tbody>
+
 </table>
 <script src="./js/show-nurse-update.js"></script>
 <script src="./js/delete-nurse.js"></script>
 
+{{!-- Form to add a new Nurse --}}
 <h2>Add a New Nurse</h2>
 <p>To add a new nurse, enter their information below.</p>
+
 <form id="add-nurse-form-ajax">
     <label for="input-name">Full Name: </label>
     <input type="text" name="input-name" id="input-name"> <br><br>
@@ -42,6 +54,7 @@
 </form>
 <script src="./js/add-nurse.js"></script>
 
+{{!-- Form to update a Nurse --}}
 <div id="update-section" hidden>
     <h2>Update a New Nurse</h2>
     <p>To update a nurse, change only the update information below.</p>
