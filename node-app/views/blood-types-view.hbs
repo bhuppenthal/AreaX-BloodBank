@@ -1,5 +1,5 @@
 <h2>View All Blood Types</h2>
-<table id="blood-types-table">
+<table id="blood-types-table" class="category-table">
 
     {{!-- Header section --}}
     <thead>
@@ -17,8 +17,6 @@
 
     {{!-- Body section --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr>
             <td>{{this.BloodTypeID}}</td>

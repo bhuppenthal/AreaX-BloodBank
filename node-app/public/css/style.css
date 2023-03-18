@@ -11,6 +11,17 @@ body {
   width: 100%;
 } */
 
+.category-table {
+  border-collapse:collapse;
+  text-align:left;
+  border:1px solid black;
+  /* table-layout: auto; */
+  width: 70%;
+  height: 50%;
+  /* margin:0 auto; */
+  padding: 1%;
+}
+
 table {
   border-collapse:collapse;
   text-align:left;
@@ -20,7 +31,6 @@ table {
   /* margin:0 auto; */
   padding: 1%;
 }
-
 
 tr {
   border:1px solid black;
