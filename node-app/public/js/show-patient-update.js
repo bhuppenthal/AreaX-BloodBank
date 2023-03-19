@@ -1,5 +1,12 @@
+// CITATION
+// The auto scroll section was adapted from the following code:
+// Source: Element.scrollIntoView() (https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView)
+// Author: MDN Web Docs 
+// Retrieved: 03/16/2023
+
+// displays and populates the update patient form
 function showEditForm (PatientID, BirthDate, MedicalRecordNumber, BloodTypeID) {
-    console.log("in show edit form")
+
     document.getElementById("update-section").hidden = false;
     
     let PatientIDCell = document.getElementById("update-patientID");
