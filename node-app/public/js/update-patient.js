@@ -94,7 +94,6 @@ function updateRow(data, PatientID){
         // rows would be accessed using the "row" variable assigned in the for loop
 
         if (table.rows[i].getAttribute("data-value") == PatientID) {
-            console.log(`i is ${i} inside if statement`);
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
