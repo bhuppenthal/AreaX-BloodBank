@@ -1,3 +1,9 @@
+// CITATION
+// Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+// Author: George Kochera
+// Retrieved: 2/27/2023
+// This application was adapted from the boilerplate code provided in the CS340 starter app.
+
 // Get the objects we need to modify
 let updatePatientForm = document.getElementById('update-patient-form-ajax');
 
@@ -31,7 +37,6 @@ updatePatientForm.addEventListener("submit", function (e) {
         MedicalRecordNumber: MedicalRecordNumberValue,
         BloodTypeID: BloodTypeIDValue
     }
-    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -44,7 +49,7 @@ updatePatientForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, PatientIDValue);
-            // window.location.reload()
+            // resetting the update form values
             updatePatientID.value = '';
             updateBirthDate.value = '';
             updateMedicalRecordNumber.value = '';
@@ -59,12 +64,10 @@ updatePatientForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    console.log(`JSON data: ${data}`);
 })
 
 function updateRow(data, PatientID){
     let parsedData = JSON.parse(data);
-    console.log(`in update row parsedData = ${JSON.stringify(parsedData)}, PatientID = ${PatientID}`)
     // getting table using id name
     let table = document.getElementById("patients-table");
     // getting correct row using id name
@@ -87,7 +90,6 @@ function updateRow(data, PatientID){
     } else {
 
     for (let i = 0, row; row = table.rows[i]; i++) {
-        console.log(`entered for loop, i is ${i}`);
         // iterate through rows
         // rows would be accessed using the "row" variable assigned in the for loop
 
@@ -95,7 +97,6 @@ function updateRow(data, PatientID){
             console.log(`i is ${i} inside if statement`);
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-
 
             let BirthDate_td = updateRowIndex.getElementsByTagName('td')[2];
             BirthDate_td.innerHTML = parsedData[0].BirthDate.slice(0,10).split('-').reverse().join('-');
@@ -110,16 +111,14 @@ function updateRow(data, PatientID){
             } else {
                 BloodTypeID_td.innerHTML = 'N/A';
             }
-
-
-            // // Get td of update values
-            // let td = updateRowIndex.getElementsByTagName("td")[3];
-            // // console.log(`inside update row parsedData[0].MRN is: ${parsedData[0].MedicalRecordNumber}`)
-            // // // Reassign homeworld to our value we updated to
-            // td.innerHTML = parsedData[0].MedicalRecordNumber; 
         }
     }
     }
+
+// CITATION
+// The hidden form section was adapted from the following code:
+// Source: HTMLElement.hidden (https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden)
+// Author: MDN Web Docs 
+// Retrieved: 03/01/2023
     document.getElementById("update-section").hidden = true;
-    // window.location.reload();
 }
