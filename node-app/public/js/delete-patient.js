@@ -1,4 +1,13 @@
+
+// CITATION
+// Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+// Author: George Kochera
+// Retrieved: 2/27/2023
+// This application was adapted from the boilerplate code provided in the CS340 starter app.
+
+// Remove a patient from database
 function deletePatient(PatientID) {
+
     // Put our data we want to send in a javascript object
     let data = {
         id: PatientID
@@ -21,11 +30,9 @@ function deletePatient(PatientID) {
     }
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    console.log(data)
-    console.log(PatientID)
 }
 
-
+// Remove row from the table display
 function deleteRow(PatientID){
 
     let table = document.getElementById("patients-table");
@@ -50,12 +57,13 @@ function deleteRow(PatientID){
             }
         }
     }
-    // window.location.reload();
-
 }
 
+// removing the patient from the drop down menu
 function deleteDropDownMenu(patientID) {
+
     let selectMenu = document.getElementById("update-patientID");
+    
     for (let i = 0; i < selectMenu.length; i++) {
         if (Number(selectMenu.options[i].value) === Number(patientID)) {
             selectMenu[i].remove();
