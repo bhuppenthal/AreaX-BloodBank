@@ -1,15 +1,18 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
+// displays update transfusion form and autopopulates with values from row
 function showEditForm (TransfusionID, PatientName, NurseName, Date, Description, InfusionRate) {
-    console.log("in show edit form transfusion order")
+
     document.getElementById("update-section").hidden = false;
 
     let TransfusionIDCell = document.getElementById("update-transfusion-id");
     TransfusionIDCell.value = TransfusionID;
-
-    // let PatientCell = document.getElementById("update-patientID");
-    // PatientCell.value = PatientName;
-
-    // let NurseCell = document.getElementById("update-nurseID");
-    // NurseCell.value = NurseName;
 
     let DateCell = document.getElementById("update-date-time");
     DateCell.value = Date;
@@ -25,8 +28,15 @@ function showEditForm (TransfusionID, PatientName, NurseName, Date, Description,
         NurseName: NurseName
     }
 
-    // console.log(`in show edit form, patients are: ${JSON.stringify(patients)}`)
-    // Setup our AJAX request
+    // if patient or nurse is deleted, unable to process request
+    if (data.PatientName === 'DELETED' || data.NurseName === 'DELETED') {
+        window.alert("Unable to update entry with deleted nurse or patient");
+        window.location.reload();
+        return;
+    }
+
+
+    // Setup our AJAX request to retrieve the NurseID and PatientID to autopopulate form
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/show-transfusion-order-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
@@ -34,8 +44,8 @@ function showEditForm (TransfusionID, PatientName, NurseName, Date, Description,
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            console.log(`Successful addition! here's rows: ${xhttp.response}`);
 
+            // using values from response to autopopulate the form
             response = JSON.parse(xhttp.response);
             PatientID = response.newPatientID;
             NurseID = response.newNurseID;
@@ -46,10 +56,11 @@ function showEditForm (TransfusionID, PatientName, NurseName, Date, Description,
             let NurseCell = document.getElementById("update-nurseID");
             NurseCell.value = `${NurseID}, ${NurseName}`;
     
+        } else if (xhttp.readyState == 4 && xhttp.status != 204) {
+            console.log("There was an error with the request.");
         }
     }
       // Send the request and wait for the response
-    console.log(JSON.stringify(data));
     xhttp.send(JSON.stringify(data));
 
     // auto scroll down to form

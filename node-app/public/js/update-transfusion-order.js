@@ -1,3 +1,16 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+CITATION
+The hidden form section was adapted from the following code:
+Source: HTMLElement.hidden (https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden)
+Author: MDN Web Docs 
+Retrieved: 03/01/2023
+*/
+
 // Get the objects we need to modify
 let updateTransfusionOrderForm = document.getElementById('update-transfusion-order-form-ajax');
 
@@ -18,15 +31,12 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
     // Get the values from the form fields
     let TransfusionIDValue = updateTransfusionID.value;
 
-    // Patients input has a string with the id and name in input, we'll split into array:
+    // Patient/Nurses input has a string with the id and name in input, we'll split into array:
     let Patients_Arr = updatePatientID.value.split(', ');
-    console.log(Patients_Arr);
     let PatientIDValue = Patients_Arr[0]
-    console.log(PatientIDValue)
 
     let Nurses_Arr = updateNurseID.value.split(', ');
     let NurseIDValue = Nurses_Arr[0]
-    console.log(NurseIDValue)
 
     let DateTimeValue = updateDateTime.value;
     let DescriptionValue = updateDescription.value;
@@ -40,7 +50,6 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
         Description: DescriptionValue,
         InfusionRate: InfusionRateValue
     }
-    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -54,7 +63,6 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
             // Add the new data to the table
             updateRow(xhttp.response, TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1]);
             updateTransfusionDetailsRows(TransfusionIDValue, Patients_Arr[1], Nurses_Arr[1], InfusionRateValue);
-            // window.location.reload()
 
             // auto scroll up to table
             let transfusionordertable = document.getElementById("transfusion-orders-table");
@@ -73,15 +81,13 @@ updateTransfusionOrderForm.addEventListener("submit", function (e) {
 })
 
 function updateRow(data, TransfusionID, patient_name, nurse_name){
-    let parsedData = JSON.parse(data);
-    console.log(`in update row parsedData = ${JSON.stringify(parsedData)}, TransfusionID = ${TransfusionID}`)
     
+    let parsedData = JSON.parse(data);
     let table = document.getElementById("transfusion-orders-table");
-
     let row_by_id = document.getElementById(`row-${TransfusionID}`);
 
+    // obtaining row to update from either ID if available or getAttribute
     if (row_by_id !== null) {
-        console.log("inside row_by_id is not null")
         //updating each of the columns, [1] is PatientName, [2] is NurseName, [3] is Date, [4] Description and [5] Infusion Rate
 
         let PatientName_td = row_by_id.getElementsByTagName('td')[1];
@@ -104,14 +110,13 @@ function updateRow(data, TransfusionID, patient_name, nurse_name){
         InfusionRate_td.innerHTML = parsedData[0].InfusionRate;
     } else {
         for (let i = 0, row; row = table.rows[i]; i++) {
-            //iterate through rows
-            console.log("inside for loop")
             //rows would be accessed using the "row" variable assigned in the for loop
             if (table.rows[i].getAttribute("data-value") == TransfusionID) {
-                console.log(`iinside the if statement, TransfusionID is ${TransfusionID}`)
+
                 // Get the location of the row where we found the matching person ID
                 let updateRowIndex = table.getElementsByTagName("tr")[i];
                 
+                //updating each of the columns, [1] is PatientName, [2] is NurseName, [3] is Date, [4] Description and [5] Infusion Rate
                 let PatientName_td = updateRowIndex.getElementsByTagName('td')[1];
                 PatientName_td.innerHTML = patient_name;
         
@@ -135,16 +140,18 @@ function updateRow(data, TransfusionID, patient_name, nurse_name){
         }
     }
     document.getElementById("update-section").hidden = true;
-    // window.location.reload();
+
 }
 
+// updating applicable rows in TransfusionDetails 
 function updateTransfusionDetailsRows(TransfusionID, patient_name, nurse_name, infusion_rate) {
-    console.log("inside update transfusion details rows")
+
     let table = document.getElementById("transfusion-details-table");
 
+    // obtaining row to update from either getAttribute if available
     for (let i = 0, row; row = table.rows[i]; i++) {
         if (table.rows[i].getAttribute("data-value") == TransfusionID) {
-            console.log("inside the if statement")
+
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let PatientName_td = updateRowIndex.getElementsByTagName('td')[1];
@@ -157,14 +164,12 @@ function updateTransfusionDetailsRows(TransfusionID, patient_name, nurse_name, i
             InfusionRate_td.innerHTML = infusion_rate;
         }
 
+        // obtaining row to update by checking value in first cell and checking if it matches the TransfusionID
         let table_row = table.getElementsByTagName("tr")[i];
-        console.log(table_row);
         let TransfusionID_TD = table_row.getElementsByTagName('td')[0];
-        console.log(TransfusionID_TD);
-        //console.log(`TransfusionID_TD.innerHTML is: ${TransfusionID_TD.innerText}`)
+
         if (TransfusionID_TD !== undefined) {
             if (TransfusionID_TD.innerHTML === TransfusionID) {
-                console.log("inside if statement td innerhtml")
 
                 let PatientName_td = table_row.getElementsByTagName('td')[1];
                 PatientName_td.innerHTML = patient_name;
