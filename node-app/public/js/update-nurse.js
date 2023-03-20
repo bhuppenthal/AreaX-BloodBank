@@ -1,3 +1,17 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+CITATION
+The hidden form section was adapted from the following code:
+Source: HTMLElement.hidden (https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden)
+Author: MDN Web Docs 
+Retrieved: 03/01/2023
+*/
+
+
 // get the Nurse we need to modify
 let updateNurseForm = document.getElementById("update-nurse-form-ajax");
 
@@ -22,8 +36,6 @@ updateNurseForm.addEventListener("submit", function (e) {
         NurseID: NurseIDValue,
         Extension: ExtensionValue
     }
-    console.log(`nurse to update ${data}`);
-    console.log(data);
 
     // set up the AJAX request
     var xhttp = new XMLHttpRequest();
@@ -35,7 +47,7 @@ updateNurseForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             // add the data to the table
             updateRow(xhttp.response, NurseIDValue);
-            // window.location.reload();
+            // clear form
             inputNurseID.value = '';
             inputExtension.value = '';
         }
@@ -47,20 +59,18 @@ updateNurseForm.addEventListener("submit", function (e) {
 
     // send the request and receive the response
     xhttp.send(JSON.stringify(data));
-    console.log(`JSON data: ${data}`);
 })
 
+// update nurse information in table
 function updateRow(data, NurseID) {
-
-    console.log("in updateRow")
+    
     let parsedData = JSON.parse(data);
 
     let table = document.getElementById("nurses-table");
     let row_by_id = document.getElementById(`row-${NurseID}`)
 
+    // finding the nurse row by ID value if available or getAttribute and modifying the row
     if (row_by_id !== null){
-        console.log("inside row by id is not null")
-        // index [2] is the extension col
         let Extension_td = row_by_id.getElementsByTagName('td')[2];
         Extension_td.innerHTML = parsedData[0].Extension;
     } else {
@@ -69,10 +79,8 @@ function updateRow(data, NurseID) {
                 let updateRowIndex = table.getElementsByTagName("tr")[i];
                 let Extension_td = updateRowIndex.getElementsByTagName("td")[2];
                 Extension_td.innerHTML = parsedData[0].Extension;
-                console.log("in the for loop");
             }
         }
     };
     document.getElementById("update-section").hidden = true;
-    // window.location.reload();
 }

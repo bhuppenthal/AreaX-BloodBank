@@ -7,7 +7,7 @@ This application was adapted from the boilerplate code provided in the CS340 sta
 }}
 
 <h2>Transfusion Orders View</h2>
-<table id="transfusion-orders-table">
+<table id="transfusion-orders-table" class="transfusion-orders-table">
     
     <thead>
         <tr>
@@ -102,7 +102,7 @@ This application was adapted from the boilerplate code provided in the CS340 sta
     <table id="blood-product-table">
         <tr>
             <th>Blood Product ID</th>
-            <th>Volume</th>
+            <th>Volume (mL)</th>
         </tr>
         {{#each bloodproductrows}}
             <tr>
@@ -126,6 +126,13 @@ This application was adapted from the boilerplate code provided in the CS340 sta
 <script src="./js/add-transfusion-order.js"></script>
 </div>
 
+{{!-- 
+    CITATION
+    The hidden form section was adapted from the following code:
+    Source: HTMLElement.hidden (https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/hidden)
+    Author: MDN Web Docs 
+    Retrieved: 03/01/2023
+--}}
 {{!-- Form to update a TransfusionOrder --}}
 <div id="update-section" hidden>
 <h2>Updating Transfusion Order Form</h2>

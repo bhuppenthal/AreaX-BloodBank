@@ -1,3 +1,11 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
 // Get the objects we need to modify
 let addProductTypeForm = document.getElementById('add-product-type-form-ajax');
 
@@ -17,7 +25,6 @@ addProductTypeForm.addEventListener("submit", function(e) {
     let data = {
         ProductTypeID: productTypeIDValue
     }
-    console.log(data)
 
     // Set up the AJAX request
     var xhttp = new XMLHttpRequest();
@@ -49,17 +56,9 @@ addRowToTable = (data, productTypeIDValue) => {
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("product-types-table");
 
-    // Get the location where we should insert the new row (end of table)
-    // let newRowIndex = currentTable.rows.length;
-
-    // // Get a reference to the new row from the database query (last object)
-    // let parsedData = JSON.parse(data);
-    // let newRow = parsedData[parsedData.length - 1]
-
-    // Create a row and 4 cells
+    // Create a row and cell
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-
 
     // Fill the cells with correct data
     idCell.innerText = productTypeIDValue;

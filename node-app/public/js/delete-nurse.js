@@ -1,5 +1,12 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
 function deleteNurse(NurseID) {
-    console.log("deleteNurse function");
     let data = {
         id: NurseID
     };
@@ -14,10 +21,9 @@ function deleteNurse(NurseID) {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
             // update the DOM
             deleteRow(NurseID);
-            // window.location.reload();
-        } else {
+        } else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input or request.");
-            // window.alert("This nurse could not be deleted.");
+            window.alert("This nurse could not be deleted.");
         }
     }
     
@@ -25,16 +31,17 @@ function deleteNurse(NurseID) {
     xhttp.send(JSON.stringify(data));
 }
 
+// removing nurse from the table
 function deleteRow(NurseID) {
-    console.log("in nurse delete row function")
+
     let table = document.getElementById("nurses-table");
 
     //getting the correct row using idname
     let row_by_id = document.getElementById(`row-${NurseID}`);
 
+    // if row ID is available, obtain row to delete from ID otherwise obtain row from "getAttribute"
     if (row_by_id !== null) {
         let row_index = row_by_id.rowIndex;
-        console.log(`row index is ${row_index}`);
         table.deleteRow(row_index);
         deleteDropDownMenu(NurseID);
     } else {
@@ -46,10 +53,10 @@ function deleteRow(NurseID) {
                 break;
             }
         }
-}
-    // window.location.reload();
+    }
 }
 
+// remove nurse from the drop down menu
 function deleteDropDownMenu(nurseID) {
     let selectMenu = document.getElementById("update-nurseID");
     for (let i = 0; i < selectMenu.length; i++) {

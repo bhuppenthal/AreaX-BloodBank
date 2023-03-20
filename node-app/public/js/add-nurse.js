@@ -1,3 +1,11 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
 // Get the objects we need to modify
 let addNurseForm = document.getElementById('add-nurse-form-ajax');
 
@@ -10,24 +18,16 @@ addNurseForm.addEventListener("submit", function(e) {
     // Get form fields we need to get data from
     let inputName = document.getElementById("input-name");
     let inputExtension = document.getElementById("input-extension");
-
-    console.log(`Nurse name is ${inputName}`);
-    console.log(`Nurse extension is ${inputExtension}`);
     
     // Get the values in the form fields
     let nameValue = inputName.value;
     let extensionValue = inputExtension.value;
-
-    // Debugging purposes
-    console.log(`Nurse name is ${nameValue}`);
-    console.log(`Nurse extension is ${extensionValue}`);
 
     // Put the data in a JS object
     let data = {
         Name: nameValue,
         Extension: extensionValue
     }
-    console.log(data)
 
     // Set up the AJAX request
     var xhttp = new XMLHttpRequest();
@@ -67,7 +67,7 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let NameCell = document.createElement("TD");
@@ -83,7 +83,6 @@ addRowToTable = (data) => {
     EditButton = document.createElement("button");
     EditButton.innerHTML = "Edit";
     EditButton.onclick = function () {
-        // editPatient(newRow.PatientID)
         showNurseEditForm(newRow.NurseID, newRow.Extension)
     }
     EditCell.appendChild(EditButton);

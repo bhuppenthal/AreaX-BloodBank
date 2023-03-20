@@ -1,3 +1,11 @@
+/*
+CITATION
+Source: CS340 NodeJS starter app (github.com/osu-cs340-ecampus/nodejs-starter-app)
+Author: George Kochera
+Retrieved: 2/27/2023
+This application was adapted from the boilerplate code provided in the CS340 starter app.
+*/
+
 // Get the objects we need to modify
 let addBloodProductForm = document.getElementById('add-blood-product-form-ajax');
 
@@ -66,8 +74,7 @@ addBloodProductForm.addEventListener("submit", function (e) {
 })
 
 
-// Creates a single row from an Object representing a single record from 
-// bsg_people
+// Creates a single row from an Object representing a single from blood products
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -80,7 +87,7 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let ProductTypeIDCell = document.createElement("TD");
@@ -103,9 +110,7 @@ addRowToTable = (data) => {
     idCell.innerText = newRow.BloodProductID;
     ProductTypeIDCell.innerText = newRow.ProductTypeID;
     BloodTypeIDCell.innerText = newRow.BloodTypeID;
-    // DrawnDateCell.innerText = newRow.DrawnDate;
     DrawnDateCell.innerText = Drawn_Date_Format_DMY + Drawn_Date_Format_HMS;
-    // ExpirationDateCell.innerText = newRow.ExpirationDate;
     ExpirationDateCell.innerText = Exp_Date_Format_DMY + Exp_Date_Format_HMS;
     DonorIDCell.innerText = newRow.DonorID;
     VolumeCell.innerText = newRow.Volume;
